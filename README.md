@@ -1,11 +1,29 @@
-<div align="center">
+# KantorKu - Game Simulasi Karier Kantor & Office Tech RPG
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Simulasi karier kantor interaktif dari Magang hingga Direktur di PT Maju Sejahtera dengan tantangan nyata Excel, Word, Web, dan Coding.
 
-  <h1>Built with AI Studio</h2>
+## Fitur Utama
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- **Peta Karier & Alur Kerja Kantor**: Naik jabatan dari Magang Operasional hingga Direktur Utama melalui berbagai proyek nyata.
+- **Pusat Belajar v2.0**: 39 modul pembelajaran terstruktur (Excel, Word, Web & Coding), kamus istilah kantor, dan contekan formula.
+- **Editor Nyata**: Spreadsheet formula engine, sandboxed code execution, web preview, dan word document validator.
+- **Gamifikasi Lengkap**: Koin, XP, reputasi karakter, inventaris toko, dan mode duel/kecepatan.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Menjalankan Aplikasi Secara Lokal
 
-</div>
+**Prasyarat:** Node.js 18+
+
+1. Pasang dependensi:
+   ```bash
+   npm install
+   ```
+
+2. Jalankan server pengembangan:
+   ```bash
+   npm run dev
+   ```
+
+3. Jalankan rangkaian tes:
+   ```bash
+   npm run check
+   ```

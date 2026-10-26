@@ -1,0 +1,8 @@
+{
+  "name": "KantorKu - Game Simulasi Karier Kantor",
+  "description": "Simulasi karier kantor interaktif dari Magang hingga Direktur di PT Maju Sejahtera dengan tantangan nyata Excel, Word, dan Coding.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
