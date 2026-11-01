@@ -14,7 +14,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "desktop:build": "cross-env VITE_BASE_PATH=./ vite build",
-    "desktop:dist": "npm run desktop:build && electron-builder --win nsis portable",
+    "desktop:dist": "npm run desktop:build && electron-builder --win nsis portable --publish never",
     "desktop:start": "npm run desktop:build && electron .",
     "lint": "tsc --noEmit",
     "test": "tsx --test src/tests/*.test.ts",
