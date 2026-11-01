@@ -150,7 +150,7 @@ export const LearningCenterView: React.FC = () => {
   return (
     <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto pb-16">
       {/* Hero Training Room Banner */}
-      <div className="bg-gradient-to-r from-teal-900 via-emerald-900 to-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden">
+      <div className="bg-gradient-to-r from-teal-900 via-emerald-900 to-slate-900 rounded-2xl md:rounded-3xl p-5 md:p-8 text-white shadow-xl relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-64 h-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -196,7 +196,11 @@ export const LearningCenterView: React.FC = () => {
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-slate-200 text-xs font-bold">
+      <div
+        role="tablist"
+        aria-label="Bagian pusat belajar"
+        className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-slate-200 text-xs font-bold snap-x snap-mandatory no-scrollbar"
+      >
         {[
           { id: 'beranda', label: 'Beranda Belajar', icon: <Compass className="w-4 h-4" /> },
           { id: 'jalur', label: 'Jalur Belajar', icon: <Target className="w-4 h-4" /> },
@@ -212,11 +216,13 @@ export const LearningCenterView: React.FC = () => {
             <button
               key={tab.id}
               type="button"
+              role="tab"
+              aria-selected={isActive}
               onClick={() => {
                 sound.playClick();
                 setActiveTab(tab.id as LearningCenterTab);
               }}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl transition whitespace-nowrap cursor-pointer ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl transition whitespace-nowrap cursor-pointer snap-start shrink-0 ${
                 isActive
                   ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
                   : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80'

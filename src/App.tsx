@@ -184,8 +184,11 @@ export default function App() {
     <ErrorBoundary>
       <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
         <OfflineIndicator />
+        <a className="skip-link" href="#main-content">
+          Lewati ke konten utama
+        </a>
         <HeaderNav />
-        <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8">
+        <main id="main-content" tabIndex={-1} className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 lg:p-8">
           <Suspense
             fallback={
               <div className="min-h-[50vh] flex items-center justify-center">

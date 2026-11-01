@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore, AppView } from '../../store/useGameStore';
 import { CHARACTERS } from '../../data/characters';
 import { CharacterAvatar } from '../character/CharacterAvatar';
@@ -32,6 +32,16 @@ export const OfficeHubView: React.FC = () => {
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
   const [showInboxModal, setShowInboxModal] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (!showInboxModal) return;
+    document.getElementById('close-inbox-modal')?.focus();
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setShowInboxModal(false);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [showInboxModal]);
+
   const tierInfo = TIERS[profile.currentTier] || TIERS[1];
 
   const handleRoomClick = (zoneId: string, actionView?: AppView, defaultLevelId?: string) => {
@@ -41,6 +51,18 @@ export const OfficeHubView: React.FC = () => {
       startMission(defaultLevelId);
     } else if (actionView) {
       setView(actionView);
+    }
+  };
+
+  const handleRoomKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+    zoneId: string,
+    actionView?: AppView,
+    defaultLevelId?: string
+  ) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleRoomClick(zoneId, actionView, defaultLevelId);
     }
   };
 
@@ -122,6 +144,10 @@ export const OfficeHubView: React.FC = () => {
             {/* Zone 1: Meja Kerjamu */}
             <div
               onClick={() => handleRoomClick('meja', 'career-map')}
+              onKeyDown={(event) => handleRoomKeyDown(event, 'meja', 'career-map')}
+              role="button"
+              tabIndex={0}
+              aria-label="Buka Meja Kerjamu dan peta karier"
               className="group p-4 bg-white hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl shadow-sm transition-all cursor-pointer flex flex-col justify-between min-h-[140px]"
             >
               <div className="flex items-start justify-between">
@@ -145,6 +171,10 @@ export const OfficeHubView: React.FC = () => {
             {/* Zone 2: Ruang Finance */}
             <div
               onClick={() => handleRoomClick('finance', undefined, 'excel-t1-01')}
+              onKeyDown={(event) => handleRoomKeyDown(event, 'finance', undefined, 'excel-t1-01')}
+              role="button"
+              tabIndex={0}
+              aria-label="Mulai latihan Excel di meja Pak Reza"
               className="group p-4 bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-300 rounded-2xl shadow-sm transition-all cursor-pointer flex flex-col justify-between min-h-[140px]"
             >
               <div className="flex items-start justify-between">
@@ -166,6 +196,10 @@ export const OfficeHubView: React.FC = () => {
             {/* Zone 3: Lab IT & Server */}
             <div
               onClick={() => handleRoomClick('it', undefined, 'code-t1-01')}
+              onKeyDown={(event) => handleRoomKeyDown(event, 'it', undefined, 'code-t1-01')}
+              role="button"
+              tabIndex={0}
+              aria-label="Mulai latihan coding di ruang IT"
               className="group p-4 bg-white hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 rounded-2xl shadow-sm transition-all cursor-pointer flex flex-col justify-between min-h-[140px]"
             >
               <div className="flex items-start justify-between">
@@ -187,6 +221,10 @@ export const OfficeHubView: React.FC = () => {
             {/* Zone 4: Ruang HR & Dokumen */}
             <div
               onClick={() => handleRoomClick('hr', undefined, 'word-t1-01')}
+              onKeyDown={(event) => handleRoomKeyDown(event, 'hr', undefined, 'word-t1-01')}
+              role="button"
+              tabIndex={0}
+              aria-label="Mulai latihan dokumen di ruang HR"
               className="group p-4 bg-white hover:bg-rose-50/50 border border-slate-200 hover:border-rose-300 rounded-2xl shadow-sm transition-all cursor-pointer flex flex-col justify-between min-h-[140px]"
             >
               <div className="flex items-start justify-between">
@@ -208,6 +246,10 @@ export const OfficeHubView: React.FC = () => {
             {/* Zone 5: Ruang Rapat & Kasus Nyata */}
             <div
               onClick={() => handleRoomClick('cases', 'case-file')}
+              onKeyDown={(event) => handleRoomKeyDown(event, 'cases', 'case-file')}
+              role="button"
+              tabIndex={0}
+              aria-label="Buka ruang briefing kasus nyata"
               className="group p-4 bg-white hover:bg-amber-50/50 border border-slate-200 hover:border-amber-300 rounded-2xl shadow-sm transition-all cursor-pointer flex flex-col justify-between min-h-[140px]"
             >
               <div className="flex items-start justify-between">
@@ -229,6 +271,10 @@ export const OfficeHubView: React.FC = () => {
             {/* Zone 6: Pantry Kantor */}
             <div
               onClick={() => handleRoomClick('pantry', 'zen')}
+              onKeyDown={(event) => handleRoomKeyDown(event, 'pantry', 'zen')}
+              role="button"
+              tabIndex={0}
+              aria-label="Buka pantry dan zona santai"
               className="group p-4 bg-white hover:bg-orange-50/50 border border-slate-200 hover:border-orange-300 rounded-2xl shadow-sm transition-all cursor-pointer flex flex-col justify-between min-h-[140px]"
             >
               <div className="flex items-start justify-between">
@@ -250,6 +296,10 @@ export const OfficeHubView: React.FC = () => {
             {/* Zone 7: Ruang Pelatihan & Akademi */}
             <div
               onClick={() => handleRoomClick('training', 'learning')}
+              onKeyDown={(event) => handleRoomKeyDown(event, 'training', 'learning')}
+              role="button"
+              tabIndex={0}
+              aria-label="Buka pusat belajar dan akademi"
               className="group p-4 bg-white hover:bg-teal-50/50 border border-slate-200 hover:border-teal-300 rounded-2xl shadow-sm transition-all cursor-pointer flex flex-col justify-between min-h-[140px]"
             >
               <div className="flex items-start justify-between">
@@ -361,14 +411,21 @@ export const OfficeHubView: React.FC = () => {
       {/* Inbox Dialog Modal */}
       {showInboxModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="inbox-dialog-title"
+            className="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-4 sm:p-6 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95"
+          >
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2 text-slate-900 font-bold">
                 <Mail className="w-5 h-5 text-emerald-600" />
-                <span>Kotak Masuk Email Kantor</span>
+                <span id="inbox-dialog-title">Kotak Masuk Email Kantor</span>
               </div>
               <button
                 type="button"
+                id="close-inbox-modal"
+                aria-label="Tutup kotak masuk"
                 onClick={() => setShowInboxModal(false)}
                 className="text-slate-400 hover:text-slate-600 text-lg font-bold p-1 cursor-pointer"
               >

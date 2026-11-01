@@ -5,7 +5,7 @@
  * Compliant with PATCH v9 & v9.1 Wave S0.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { DOMAIN_CATALOG, DomainId, Skill } from '../../types/skills';
 import { ALL_MANIFESTS, getSkillsByDomain, getAvailableSkillIds } from '../../content/skills';
@@ -128,6 +128,19 @@ export const SkillsMapView: React.FC = () => {
   const [activeModalDomain, setActiveModalDomain] = useState<DomainId | null>(null);
   const [activePracticeLevel, setActivePracticeLevel] = useState<PracticeLevel | null>(null);
   const [practiceSuccessMessage, setPracticeSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!activeModalDomain) return;
+    document.getElementById('close-domain-modal')?.focus();
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setActiveModalDomain(null);
+        setActivePracticeLevel(null);
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [activeModalDomain]);
 
   const availableSkillIds = getAvailableSkillIds();
   const currentRoleId = profile.targetRoleId || 'admin-perkantoran';
@@ -466,11 +479,12 @@ export const SkillsMapView: React.FC = () => {
             const domainMastery = profile.domainMastery?.[domainId] || 0;
 
             return (
-              <div
+              <button
+                type="button"
                 key={domainId}
                 data-domain-id={domainId}
                 onClick={() => handleOpenDomain(domainId)}
-                className={`p-5 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between gap-4 ${
+                className={`p-5 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between gap-4 text-left ${
                   isActive
                     ? 'bg-white hover:border-emerald-500 hover:shadow-md border-slate-200/90 group'
                     : 'bg-slate-50/70 border-slate-200/60 opacity-80 hover:opacity-100'
@@ -514,7 +528,7 @@ export const SkillsMapView: React.FC = () => {
                     </>
                   )}
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
@@ -522,8 +536,16 @@ export const SkillsMapView: React.FC = () => {
 
       {/* Domain Drilldown Modal */}
       {activeModalDomain && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-slate-200 shadow-2xl p-6 flex flex-col gap-6 animate-in fade-in zoom-in-95">
+        <div
+          className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4"
+          role="presentation"
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="domain-dialog-title"
+            className="bg-white rounded-t-3xl sm:rounded-3xl max-w-4xl w-full max-h-[92vh] sm:max-h-[90vh] overflow-y-auto border border-slate-200 shadow-2xl p-4 sm:p-6 flex flex-col gap-6 animate-in fade-in zoom-in-95"
+          >
             {/* Modal Header */}
             <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
               <div className="flex items-center gap-3">
@@ -543,7 +565,7 @@ export const SkillsMapView: React.FC = () => {
                       {DOMAIN_CATALOG[activeModalDomain].status === 'aktif' ? 'Aktif' : 'Segera Hadir'}
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold text-slate-900">
+                  <h2 id="domain-dialog-title" className="text-xl font-bold text-slate-900">
                     {DOMAIN_CATALOG[activeModalDomain].name}
                   </h2>
                   <p className="text-xs text-slate-500 mt-0.5">{DOMAIN_CATALOG[activeModalDomain].description}</p>
@@ -551,6 +573,7 @@ export const SkillsMapView: React.FC = () => {
               </div>
               <button
                 type="button"
+                id="close-domain-modal"
                 aria-label="Tutup Modal"
                 onClick={() => {
                   setActiveModalDomain(null);
