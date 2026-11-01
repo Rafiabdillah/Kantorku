@@ -1,0 +1,8 @@
+{
+  "name": "KantorKu - Game Simulasi Karier Kantor",
+  "description": "Game edukasi simulasi karier kantor interaktif untuk melatih keterampilan kerja profesional Indonesia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

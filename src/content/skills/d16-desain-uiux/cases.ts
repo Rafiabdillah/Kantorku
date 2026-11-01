@@ -1,0 +1,1 @@
+export const D16_CASES=[{id:'case-d16-01',title:'Fiktif: Toko Nusa Admin Panel',summary:'Periksa dua kombinasi warna buatan sendiri, urutan fokus, pesan error, dan hierarchy pada dashboard toko fiktif tanpa mereproduksi logo atau merek nyata.',deliverables:['Accessibility review','Visual state checklist']}];

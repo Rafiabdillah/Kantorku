@@ -1,0 +1,1 @@
+export const D13_CASES=[{id:'case-d13-01',title:'Cross-team Product Meeting',summary:'Peserta harus menyampaikan agenda, klarifikasi, rangkuman, dan tindak lanjut dalam Bahasa Inggris yang gramatikal dan natural.',deliverables:['Meeting summary','Follow-up email']}];

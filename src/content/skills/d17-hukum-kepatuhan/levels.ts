@@ -1,0 +1,8 @@
+import { D17_LEGAL_DISCLAIMER } from './constants';
+export interface D17Level{id:string;domainId:'D17';skillId:string;tier:number;title:string;subtitle:string;description:string;engine:'advanced-quiz-engine';timeLimitSeconds:number;passThreshold:number;disclaimer:string}
+export const D17_LEVELS:D17Level[]=[
+{id:'D17-LEVEL-01',domainId:'D17',skillId:'D17-SKILL-01',tier:1,title:'Informasi Konsumen Dasar',subtitle:'Kenali hak dan kewajiban informasi',description:'Latihan identifikasi klaim dan jalur pengaduan.',engine:'advanced-quiz-engine',timeLimitSeconds:300,passThreshold:70,disclaimer:D17_LEGAL_DISCLAIMER},
+{id:'D17-LEVEL-02',domainId:'D17',skillId:'D17-SKILL-02',tier:2,title:'Konsep Unsur Perikatan',subtitle:'Susun pertanyaan tinjauan kontrak',description:'Memahami unsur pengetahuan umum tanpa memberikan nasihat hukum.',engine:'advanced-quiz-engine',timeLimitSeconds:300,passThreshold:70,disclaimer:D17_LEGAL_DISCLAIMER},
+{id:'D17-LEVEL-03',domainId:'D17',skillId:'D17-SKILL-03',tier:3,title:'Lisensi dan Aset Digital',subtitle:'Arsipkan izin dan sumber aset',description:'Menilai bukti lisensi, atribusi, dan penggunaan kembali.',engine:'advanced-quiz-engine',timeLimitSeconds:360,passThreshold:80,disclaimer:D17_LEGAL_DISCLAIMER},
+{id:'D17-LEVEL-04',domainId:'D17',skillId:'D17-SKILL-01',tier:4,title:'Tinjauan Kepatuhan Terintegrasi',subtitle:'Hubungkan konsumen, kontrak, dan hak cipta',description:'Menyusun rencana eskalasi dan meminta tinjauan profesional.',engine:'advanced-quiz-engine',timeLimitSeconds:420,passThreshold:80,disclaimer:D17_LEGAL_DISCLAIMER}
+];
