@@ -1,8 +1,11 @@
 {
   "name": "kantorku",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.3",
   "type": "module",
+  "main": "electron-main.cjs",
+  "description": "Game simulasi karier kantor berbahasa Indonesia",
+  "author": "Rafiabdillah",
   "engines": {
     "node": ">=22.5.0"
   },
@@ -10,6 +13,9 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
+    "desktop:build": "cross-env VITE_BASE_PATH=./ vite build",
+    "desktop:dist": "npm run desktop:build && electron-builder --win nsis portable",
+    "desktop:start": "npm run desktop:build && electron .",
     "lint": "tsc --noEmit",
     "test": "tsx --test src/tests/*.test.ts",
     "content:report": "tsx scripts/contentReport.ts",
@@ -44,6 +50,48 @@
     "zod": "^4.6.7",
     "zustand": "^5.0.16"
   },
+  "build": {
+    "appId": "id.rafiabdillah.kantorku",
+    "productName": "KantorKu",
+    "asar": true,
+    "files": [
+      "dist/**/*",
+      "electron-main.cjs",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/pwa-512x512.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "KantorKu-Setup.exe",
+      "shortcutName": "KantorKu"
+    },
+    "portable": {
+      "artifactName": "KantorKu-Portable-${version}.exe"
+    }
+  },
   "devDependencies": {
     "@playwright/test": "^1.50.0",
     "@types/canvas-confetti": "^1.9.0",
@@ -52,6 +100,9 @@
     "@types/react-dom": "^19.3.0",
     "@types/sql.js": "^1.4.11",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^10.0.0",
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.12",
     "esbuild": "^0.28.0",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",

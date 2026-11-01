@@ -1,5 +1,18 @@
 # Cara Memasang KantorKu
 
+## PC Windows
+
+Untuk Windows 64-bit, unduh installer EXE dari halaman Releases terbaru:
+
+**https://github.com/Rafiabdillah/Kantorku/releases/latest**
+
+Pilih salah satu:
+
+- `KantorKu-Setup.exe` untuk instalasi desktop satu klik.
+- `KantorKu-Portable-*.exe` untuk menjalankan tanpa instalasi.
+
+Pembaharuan dan keberlanjutan offline dilakukan seperti aplikasi desktop biasa. Tidak perlu Node.js atau terminal untuk versi EXE.
+
 ## Cara termudah: aplikasi web yang dapat dipasang
 
 1. Buka halaman pemasangan:

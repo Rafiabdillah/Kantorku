@@ -43,6 +43,17 @@ Secara bawaan aplikasi tersedia pada `http://localhost:3000`.
 
 ## Pasang sebagai Aplikasi
 
+### Windows
+
+Unduh installer Windows `.exe` dari GitHub Release terbaru:
+
+https://github.com/Rafiabdillah/Kantorku/releases/latest
+
+- Installer satu klik: `KantorKu-Setup.exe`
+- Versi portable: `KantorKu-Portable-*.exe`
+
+Versi EXE tidak memerlukan Node.js, npm, browser khusus, atau terminal.
+
 Versi online dapat dipasang tanpa mengunduh berkas instalasi:
 
 - Panduan pemasangan khusus: https://rafiabdillah.github.io/Kantorku/install.html
