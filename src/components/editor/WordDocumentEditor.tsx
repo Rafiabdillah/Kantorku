@@ -5,7 +5,6 @@ import { Table } from '@tiptap/extension-table';
 import { TableRow } from '@tiptap/extension-table-row';
 import { TableHeader } from '@tiptap/extension-table-header';
 import { TableCell } from '@tiptap/extension-table-cell';
-import { Underline } from '@tiptap/extension-underline';
 import {
   Bold,
   Italic,
@@ -48,8 +47,8 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
         heading: {
           levels: [1, 2, 3],
         },
+        underline: {},
       }),
-      Underline,
       Table.configure({
         resizable: true,
       }),
