@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Pasang KantorKu</title>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; background: linear-gradient(135deg, #0f172a, #172554); color: #e2e8f0; }
+      main { width: min(720px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0; }
+      h1 { margin-bottom: 8px; font-size: clamp(28px, 8vw, 44px); }
+      p { line-height: 1.65; }
+      .card { margin-top: 24px; padding: 20px; border: 1px solid #334155; border-radius: 18px; background: rgba(15, 23, 42, .82); }
+      .actions { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 28px; }
+      a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 16px; border-radius: 12px; font-weight: 700; text-decoration: none; text-align: center; }
+      .primary { background: #059669; color: white; }
+      .secondary { border: 1px solid #475569; color: #f8fafc; background: #1e293b; }
+      ol { padding-left: 22px; line-height: 1.7; }
+      code { color: #5eead4; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Pasang KantorKu</h1>
+      <p>Aplikasi dapat dipasang langsung dari browser. Tidak perlu membuka Google Play atau Microsoft Store.</p>
+      <div class="actions">
+        <a class="primary" href="./">Buka dan Pasang</a>
+        <a class="secondary" href="https://github.com/Rafiabdillah/Kantorku/releases/latest">Unduh Rilis Windows</a>
+      </div>
+
+      <section class="card">
+        <h2>Android / Chrome / Edge</h2>
+        <ol>
+          <li>Buka <strong>Buka dan Pasang</strong>.</li>
+          <li>Pilih <strong>Pasang Aplikasi</strong> di bagian atas.</li>
+          <li>Jika belum muncul, buka menu browser lalu pilih <strong>Pasang aplikasi</strong>.</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>Windows / Chrome / Edge</h2>
+        <ol>
+          <li>Buka aplikasi melalui <strong>Buka dan Pasang</strong>.</li>
+          <li>Pilih ikon pasang di bilah alamat atau tombol <strong>Pasang Aplikasi</strong>.</li>
+          <li>Konfirmasi pemasangan. KantorKu akan muncul sebagai aplikasi desktop.</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>iPhone / iPad / Safari</h2>
+        <ol>
+          <li>Buka aplikasi melalui Safari.</li>
+          <li>Ketuk <strong>Bagikan</strong>.</li>
+          <li>Pilih <strong>Tambah ke Layar Utama</strong>.</li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>

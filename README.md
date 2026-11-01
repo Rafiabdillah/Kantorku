@@ -45,6 +45,9 @@ Secara bawaan aplikasi tersedia pada `http://localhost:3000`.
 
 Versi online dapat dipasang tanpa mengunduh berkas instalasi:
 
+- Panduan pemasangan khusus: https://rafiabdillah.github.io/Kantorku/install.html
+- Panduan lengkap repo: [INSTALL.md](./INSTALL.md)
+
 - Buka `https://rafiabdillah.github.io/Kantorku/` dengan Chrome atau Edge.
 - Klik **Pasang Aplikasi** pada navigasi atas, atau pilih **Pasang aplikasi / Tambah ke layar utama** dari menu browser.
 - Setelah pemasangan, KantorKu dapat dibuka dari ikon aplikasi dan kemajuan tetap tersimpan di perangkat.
