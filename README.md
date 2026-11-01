@@ -41,6 +41,20 @@ npm run dev
 
 Secara bawaan aplikasi tersedia pada `http://localhost:3000`.
 
+## Pasang sebagai Aplikasi
+
+Versi online dapat dipasang tanpa mengunduh berkas instalasi:
+
+- Buka `https://rafiabdillah.github.io/Kantorku/` dengan Chrome atau Edge.
+- Klik **Pasang Aplikasi** pada navigasi atas, atau pilih **Pasang aplikasi / Tambah ke layar utama** dari menu browser.
+- Setelah pemasangan, KantorKu dapat dibuka dari ikon aplikasi dan kemajuan tetap tersimpan di perangkat.
+
+iPhone/iPad:
+
+1. Buka situs melalui Safari.
+2. Ketuk **Bagikan**.
+3. Pilih **Tambah ke Layar Utama**.
+
 ## Browser dan E2E
 
 Pasang Chromium Playwright sekali pada mesin pengembangan:

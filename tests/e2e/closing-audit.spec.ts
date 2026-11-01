@@ -83,6 +83,25 @@ test('closing audit: all 17 domain dialogs open and close at mobile and desktop 
   }
 });
 
+test('closing audit: install button always exposes a browser-specific installation guide', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.goto('/?autostart=1&view=office');
+  await page.waitForLoadState('domcontentloaded');
+
+  const installButton = page.getByRole('button', { name: 'Panduan Pasang Aplikasi KantorKu' });
+  const directInstallButton = page.getByRole('button', { name: 'Pasang Aplikasi KantorKu' });
+
+  if (await installButton.count()) {
+    await installButton.click();
+    await expect(page.getByRole('dialog', { name: 'Panduan pasang aplikasi' })).toBeVisible();
+    await expect(page.getByText('Chrome / Edge Android atau Windows:', { exact: true })).toBeVisible();
+    await expect(page.getByText('Safari iPhone / iPad:', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Mengerti' }).click();
+  } else {
+    await expect(directInstallButton).toBeVisible();
+  }
+});
+
 test('closing audit: one passing exercise updates skill and role readiness in every active domain', async ({ page }) => {
   await page.goto('/?autostart=1&view=skills-map');
   await page.waitForLoadState('domcontentloaded');
