@@ -10,11 +10,13 @@ import { SimulationScenario } from '../../../components/engines/SimulationEngine
 export interface D12Level {
   id: string;
   domainId: 'D12';
+  skillId: string;
   title: string;
   subtitle: string;
   tier: number;
   engine: 'email-editor' | 'simulation-engine' | 'advanced-quiz-engine';
   scenarioBrief: string;
+  passThreshold?: number;
   xpReward: number;
   coinReward: number;
   estimatedMinutes: number;
@@ -29,13 +31,15 @@ export interface D12Level {
 }
 
 export const D12_LEVELS: D12Level[] = [
-  // LEVEL 1: Email Editor
+  // LEVEL 1: Email Editor (F2: Skenario draf cacat yang harus dibenahi)
   {
     id: 'D12-LEVEL-01',
     domainId: 'D12',
+    skillId: 'D12-SKILL-01',
     title: 'Email Klarifikasi Jadwal Rapat ke Klien VIP',
     subtitle: 'Tuliskan email profesional dengan kaidah 3C (Clear, Concise, Courteous)',
     tier: 1,
+    passThreshold: 70,
     engine: 'email-editor',
     scenarioBrief:
       'Klien utama Anda, Ibu Ratna (Direktur Operasional PT Mitra Katering), meminta pengunduran jadwal presentasi proyek. Tulis email balasan formal yang menyetujui penyesuaian, mengusulkan 2 pilihan jam baru, menyertakan lampiran draf proposal yang sudah diperbarui, dan menetapkan batas konfirmasi.',
@@ -44,9 +48,9 @@ export const D12_LEVELS: D12Level[] = [
     estimatedMinutes: 8,
     emailConfig: {
       initialTo: 'ratna@mitrakatering.co.id',
-      initialSubject: 'Konfirmasi Penyesuaian Jadwal Pertemuan Presentasi Proyek',
-      initialBody: `Yth. Ibu Ratna,\n\nSehubungan dengan permohonan penyesuaian jadwal presentasi proyek pengadaan seragam, kami sangat memahami kepadatan agenda Ibu. Kami bermaksud mengusulkan dua alternatif waktu pengganti, yaitu:\n1. Kamis, 29 Oktober pukul 10.00 WIB\n2. Jumat, 30 Oktober pukul 14.00 WIB\n\nBersama email ini kami juga melampirkan draf revisi proposal anggaran untuk ditinjau terlebih dahulu. Mohon konfirmasi jadwal yang paling sesuai dengan waktu luang Ibu sebelum hari Rabu besok.\n\nTerima kasih atas kerja sama dan kepercayaan Ibu.\n\nHormat kami,\nBudi Pratama\nAdmin Operasional PT Maju Sejahtera`,
-      initialAttachment: true,
+      initialSubject: 'Rapat',
+      initialBody: 'ini lampiran proposal kemarin tolong di cek segera ya.',
+      initialAttachment: false,
     },
   },
 
@@ -54,9 +58,11 @@ export const D12_LEVELS: D12Level[] = [
   {
     id: 'D12-LEVEL-02',
     domainId: 'D12',
+    skillId: 'D12-SKILL-02',
     title: 'Menyusun Respon De-Eskalasi Komplain Pelanggan',
     subtitle: 'Simulasi percakapan tanggap darurat pesanan terlambat',
     tier: 2,
+    passThreshold: 70,
     engine: 'simulation-engine',
     scenarioBrief:
       'Ibu Ratna dari PT Mitra Katering mengirim pesan komplain karena 50 paket pesanan bahan makanan belum tiba di dapurnya padahal acara makan siang dimulai 2 jam lagi. Bantu tim de-eskalasi emosi dan susun respon yang solutif.',
@@ -89,6 +95,7 @@ export const D12_LEVELS: D12Level[] = [
               tradeoffExplanation:
                 'Pilihan ini melemparkan tanggung jawab ke pihak ketiga dan terdengar defensif. Klien akan semakin jengkel.',
               rubric: { empathy: 30, clarity: 50, professionalFirmness: 40, ethicalSolution: 30 },
+              reputationImpact: -2,
               feedbackTip: 'Hindari menyalahkan kurir sepihak saat klien sedang panik.',
               nextNodeId: 'node-angry',
             },
@@ -98,6 +105,7 @@ export const D12_LEVELS: D12Level[] = [
               tradeoffExplanation:
                 'Pendekatan H.E.A.T: memvalidasi kecemasan klien, meminta maaf atas kendala, dan memberi komitmen waktu cek yang sangat singkat.',
               rubric: { empathy: 95, clarity: 90, professionalFirmness: 85, ethicalSolution: 95 },
+              reputationImpact: 3,
               feedbackTip: 'Respon awal yang sangat tepat dan meredakan emosi.',
               nextNodeId: 'node-solution-assembly',
             },
@@ -116,6 +124,7 @@ export const D12_LEVELS: D12Level[] = [
               text: 'Kami sangat memahami hak Ibu. Kami bertanggung jawab penuh atas komitmen ini. Armada bantuan terdekat kami sudah mengalihkan rute langsung ke dapur Ibu sekarang juga.',
               tradeoffExplanation: 'Menyelamatkan situasi dengan mengakui akuntabilitas kontrak.',
               rubric: { empathy: 85, clarity: 85, professionalFirmness: 80, ethicalSolution: 90 },
+              reputationImpact: 2,
               feedbackTip: 'Bagus, mengambil alih tanggung jawab meredakan ancaman pembatalan kontrak.',
               nextNodeId: 'node-solution-assembly',
             },
@@ -158,9 +167,11 @@ export const D12_LEVELS: D12Level[] = [
   {
     id: 'D12-LEVEL-03',
     domainId: 'D12',
+    skillId: 'D12-SKILL-03',
     title: 'Deteksi Red Flag & Etiket Pesan Kerja',
     subtitle: 'Uji analitis urutan eskalasi, klasifikasi nada bicara, dan identifikasi pesan phishing',
     tier: 3,
+    passThreshold: 80,
     engine: 'advanced-quiz-engine',
     scenarioBrief:
       'Selesaikan 4 tantangan analitis komunikasi: urutan piramida memo eskalasi, pencocokan saluran komunikasi, deteksi domain email mencurigakan, dan identifikasi pelanggaran privasi internal.',

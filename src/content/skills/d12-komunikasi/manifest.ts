@@ -11,7 +11,7 @@ export const D12_MANIFEST: SkillPackManifest = {
   name: 'Komunikasi Profesional & Etiket Kerja',
   version: '1.0.0',
   wave: 'S0',
-  depth: 'penuh',
+  depth: 'menengah',
   status: 'aktif',
   requires: ['email-editor', 'simulation-engine', 'advanced-quiz-engine'],
   description:

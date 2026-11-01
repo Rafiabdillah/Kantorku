@@ -95,8 +95,8 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     shortName: 'Presentasi',
     icon: '📽️',
     wave: 'S2',
-    depth: 'menengah',
-    status: 'segera-hadir',
+    depth: 'penuh',
+    status: 'aktif',
     description: 'Alur cerita bisnis, hierarki slide 16:9, kontras visual, pitch deck, dan catatan pembicara.',
   },
   D4: {
@@ -107,7 +107,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '📈',
     wave: 'S3',
     depth: 'penuh',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Statistik deskriptif, grafik analitis, pivot, korelasi vs sebab, dasbor, dan kueri SQL.',
   },
   D5: {
@@ -130,7 +130,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '💰',
     wave: 'S2',
     depth: 'penuh',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Jurnal debit-kredit, buku besar, neraca saldo, laba rugi, HPP, arus kas, dan rekonsiliasi.',
   },
   D7: {
@@ -140,8 +140,8 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     shortName: 'Keuangan Pribadi',
     icon: '🪙',
     wave: 'S1',
-    depth: 'menengah',
-    status: 'segera-hadir',
+    depth: 'penuh',
+    status: 'aktif',
     description: 'Anggaran pribadi, dana darurat, cicilan, BMC, penetapan harga, dan perizinan dasar edukatif.',
   },
   D8: {
@@ -152,7 +152,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '📦',
     wave: 'S2',
     depth: 'menengah',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Manajemen stok, titik pesan ulang, evaluasi pemasok, logistik ongkir, jadwal produksi, SOP.',
   },
   D9: {
@@ -163,7 +163,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '📣',
     wave: 'S2',
     depth: 'penuh',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Riset persona, bauran pemasaran, copywriting promo, kalender konten, etika email & marketplace.',
   },
   D10: {
@@ -174,7 +174,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '👥',
     wave: 'S2',
     depth: 'menengah',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Rekrutmen, onboarding, penilaian KPI, umpan balik konstruktif, rapat produktif, resolusi konflik.',
   },
   D11: {
@@ -185,7 +185,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '⏱️',
     wave: 'S2',
     depth: 'penuh',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Tujuan SMART, WBS, jadwal Gantt, Kanban, manajemen risiko, prioritas matriks, dan penamaan file.',
   },
   D12: {
@@ -195,7 +195,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     shortName: 'Komunikasi',
     icon: '✉️',
     wave: 'S0',
-    depth: 'penuh',
+    depth: 'menengah',
     status: 'aktif',
     description: 'Email bisnis terstruktur (3C), etiket chat kerja, de-eskalasi komplain, notulen rapat, dan diplomasi.',
   },
@@ -207,7 +207,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '🌐',
     wave: 'S3',
     depth: 'menengah',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Korespondensi email internasional, istilah bisnis global, notulen bilingual, dan resume formal.',
   },
   D14: {
@@ -218,7 +218,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '🛡️',
     wave: 'S1',
     depth: 'penuh',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Deteksi phishing & red flag, proteksi data pribadi, checklist prompt AI, validasi fakta anti-halusinasi.',
   },
   D15: {
@@ -229,7 +229,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '🎓',
     wave: 'S1',
     depth: 'penuh',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Penyusunan CV ATS, verifikasi lowongan, wawancara kerja, sitasi APA 7, dan metodologi riset skripsi.',
   },
   D16: {
@@ -240,7 +240,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '🎨',
     wave: 'S3',
     depth: 'menengah',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Hierarki visual, kontras warna aksesibel, tipografi dokumen bisnis, dan aset media sosial proporsional.',
   },
   D17: {
@@ -251,7 +251,7 @@ export const DOMAIN_CATALOG: Record<DomainId, DomainMeta> = {
     icon: '⚖️',
     wave: 'S3',
     depth: 'menengah',
-    status: 'segera-hadir',
+    status: 'aktif',
     description: 'Anatomi kontrak kerja, perlindungan konsumen, hak cipta aset, dan perizinan usaha edukatif.',
   },
 };
@@ -292,3 +292,33 @@ export const SkillPackManifestSchema = z.object({
 });
 
 export type SkillPackManifest = z.infer<typeof SkillPackManifestSchema>;
+
+/**
+ * Official bidirectional mapping between legacy ModuleType and Semesta Keterampilan DomainId
+ */
+export function moduleTypeToDomainId(module: 'excel' | 'word' | 'coding' | 'web'): DomainId {
+  switch (module) {
+    case 'excel':
+      return 'D1';
+    case 'word':
+      return 'D2';
+    case 'coding':
+    case 'web':
+      return 'D5';
+    default:
+      return 'D1';
+  }
+}
+
+export function domainIdToLegacyModule(domainId: DomainId): 'excel' | 'word' | 'coding' | 'web' | null {
+  switch (domainId) {
+    case 'D1':
+      return 'excel';
+    case 'D2':
+      return 'word';
+    case 'D5':
+      return 'coding';
+    default:
+      return null;
+  }
+}

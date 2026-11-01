@@ -107,9 +107,16 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
   // =========================================================================
 
   // 1. Reorder Handler
-  const currentOrder = (userAnswers[currentQ.id] as string[]) || (
-    currentQ.type === 'urutan' ? currentQ.items.map((i) => i.id) : []
-  );
+  const initialReorderOrder = currentQ.type === 'urutan'
+    ? (() => {
+        const original = currentQ.items.map((i) => i.id);
+        if (JSON.stringify(original) !== JSON.stringify(currentQ.correctOrder)) return original;
+        const rotated = [...original];
+        if (rotated.length > 1) [rotated[0], rotated[1]] = [rotated[1], rotated[0]];
+        return rotated;
+      })()
+    : [];
+  const currentOrder = (userAnswers[currentQ.id] as string[]) || initialReorderOrder;
 
   const handleMoveOrderItem = (index: number, direction: 'up' | 'down') => {
     sound.playClick();

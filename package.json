@@ -3,6 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
@@ -12,7 +15,7 @@
     "content:report": "tsx scripts/contentReport.ts",
     "content:audit": "tsx scripts/contentAudit.ts",
     "skills:audit": "tsx scripts/auditSkills.ts",
-    "check": "npm run lint && npm test && npm run skills:audit && npm run build",
+    "check": "npm run lint && npm test && npm run skills:audit && npm run test:e2e && npm run build",
     "test:e2e": "playwright test tests/e2e/"
   },
   "dependencies": {
@@ -36,6 +39,7 @@
     "motion": "^12.23.24",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
+    "sql.js": "^1.15.2",
     "vite": "^8.3.0",
     "vite-plugin-pwa": "^2.0.0",
     "zod": "^4.6.7",
@@ -47,6 +51,7 @@
     "@types/node": "^22.14.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/sql.js": "^1.4.11",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.28.0",
     "tailwindcss": "^4.3.3",

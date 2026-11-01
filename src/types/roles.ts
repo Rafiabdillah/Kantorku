@@ -40,6 +40,7 @@ export const RoleSchema = z.object({
   domainRequirements: z.array(RoleDomainReqSchema).min(5),
   skills: z.array(RoleSkillRequirementSchema),
   recommendedCases: z.array(z.string()).default([]),
+  plannedCases: z.array(z.string()).default([]),
 });
 
 export type Role = z.infer<typeof RoleSchema>;
@@ -48,6 +49,10 @@ export interface RoleReadinessResult {
   roleId: string;
   roleName: string;
   readinessPercent: number; // 0 - 100
+  kesiapanTotal: number;
+  kesiapanBagianTersedia: number;
+  bobotTersedia: number;
+  bobotBelumTersedia: number;
   availableSkillsCount: number;
   totalSkillsCount: number;
   unavailableSkillsPercent: number;

@@ -1,0 +1,17 @@
+import { Skill } from '../../../types/skills';
+import { ROLES } from '../../roles';
+import { computeSkillRoleRelevance } from '../../roleRelevanceHelper';
+export const D17_SKILLS: Skill[] = [
+  {
+    id: 'D17-SKILL-01', domain: 'D17', name: 'Kepatuhan Perlindungan Konsumen', description: 'Mengenali hak konsumen dan kewajiban pelaku usaha menggunakan rujukan UU yang pasti.', prerequisites: [], canDo: {1:'Mengenali kewajiban informasi produk.',2:'Mengidentifikasi klaim menyesatkan.',3:'Menilai pengaduan konsumen secara terstruktur.',4:'Menyusun langkah eskalasi kepatuhan.',5:'Meninjau proses pelayanan berbasis bukti.',6:'Memetakan risiko pelanggaran perlindungan konsumen.',7:'Mengevaluasi program kepatuhan lintas unit.'}, practiceModes:['K','P'], linkedLessons:['D17-LES-01'], linkedLevels:['D17-LEVEL-01','D17-LEVEL-02','D17-LEVEL-03','D17-LEVEL-04'], linkedCases:['case-d17-01'], roleRelevance: computeSkillRoleRelevance('D17-SKILL-01','D17',ROLES), depth:'menengah', estimatedHours:10,
+    sources:['UU Republik Indonesia No. 8 Tahun 1999 tentang Perlindungan Konsumen, Pasal 4 dan Pasal 9, https://peraturan.bpk.go.id/Details/45288','Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga Kemendag, https://ditjenpktn.kemendag.go.id/'], lastReviewed:'2026-11-01', requires:['advanced-quiz-engine'],
+  },
+  {
+    id: 'D17-SKILL-02', domain: 'D17', name: 'Dasar Kontrak dan Kepatuhan Bisnis', description: 'Memahami unsur, risiko, dan kebutuhan konsultasi kontrak tanpa menyajikan templat yang mengaku sah.', prerequisites:['D17-SKILL-01'], canDo: {1:'Memahami identitas pihak dan objek perjanjian.',2:'Mengidentifikasi hak, kewajiban, dan tenggat.',3:'Menilai klausul yang tidak pasti.',4:'Memetakan risiko sengketa.',5:'Menyiapkan pertanyaan untuk peninjauan profesional.',6:'Membandingkan opsi mitigasi kontrak.',7:'Meninjau tata kelola kepatuhan kontrak lintas organisasi.'}, practiceModes:['K','S','P'], linkedLessons:['D17-LES-02'], linkedLevels:['D17-LEVEL-01','D17-LEVEL-02','D17-LEVEL-03','D17-LEVEL-04'], linkedCases:['case-d17-01'], roleRelevance: computeSkillRoleRelevance('D17-SKILL-02','D17',ROLES), depth:'menengah', estimatedHours:10,
+    sources:['belum ada rujukan terverifikasi: KUHPerdata, Buku III tentang Perikatan, Pasal 1320','belum ada rujukan terverifikasi: teks resmi Pasal 1320 dan penjelasannya'], lastReviewed:'2026-11-01', requires:['advanced-quiz-engine'],
+  },
+  {
+    id: 'D17-SKILL-03', domain: 'D17', name: 'Hak Cipta Aset Digital', description: 'Mengenali dasar kepemilikan dan penggunaan aset digital berdasarkan UU Hak Cipta.', prerequisites:['D17-SKILL-01'], canDo: {1:'Membedakan aset dan lisensi.',2:'Mengenali hak ekonomi dan moral dasar.',3:'Memeriksa izin penggunaan aset.',4:'Menilai risiko penggunaan kembali.',5:'Menyusun catatan sumber aset.',6:'Melakukan tinjauan kepatuhan konten.',7:'Merancang proses arsip lisensi organisasi.'}, practiceModes:['K','P'], linkedLessons:['D17-LES-03'], linkedLevels:['D17-LEVEL-01','D17-LEVEL-02','D17-LEVEL-03','D17-LEVEL-04'], linkedCases:['case-d17-01'], roleRelevance: computeSkillRoleRelevance('D17-SKILL-03','D17',ROLES), depth:'menengah', estimatedHours:10,
+    sources:['UU Republik Indonesia No. 28 Tahun 2014 tentang Hak Cipta, Pasal 9 dan Pasal 113, https://peraturan.bpk.go.id/Details/38690','Direktorat Jenderal Kekayaan Intelektual, Kemenkumham, https://dgip.go.id/'], lastReviewed:'2026-11-01', requires:['advanced-quiz-engine'],
+  },
+];

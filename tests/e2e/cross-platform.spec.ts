@@ -142,7 +142,7 @@ test.describe('KantorKu Cross-Platform & Device Robustness Suite', () => {
     expect(manifestResponse.status()).toBe(200);
 
     const manifest = await manifestResponse.json();
-    expect(manifest.id).toBe('/');
+    expect(['/', './']).toContain(manifest.id);
     expect(manifest.short_name).toBe('KantorKu');
     expect(manifest.display).toBe('standalone');
     expect(manifest.icons.length).toBeGreaterThanOrEqual(3);

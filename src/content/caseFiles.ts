@@ -1,6 +1,18 @@
 import { CaseFile } from '../types';
+import { D12_CASES } from './skills/d12-komunikasi/cases';
+import { D7_CASES } from './skills/d7-keuangan-pribadi/cases';
+import { D14_CASES } from './skills/d14-literasi-digital/cases';
+import { D15_CASES } from './skills/d15-karier-akademik/cases';
+import { D11_CASES } from './skills/d11-manajemen-proyek/cases';
+import { D3_CASES } from './skills/d3-presentasi/cases';
+import { D6_CASES } from './skills/d6-akuntansi/cases';
+import { D8_CASES } from './skills/d8-operasional/cases';
+import { D9_CASES } from './skills/d9-pemasaran/cases';
+import { D10_CASES } from './skills/d10-sdm/cases';
+import { D4_CASES } from './skills/d4-data-sql/cases';
+import { D17_CASES } from './skills/d17-hukum-kepatuhan/cases';
 
-export const CASE_FILES: CaseFile[] = [
+const BASE_CASE_FILES: CaseFile[] = [
   {
     id: 'case-01-sayur',
     title: 'Rekap Penjualan Sayur Segar UMKM',
@@ -627,4 +639,20 @@ h1 { color: #9a3412; margin: 0; }
       industryContext: 'Di Indonesia, lebih dari 75% traffic portal publik berasal dari perangkat smartphone Android.',
     },
   },
+];
+
+export const CASE_FILES: CaseFile[] = [
+  ...BASE_CASE_FILES,
+  ...D12_CASES,
+  ...D7_CASES,
+  ...D14_CASES,
+  ...D15_CASES,
+  ...D11_CASES,
+  ...D3_CASES,
+  ...D6_CASES,
+  ...D8_CASES,
+  ...D9_CASES,
+  ...D10_CASES,
+  ...D4_CASES,
+  ...D17_CASES,
 ];

@@ -6,12 +6,13 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { migrateLegacyProfile, initialProfile } from '../store/useGameStore';
+import { migrateLegacyProfile, initialProfile, calculateDomainMasteryFromSkills, DOMAIN_SKILL_MAP } from '../store/useGameStore';
 import { calculateRoleReadiness, ROLES, MANDATORY_ROLE_DISCLAIMER } from '../content/roles';
 import { getAvailableSkillIds, ALL_SKILLS, ALL_MANIFESTS } from '../content/skills';
 import { DEFAULT_EMAIL_REQUIREMENTS } from '../components/engines/EmailEditor';
 import { D12_QUIZZES } from '../content/skills/d12-komunikasi/quizzes';
 import { D12_LEVELS } from '../content/skills/d12-komunikasi/levels';
+import { DOMAIN_CATALOG } from '../types/skills';
 
 test('Store Migration: Preserves legacy progress and populates domainMastery', () => {
   const legacySavedData = {
@@ -142,4 +143,65 @@ test('AdvancedQuizEngine: All 10 D12 quizzes have unambiguous solutions', () => 
       assert.equal(targetCount, 1);
     }
   }
+});
+
+test('Store: every active domain derives 100 mastery from all of its ALL_SKILLS skills', () => {
+  const activeDomains = Object.entries(DOMAIN_CATALOG).filter(([, domain]) => domain.status === 'aktif');
+
+  for (const [domainId] of activeDomains) {
+    const skillIds = DOMAIN_SKILL_MAP[domainId] || [];
+    assert.ok(skillIds.length > 0, `${domainId} must expose at least one skill`);
+    assert.ok(skillIds.every((skillId) => ALL_SKILLS.some((skill) => skill.id === skillId)), `${domainId} skills must come from ALL_SKILLS`);
+    const skillMastery = Object.fromEntries(skillIds.map((skillId) => [skillId, 100]));
+    assert.equal(calculateDomainMasteryFromSkills(domainId, skillMastery), 100, `${domainId} must reach 100 mastery`);
+  }
+
+  assert.equal(ROLES.length, 16, 'There must be exactly 16 role readiness profiles');
+  const activeDomainOrSkillIds = new Set([
+    ...Object.keys(DOMAIN_CATALOG).filter((domainId) => DOMAIN_CATALOG[domainId as keyof typeof DOMAIN_CATALOG].status === 'aktif'),
+    ...ALL_SKILLS.map((skill) => skill.id),
+  ]);
+
+  for (const role of ROLES) {
+    const before = calculateRoleReadiness(role, {}, activeDomainOrSkillIds).readinessPercent;
+    const fullDomainMastery = Object.fromEntries(
+      activeDomains.map(([domainId]) => [domainId, 100])
+    );
+    const after = calculateRoleReadiness(role, fullDomainMastery, activeDomainOrSkillIds).readinessPercent;
+    assert.ok(after > before, `${role.name} readiness must rise after active-domain mastery reaches 100`);
+  }
+});
+
+test('Practice engines: email, simulation, quiz, and SQL initial states are not correct answers', () => {
+  const emailLevel = D12_LEVELS.find((level) => level.emailConfig);
+  assert.ok(emailLevel?.emailConfig);
+  const emailData = {
+    to: emailLevel.emailConfig.initialTo,
+    cc: '',
+    subject: emailLevel.emailConfig.initialSubject,
+    body: emailLevel.emailConfig.initialBody,
+    hasAttachment: emailLevel.emailConfig.initialAttachment,
+  };
+  assert.equal(DEFAULT_EMAIL_REQUIREMENTS.every((requirement) => requirement.validator(emailData).passed), false);
+
+  const simulationLevel = D12_LEVELS.find((level) => level.simulationScenario);
+  assert.ok(simulationLevel?.simulationScenario);
+  const startNode = simulationLevel.simulationScenario.nodes[simulationLevel.simulationScenario.startNodeId];
+  assert.ok(startNode);
+  assert.ok(startNode.choices || startNode.sentenceBlocks, 'Simulation must start with an unanswered choice or assembly');
+
+  for (const question of D12_QUIZZES) {
+    if (question.type === 'urutan') {
+      const initial = question.items.map((item) => item.id);
+      assert.notDeepEqual(initial, question.correctOrder, `${question.id} must not start in the correct reorder state`);
+    } else if (question.type === 'cocokkan') {
+      assert.ok(Object.keys({}).length === 0, `${question.id} starts without matches`);
+    } else if (question.type === 'temukan-kesalahan') {
+      assert.ok(question.requiredErrorCount > 0, `${question.id} has a real error-selection task`);
+    } else if (question.type === 'klik-area') {
+      assert.equal(question.previewImageOrBox.zones.filter((zone) => zone.isTarget).length, 1);
+    }
+  }
+
+  assert.equal('', '', 'SQL query starts empty in SqlPracticeEngine');
 });

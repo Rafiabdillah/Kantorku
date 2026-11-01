@@ -9,6 +9,12 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
     trace: 'off',
   },
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: true,
+    timeout: 120000,
+  },
   projects: [
     {
       name: 'chromium',

@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { PlayerProfile, CharacterId, ModuleType, TierLevel, ErrorLogItem, SheetGrid, CellData } from '../types';
 import { LEVELS } from '../content/levels';
 import { sound } from '../services/sound';
+import { ALL_SKILLS } from '../content/skills';
 
 export type AppView =
   | 'onboarding'
@@ -26,7 +27,8 @@ export type AppView =
   | 'portfolio'
   | 'errors'
   | 'duel'
-  | 'settings';
+  | 'settings'
+  | 'about';
 
 interface GameState {
   // Navigation
@@ -124,6 +126,7 @@ export const initialProfile: PlayerProfile = {
     reza: 45,
     hendra: 40,
     nadia: 50,
+    klien: 50,
   },
   completedLevelIds: [],
   levelStars: {},
@@ -138,6 +141,27 @@ export const initialProfile: PlayerProfile = {
   theme: 'office-warm',
   hasCompletedOnboarding: false,
 };
+
+export const DOMAIN_SKILL_MAP: Record<string, string[]> = Object.fromEntries(
+  [...new Set(ALL_SKILLS.map((skill) => skill.domain))].map((domainId) => [
+    domainId,
+    ALL_SKILLS.filter((skill) => skill.domain === domainId).map((skill) => skill.id),
+  ])
+);
+
+/**
+ * Formula F2.4:
+ * masteryDomain = rata-rata skor-terbaik skill di domain tersebut (skill yang belum dicoba = 0).
+ */
+export function calculateDomainMasteryFromSkills(
+  domainId: string,
+  skillMastery: Record<string, number> = {}
+): number {
+  const skills = DOMAIN_SKILL_MAP[domainId];
+  if (!skills || skills.length === 0) return 0;
+  const total = skills.reduce((sum, sId) => sum + (skillMastery[sId] || 0), 0);
+  return Math.round(total / skills.length);
+}
 
 /**
  * Migration function to upgrade legacy storage profiles safely
@@ -201,15 +225,25 @@ export const useGameStore = create<GameState>()(
 
       updateSkillMastery: (skillId: string, score: number) => {
         set((state) => {
-          const current = state.profile.skillMastery || {};
-          const prev = current[skillId] || 0;
+          const currentSkills = state.profile.skillMastery || {};
+          const prev = currentSkills[skillId] || 0;
           const next = Math.max(prev, Math.min(100, Math.round(score)));
+          const updatedSkills = {
+            ...currentSkills,
+            [skillId]: next,
+          };
+
+          // Hitung domain dari awalan skillId (mis. D12-SKILL-01 -> D12)
+          const domainId = skillId.split('-')[0];
+          const newDomainMastery = calculateDomainMasteryFromSkills(domainId, updatedSkills);
+
           return {
             profile: {
               ...state.profile,
-              skillMastery: {
-                ...current,
-                [skillId]: next,
+              skillMastery: updatedSkills,
+              domainMastery: {
+                ...state.profile.domainMastery,
+                [domainId]: newDomainMastery,
               },
             },
           };
@@ -470,9 +504,34 @@ export const useGameStore = create<GameState>()(
           const curStars = state.profile.levelStars[levelId] || 0;
           const bestStars = Math.max(curStars, stars);
 
-          // Boost mastery
+          // Boost mastery (legacy)
           const curMastery = state.profile.moduleMastery[moduleName] || 0;
           const newMastery = Math.min(100, curMastery + 12);
+
+          // Jembatan level lama ke Semesta Keterampilan (F3):
+          // Map level legacy ke skill D1, D2, atau D5
+          const currentSkills = { ...(state.profile.skillMastery || {}) };
+          const legacySkillScore = Math.round((stars / 3) * 100);
+          let targetDomain = 'D1';
+
+          if (moduleName === 'excel') {
+            targetDomain = 'D1';
+            currentSkills['D1-SKILL-01'] = Math.max(currentSkills['D1-SKILL-01'] || 0, legacySkillScore);
+          } else if (moduleName === 'word') {
+            targetDomain = 'D2';
+            currentSkills['D2-SKILL-01'] = Math.max(currentSkills['D2-SKILL-01'] || 0, legacySkillScore);
+          } else if (moduleName === 'coding') {
+            targetDomain = 'D5';
+            currentSkills['D5-SKILL-01'] = Math.max(currentSkills['D5-SKILL-01'] || 0, legacySkillScore);
+          } else if (moduleName === 'web') {
+            targetDomain = 'D5';
+            currentSkills['D5-SKILL-02'] = Math.max(currentSkills['D5-SKILL-02'] || 0, legacySkillScore);
+          }
+
+          const newDomainMastery = {
+            ...(state.profile.domainMastery || {}),
+            [targetDomain]: calculateDomainMasteryFromSkills(targetDomain, currentSkills),
+          };
 
           return {
             profile: {
@@ -488,6 +547,8 @@ export const useGameStore = create<GameState>()(
                 ...state.profile.moduleMastery,
                 [moduleName]: newMastery,
               },
+              skillMastery: currentSkills,
+              domainMastery: newDomainMastery,
             },
           };
         });

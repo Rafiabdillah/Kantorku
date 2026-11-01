@@ -2,7 +2,7 @@ import React from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { TIERS } from '../../types';
 import { sound } from '../../services/sound';
-import { Briefcase, Download, ArrowLeft, CheckCircle2, FileSpreadsheet, FileCode, FileText } from 'lucide-react';
+import { Briefcase, Download, ArrowLeft, CheckCircle2, FileSpreadsheet, FileCode, FileText, Heart } from 'lucide-react';
 
 export const PortfolioView: React.FC = () => {
   const { profile, setView } = useGameStore();
@@ -160,6 +160,73 @@ export const PortfolioView: React.FC = () => {
             <Download className="w-4 h-4" />
             <span>Ekspor DOC</span>
           </button>
+        </div>
+      </div>
+
+      {/* Relasi & Reputasi Tokoh Kantor */}
+      <div className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm flex flex-col gap-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2.5 rounded-xl bg-rose-50 text-rose-600">
+              <Heart className="w-5 h-5 fill-rose-500" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-slate-800">Reputasi Relasi Kerja & Klien</h2>
+              <p className="text-xs text-slate-500">Tingkat kepercayaan rekan kerja dan klien berdasarkan keputusan situasional Anda.</p>
+            </div>
+          </div>
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">
+            Skala 0 - 100
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          {Object.entries(profile.reputation || {}).map(([charKey, score]) => {
+            const charNames: Record<string, { name: string; role: string }> = {
+              sari: { name: 'Bu Sari', role: 'Direktur Operasional' },
+              dimas: { name: 'Mas Dimas', role: 'Senior Gudang' },
+              maya: { name: 'Mba Maya', role: 'Supervisor Admin' },
+              reza: { name: 'Pak Reza', role: 'Manager Keuangan' },
+              intan: { name: 'Mba Intan', role: 'Admin Personalia' },
+              hendra: { name: 'Pak Hendra', role: 'Kepala Divisi' },
+              nadia: { name: 'Nadia', role: 'Staf Magang' },
+              klien: { name: 'Ibu Ratna', role: 'Klien VIP Katering' },
+            };
+            const meta = charNames[charKey] || { name: charKey, role: 'Mitra Kerja' };
+            const isHigh = score >= 60;
+            const isLow = score < 40;
+
+            return (
+              <div
+                key={charKey}
+                className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 flex flex-col justify-between gap-2.5"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="font-bold text-xs text-slate-800">{meta.name}</div>
+                  <span
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      isHigh
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : isLow
+                        ? 'bg-rose-100 text-rose-800'
+                        : 'bg-blue-100 text-blue-800'
+                    }`}
+                  >
+                    {score}/100
+                  </span>
+                </div>
+                <div className="text-[11px] text-slate-500">{meta.role}</div>
+                <div className="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-300 ${
+                      isHigh ? 'bg-emerald-500' : isLow ? 'bg-rose-500' : 'bg-blue-500'
+                    }`}
+                    style={{ width: `${Math.min(100, Math.max(0, score))}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

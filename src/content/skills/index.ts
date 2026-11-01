@@ -8,6 +8,32 @@ import { Skill, SkillPackManifest, DomainId } from '../../types/skills';
 import { DOMAIN_CATALOG } from '../../types/skills';
 import { D12_MANIFEST } from './d12-komunikasi/manifest';
 import { D12_SKILLS } from './d12-komunikasi/skills';
+import { D7_MANIFEST } from './d7-keuangan-pribadi/manifest';
+import { D7_SKILLS } from './d7-keuangan-pribadi/skills';
+import { D14_MANIFEST } from './d14-literasi-digital/manifest';
+import { D14_SKILLS } from './d14-literasi-digital/skills';
+import { D15_MANIFEST } from './d15-karier-akademik/manifest';
+import { D15_SKILLS } from './d15-karier-akademik/skills';
+import { D11_MANIFEST } from './d11-manajemen-proyek/manifest';
+import { D11_SKILLS } from './d11-manajemen-proyek/skills';
+import { D3_MANIFEST } from './d3-presentasi/manifest';
+import { D3_SKILLS } from './d3-presentasi/skills';
+import { D6_MANIFEST } from './d6-akuntansi/manifest';
+import { D6_SKILLS } from './d6-akuntansi/skills';
+import { D8_MANIFEST } from './d8-operasional/manifest';
+import { D8_SKILLS } from './d8-operasional/skills';
+import { D9_MANIFEST } from './d9-pemasaran/manifest';
+import { D9_SKILLS } from './d9-pemasaran/skills';
+import { D10_MANIFEST } from './d10-sdm/manifest';
+import { D10_SKILLS } from './d10-sdm/skills';
+import { D4_MANIFEST } from './d4-data-sql/manifest';
+import { D4_SKILLS } from './d4-data-sql/skills';
+import { D17_MANIFEST } from './d17-hukum-kepatuhan/manifest';
+import { D17_SKILLS } from './d17-hukum-kepatuhan/skills';
+import { D13_SKILLS } from './d13-bahasa-inggris/skills';
+import { D16_SKILLS } from './d16-desain-uiux/skills';
+import { ROLES } from '../roles';
+import { computeSkillRoleRelevance } from '../roleRelevanceHelper';
 
 // D1 (Spreadsheet) Baseline Skills for Wave S0
 export const D1_SKILLS: Skill[] = [
@@ -27,19 +53,16 @@ export const D1_SKILLS: Skill[] = [
       7: 'Mengembangkan sistem otomasi makro dan validasi data skala korporat.',
     },
     practiceModes: ['E', 'K'],
-    linkedLessons: ['excel-sum-intro', 'excel-vlookup-mastery'],
+    linkedLessons: ['les-excel-sum-basics', 'les-excel-vlookup-basics'],
     linkedLevels: ['excel-t1-01', 'excel-t2-01'],
-    linkedCases: ['case-a1', 'case-a2'],
-    roleRelevance: {
-      'admin-perkantoran': 5,
-      'staf-akuntansi': 5,
-      'staf-gudang-logistik': 4,
-      'admin-sdm-hrd': 4,
-      'analis-data-junior': 5,
-    },
+    linkedCases: ['case-01-sayur'],
+    roleRelevance: computeSkillRoleRelevance('D1-SKILL-01', 'D1', ROLES),
     depth: 'penuh',
     estimatedHours: 12,
-    sources: ['Standar Pengolahan Data Tabular', 'Panduan Praktik Excel Bisnis'],
+    sources: [
+      'Pedoman Tata Kelola Data dan Spreadsheet Kemenkeu RI (2023)',
+      'Microsoft Excel 365 Data Analysis Specification (2024)',
+    ],
     lastReviewed: '2026-10-26',
     requires: ['spreadsheet-editor'],
   },
@@ -63,18 +86,16 @@ export const D2_SKILLS: Skill[] = [
       7: 'Membangun sistem template tata naskah dinas korporasi menyeluruh.',
     },
     practiceModes: ['E', 'T'],
-    linkedLessons: ['word-document-structure'],
+    linkedLessons: ['les-word-official-letter', 'les-word-sop'],
     linkedLevels: ['word-t1-01'],
-    linkedCases: ['case-f1', 'case-f2'],
-    roleRelevance: {
-      'admin-perkantoran': 5,
-      'admin-sdm-hrd': 4,
-      'koordinator-proyek': 3,
-      'pencari-kerja-freshgrad': 4,
-    },
+    linkedCases: ['case-08-word-sop'],
+    roleRelevance: computeSkillRoleRelevance('D2-SKILL-01', 'D2', ROLES),
     depth: 'penuh',
     estimatedHours: 10,
-    sources: ['Pedoman Tata Naskah Dinas', 'PUEBI'],
+    sources: [
+      'Permenpan-RB No. 83 Tahun 2012 tentang Pedoman Tata Naskah Dinas Instansi Pemerintah',
+      'Kamus Besar Bahasa Indonesia (KBBI) VI Daring (2024)',
+    ],
     lastReviewed: '2026-10-26',
     requires: ['word-editor'],
   },
@@ -98,16 +119,16 @@ export const D5_SKILLS: Skill[] = [
       7: 'Merancang arsitektur aplikasi berbasis modul dengan penanganan error terisolasi.',
     },
     practiceModes: ['E'],
-    linkedLessons: ['js-variables', 'js-array-processing'],
-    linkedLevels: ['coding-t1-01'],
-    linkedCases: ['case-g4'],
-    roleRelevance: {
-      'web-dev-junior': 5,
-      'analis-data-junior': 2,
-    },
+    linkedLessons: ['les-code-function-basics', 'les-code-array-operations'],
+    linkedLevels: ['code-t1-01'],
+    linkedCases: [],
+    roleRelevance: computeSkillRoleRelevance('D5-SKILL-01', 'D5', ROLES),
     depth: 'penuh',
     estimatedHours: 14,
-    sources: ['MDN Web Docs', 'ECMAScript Standard'],
+    sources: [
+      'ECMA-262 14th Edition ECMAScript Language Specification (2023)',
+      'MDN Web Docs: JavaScript Guide (Mozilla, 2024)',
+    ],
     lastReviewed: '2026-10-26',
     requires: ['js-runner'],
   },
@@ -127,27 +148,40 @@ export const D5_SKILLS: Skill[] = [
       7: 'Merancang sistem desain antarmuka web (UI design system) mandiri.',
     },
     practiceModes: ['E'],
-    linkedLessons: ['web-html-semantics'],
+    linkedLessons: ['les-web-html-structure', 'les-web-flexbox-cards'],
     linkedLevels: ['web-t1-01'],
-    linkedCases: ['case-g1'],
-    roleRelevance: {
-      'web-dev-junior': 5,
-      'digital-marketing': 3,
-    },
+    linkedCases: ['case-03-web-umkm'],
+    roleRelevance: computeSkillRoleRelevance('D5-SKILL-02', 'D5', ROLES),
     depth: 'penuh',
     estimatedHours: 12,
-    sources: ['W3C Semantic HTML5 Standard', 'WCAG Accessibility Guidelines'],
+    sources: [
+      'W3C HTML5.3 Recommendation & Web Content Accessibility Guidelines (WCAG) 2.2 (2023)',
+      'MDN Web Docs: HTML & CSS Semantic Web (2024)',
+    ],
     lastReviewed: '2026-10-26',
     requires: ['web-preview'],
   },
 ];
 
-// All Registered Skills in the Universe
+// All Registered Skills in the Universe for Wave S2b
 export const ALL_SKILLS: Skill[] = [
   ...D1_SKILLS,
   ...D2_SKILLS,
   ...D5_SKILLS,
   ...D12_SKILLS,
+  ...D14_SKILLS,
+  ...D15_SKILLS,
+  ...D7_SKILLS,
+  ...D11_SKILLS,
+  ...D3_SKILLS,
+  ...D6_SKILLS,
+  ...D8_SKILLS,
+  ...D9_SKILLS,
+  ...D10_SKILLS,
+  ...D4_SKILLS,
+  ...D17_SKILLS,
+  ...D13_SKILLS,
+  ...D16_SKILLS,
 ];
 
 // All Manifests
@@ -174,28 +208,8 @@ export const ALL_MANIFESTS: Record<DomainId, SkillPackManifest> = {
     description: DOMAIN_CATALOG.D2.description,
     lastUpdated: '2026-10-26',
   },
-  D3: {
-    domain: 'D3',
-    name: DOMAIN_CATALOG.D3.name,
-    version: '0.1.0',
-    wave: 'S2',
-    depth: 'menengah',
-    status: 'segera-hadir',
-    requires: ['slide-editor'],
-    description: DOMAIN_CATALOG.D3.description,
-    lastUpdated: '2026-10-26',
-  },
-  D4: {
-    domain: 'D4',
-    name: DOMAIN_CATALOG.D4.name,
-    version: '0.1.0',
-    wave: 'S3',
-    depth: 'penuh',
-    status: 'segera-hadir',
-    requires: ['sql-editor'],
-    description: DOMAIN_CATALOG.D4.description,
-    lastUpdated: '2026-10-26',
-  },
+  D3: D3_MANIFEST,
+  D4: D4_MANIFEST,
   D5: {
     domain: 'D5',
     name: DOMAIN_CATALOG.D5.name,
@@ -207,128 +221,38 @@ export const ALL_MANIFESTS: Record<DomainId, SkillPackManifest> = {
     description: DOMAIN_CATALOG.D5.description,
     lastUpdated: '2026-10-26',
   },
-  D6: {
-    domain: 'D6',
-    name: DOMAIN_CATALOG.D6.name,
-    version: '0.1.0',
-    wave: 'S2',
-    depth: 'penuh',
-    status: 'segera-hadir',
-    requires: ['ledger-editor'],
-    description: DOMAIN_CATALOG.D6.description,
-    lastUpdated: '2026-10-26',
-  },
-  D7: {
-    domain: 'D7',
-    name: DOMAIN_CATALOG.D7.name,
-    version: '0.1.0',
-    wave: 'S1',
-    depth: 'menengah',
-    status: 'segera-hadir',
-    requires: [],
-    description: DOMAIN_CATALOG.D7.description,
-    lastUpdated: '2026-10-26',
-  },
-  D8: {
-    domain: 'D8',
-    name: DOMAIN_CATALOG.D8.name,
-    version: '0.1.0',
-    wave: 'S2',
-    depth: 'menengah',
-    status: 'segera-hadir',
-    requires: [],
-    description: DOMAIN_CATALOG.D8.description,
-    lastUpdated: '2026-10-26',
-  },
-  D9: {
-    domain: 'D9',
-    name: DOMAIN_CATALOG.D9.name,
-    version: '0.1.0',
-    wave: 'S2',
-    depth: 'penuh',
-    status: 'segera-hadir',
-    requires: [],
-    description: DOMAIN_CATALOG.D9.description,
-    lastUpdated: '2026-10-26',
-  },
-  D10: {
-    domain: 'D10',
-    name: DOMAIN_CATALOG.D10.name,
-    version: '0.1.0',
-    wave: 'S2',
-    depth: 'menengah',
-    status: 'segera-hadir',
-    requires: [],
-    description: DOMAIN_CATALOG.D10.description,
-    lastUpdated: '2026-10-26',
-  },
-  D11: {
-    domain: 'D11',
-    name: DOMAIN_CATALOG.D11.name,
-    version: '0.1.0',
-    wave: 'S2',
-    depth: 'penuh',
-    status: 'segera-hadir',
-    requires: ['kanban-editor'],
-    description: DOMAIN_CATALOG.D11.description,
-    lastUpdated: '2026-10-26',
-  },
+  D6: D6_MANIFEST,
+  D7: D7_MANIFEST,
+  D8: D8_MANIFEST,
+  D9: D9_MANIFEST,
+  D10: D10_MANIFEST,
+  D11: D11_MANIFEST,
   D12: D12_MANIFEST,
   D13: {
     domain: 'D13',
     name: DOMAIN_CATALOG.D13.name,
-    version: '0.1.0',
+    version: '1.0.0',
     wave: 'S3',
     depth: 'menengah',
-    status: 'segera-hadir',
+    status: 'aktif',
     requires: [],
     description: DOMAIN_CATALOG.D13.description,
-    lastUpdated: '2026-10-26',
+    lastUpdated: '2026-11-01',
   },
-  D14: {
-    domain: 'D14',
-    name: DOMAIN_CATALOG.D14.name,
-    version: '0.1.0',
-    wave: 'S1',
-    depth: 'penuh',
-    status: 'segera-hadir',
-    requires: [],
-    description: DOMAIN_CATALOG.D14.description,
-    lastUpdated: '2026-10-26',
-  },
-  D15: {
-    domain: 'D15',
-    name: DOMAIN_CATALOG.D15.name,
-    version: '0.1.0',
-    wave: 'S1',
-    depth: 'penuh',
-    status: 'segera-hadir',
-    requires: [],
-    description: DOMAIN_CATALOG.D15.description,
-    lastUpdated: '2026-10-26',
-  },
+  D14: D14_MANIFEST,
+  D15: D15_MANIFEST,
   D16: {
     domain: 'D16',
     name: DOMAIN_CATALOG.D16.name,
-    version: '0.1.0',
+    version: '1.0.0',
     wave: 'S3',
     depth: 'menengah',
-    status: 'segera-hadir',
-    requires: ['svg-canvas'],
+    status: 'aktif',
+    requires: ['advanced-quiz-engine', 'contrast-calculator'],
     description: DOMAIN_CATALOG.D16.description,
-    lastUpdated: '2026-10-26',
+    lastUpdated: '2026-11-01',
   },
-  D17: {
-    domain: 'D17',
-    name: DOMAIN_CATALOG.D17.name,
-    version: '0.1.0',
-    wave: 'S3',
-    depth: 'menengah',
-    status: 'segera-hadir',
-    requires: [],
-    description: DOMAIN_CATALOG.D17.description,
-    lastUpdated: '2026-10-26',
-  },
+  D17: D17_MANIFEST,
 };
 
 export function getSkillsByDomain(domainId: DomainId): Skill[] {

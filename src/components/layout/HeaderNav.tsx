@@ -21,6 +21,7 @@ import {
   Sparkles,
   FileCheck,
   GraduationCap,
+  Info,
 } from 'lucide-react';
 import { PWAInstallButton } from '../pwa/PWAInstallButton';
 
@@ -49,6 +50,7 @@ export const HeaderNav: React.FC = () => {
     { view: 'dictionary', label: 'Kamus', icon: <BookOpen className="w-4 h-4" /> },
     { view: 'errors', label: 'Catatan', icon: <FileCheck className="w-4 h-4" /> },
     { view: 'settings', label: 'Pengaturan', icon: <Settings className="w-4 h-4" /> },
+    { view: 'about', label: 'Tentang & Sumber', icon: <Info className="w-4 h-4" /> },
   ];
 
   const handleNavClick = (view: AppView) => {
@@ -62,26 +64,26 @@ export const HeaderNav: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-8 py-2.5">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-3 md:px-6 py-2 w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 xl:gap-4 w-full">
         {/* Brand Lockup */}
         <div
           onClick={() => handleNavClick('office')}
-          className="flex items-center gap-2.5 cursor-pointer select-none shrink-0 group"
+          className="flex items-center gap-2 cursor-pointer select-none shrink-0 group"
           title="KantorKu - Game Simulasi Karier Kantor"
         >
           {/* Official Horizontal Logo for Desktop & Tablet */}
           <div className="hidden sm:block transition-transform duration-200 group-hover:scale-[1.02]">
-            <BrandLogoHorizontal className="h-8 md:h-9 w-auto" />
+            <BrandLogoHorizontal className="h-7 md:h-8 w-auto" />
           </div>
           {/* Official App Icon + Typography for Compact Mobile */}
           <div className="flex sm:hidden items-center gap-2">
-            <BrandLogoIcon className="w-8 h-8 rounded-xl shadow-sm" />
+            <BrandLogoIcon className="w-7 h-7 rounded-xl shadow-sm" />
             <div>
-              <div className="font-black text-base tracking-tight text-slate-900 leading-none">
-                Kantor<span className="text-emerald-600">Ku</span>
+              <div className="font-black text-sm tracking-tight text-slate-900 leading-none">
+                KantorKu
               </div>
-              <div className="text-[10px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">
+              <div className="text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">
                 PT Maju Sejahtera
               </div>
             </div>
@@ -91,7 +93,7 @@ export const HeaderNav: React.FC = () => {
         </div>
 
         {/* Desktop Nav Items */}
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 shrink min-w-0 overflow-x-auto no-scrollbar py-0.5">
           {navItems.map((item) => {
             const isActive = currentView === item.view;
             return (
@@ -99,7 +101,7 @@ export const HeaderNav: React.FC = () => {
                 key={item.view}
                 type="button"
                 onClick={() => handleNavClick(item.view)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
+                className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1 rounded-xl text-[11px] xl:text-xs font-semibold whitespace-nowrap transition cursor-pointer shrink-0 ${
                   isActive
                     ? 'bg-emerald-50 text-emerald-800 font-bold'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'

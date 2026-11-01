@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { CharacterId, CharacterExpression } from '../../types';
 import { CharacterAvatar } from '../character/CharacterAvatar';
 import { sound } from '../../services/sound';
+import { useGameStore } from '../../store/useGameStore';
 import {
   MessageSquare,
   Sparkles,
@@ -18,12 +19,13 @@ import {
   CheckCircle,
   HelpCircle,
   Layers,
+  Heart,
 } from 'lucide-react';
 
 export interface SentenceBlock {
   id: string;
   text: string;
-  category: 'pembuka' | 'empati' | 'fakta' | 'solusi' | 'penutup';
+  category: 'pembuka' | 'empati' | 'fakta' | 'analisis' | 'solusi' | 'penutup';
 }
 
 export interface SimulationRubricScore {
@@ -36,12 +38,12 @@ export interface SimulationRubricScore {
 
 export interface SimulationNode {
   id: string;
-  speaker: CharacterId | 'klien' | 'user';
+  speaker: CharacterId | 'user';
   speakerName: string;
   role: string;
   text: string;
   expression?: CharacterExpression;
-  mode: 'choice' | 'assembly';
+  mode: 'choice' | 'assembly' | 'reflection';
   choices?: {
     id: string;
     text: string;
@@ -60,11 +62,11 @@ export interface SimulationNode {
 }
 
 export interface SimulationScenario {
-  id: string;
-  title: string;
-  scenarioContext: string;
+  id?: string;
+  title?: string;
+  scenarioContext?: string;
   targetCharacter: {
-    id: CharacterId | 'klien';
+    id: CharacterId;
     name: string;
     role: string;
     avatarBg?: string;
@@ -87,6 +89,7 @@ export interface SimulationEngineProps {
 }
 
 export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, onComplete }) => {
+  const { profile, updateReputation } = useGameStore();
   const [currentNodeId, setCurrentNodeId] = useState<string>(scenario.startNodeId);
   const [history, setHistory] = useState<
     Array<{
@@ -103,6 +106,8 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
   const [assemblyFeedback, setAssemblyFeedback] = useState<string | null>(null);
   const [completed, setCompleted] = useState<boolean>(false);
   const [latestTradeoff, setLatestTradeoff] = useState<string | null>(null);
+  const [totalReputationDelta, setTotalReputationDelta] = useState<number>(0);
+  const [lastReputationChange, setLastReputationChange] = useState<{ character: string; amount: number } | null>(null);
 
   const currentNode = scenario.nodes[currentNodeId];
 
@@ -139,6 +144,15 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
     ];
     setHistory(newHistory);
     setLatestTradeoff(choice.tradeoffExplanation);
+
+    if (choice.reputationImpact) {
+      updateReputation(scenario.targetCharacter.id, choice.reputationImpact);
+      setTotalReputationDelta((prev) => prev + (choice.reputationImpact || 0));
+      setLastReputationChange({
+        character: scenario.targetCharacter.name,
+        amount: choice.reputationImpact,
+      });
+    }
 
     const rubric: SimulationRubricScore = {
       empathy: choice.rubric.empathy ?? 75,
@@ -237,6 +251,8 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
     setAssemblyFeedback(null);
     setCompleted(false);
     setLatestTradeoff(null);
+    setTotalReputationDelta(0);
+    setLastReputationChange(null);
     setAccumulatedScores([{ empathy: 70, clarity: 70, professionalFirmness: 70, ethicalSolution: 70, total: 70 }]);
   };
 
@@ -277,6 +293,16 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
                 <div>{item.text}</div>
               </div>
             ))}
+
+            {/* Live Reputation Notification */}
+            {lastReputationChange && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-xs font-bold animate-in fade-in self-start">
+                <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
+                <span>
+                  {lastReputationChange.amount >= 0 ? `+${lastReputationChange.amount}` : lastReputationChange.amount} Reputasi {lastReputationChange.character}
+                </span>
+              </div>
+            )}
 
             {/* Current Active Node if not completed */}
             {!completed && (
@@ -376,32 +402,58 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
             </div>
           )}
 
-          {/* Completed State & Mentor Debrief */}
-          {completed && (
-            <div className="mt-auto pt-4 border-t border-slate-100 space-y-3 animate-in fade-in">
-              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950">
-                <div className="flex items-center gap-2 font-bold text-sm mb-1 text-emerald-900">
-                  <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                  Simulasi Selesai & Terevaluasi
-                </div>
-                <p className="text-xs text-emerald-800 leading-relaxed mb-3">
-                  {scenario.debrief.keyTakeaway}
-                </p>
-                <div className="text-[11px] bg-white/80 p-2.5 rounded-xl border border-emerald-200 text-slate-700">
-                  <strong>Pelajaran Nyata:</strong> {scenario.debrief.realWorldLesson}
-                </div>
-              </div>
+              {/* Completed State & Mentor Debrief */}
+              {completed && (
+                <div className="mt-auto pt-4 border-t border-slate-100 space-y-3 animate-in fade-in">
+                  <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950">
+                    <div className="flex items-center gap-2 font-bold text-sm mb-1 text-emerald-900">
+                      <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                      Simulasi Selesai & Terevaluasi
+                    </div>
+                    <p className="text-xs text-emerald-800 leading-relaxed mb-3">
+                      {scenario.debrief.keyTakeaway}
+                    </p>
+                    <div className="text-[11px] bg-white/80 p-2.5 rounded-xl border border-emerald-200 text-slate-700">
+                      <strong>Pelajaran Nyata:</strong> {scenario.debrief.realWorldLesson}
+                    </div>
+                  </div>
 
-              <button
-                type="button"
-                onClick={handleRestart}
-                className="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900 font-semibold px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition-colors"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                Ulangi Skenario dengan Pilihan Lain
-              </button>
-            </div>
-          )}
+                  {/* Character Reputation Impact Card */}
+                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center">
+                        <Heart className="w-4 h-4 fill-rose-500" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                          Dampak Reputasi Relasi
+                        </div>
+                        <div className="text-xs font-bold text-slate-800">
+                          {scenario.targetCharacter.name} ({scenario.targetCharacter.role})
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className={`text-xs font-black px-3 py-1 rounded-full ${
+                        totalReputationDelta >= 0
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                          : 'bg-rose-100 text-rose-800 border border-rose-200'
+                      }`}
+                    >
+                      {totalReputationDelta >= 0 ? `+${totalReputationDelta}` : totalReputationDelta} Reputasi
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleRestart}
+                    className="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900 font-semibold px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition-colors"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    Ulangi Skenario dengan Pilihan Lain
+                  </button>
+                </div>
+              )}
         </div>
 
         {/* Live Rubric Score Radar / Panel (4 cols) */}

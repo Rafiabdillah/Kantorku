@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  * Domain D12: Komunikasi Profesional - Case Study
- * Case ID: case-d12-01 "Krisis Komunikasi Pengiriman Terlambat PT Mitra Express"
+ * Case ID: case-d12-01 "Krisis Komunikasi Pengiriman Terlambat Ekspedisi Kilat Nusantara"
  */
 
 import { CaseFile } from '../../../types';
@@ -10,7 +10,7 @@ import { CaseFile } from '../../../types';
 export const D12_CASES: CaseFile[] = [
   {
     id: 'case-d12-01',
-    title: 'Krisis Komunikasi Pengiriman Terlambat PT Mitra Express',
+    title: 'Krisis Komunikasi Pengiriman Terlambat Ekspedisi Kilat Nusantara',
     industry: 'Logistik & Distribusi Makanan',
     tier: 3,
     module: 'word',

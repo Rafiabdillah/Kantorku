@@ -1,8 +1,25 @@
 node_modules/
 build/
 dist/
+dev-dist/
 coverage/
+test-results/
+playwright-report/
+.playwright-cli/
 .DS_Store
 *.log
 .env*
 !.env.example
+
+# Build and test artifacts
+dist/
+dev-dist/
+test-results/
+playwright-report/
+coverage/
+
+# Local patch/debug artifacts
+docs/*.patch
+docs/*.diff
+*.orig
+*.rej

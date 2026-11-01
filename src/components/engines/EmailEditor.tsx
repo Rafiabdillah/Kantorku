@@ -181,6 +181,66 @@ export const DEFAULT_EMAIL_REQUIREMENTS: EmailEditorRequirement[] = [
       return { passed: true };
     },
   },
+  {
+    id: 'req-spelling-punctuation',
+    label: 'Ejaan Dasar & Tanda Baca (Aturan Baku PUEBI)',
+    description: 'Kalimat diawali huruf kapital, tanpa tanda baca ganda (!!, ??), tanpa spasi ganda, dan kata pasif "di-" benar',
+    validator: ({ body }) => {
+      // 1. Check double punctuation
+      if (/(!{2,}|\?{2,}|\.{4,})/.test(body)) {
+        return {
+          passed: false,
+          tip: 'Hindari tanda baca ganda berlebih ("!!" atau "??") dalam korespondensi formal.',
+        };
+      }
+
+      // 2. Check double spaces (excluding newlines)
+      if (/[^\S\r\n]{2,}/.test(body)) {
+        return {
+          passed: false,
+          tip: 'Terdapat spasi ganda berturut-turut antarkata. Gunakan satu spasi.',
+        };
+      }
+
+      // 3. Check common passive verb misspellings with space (di + kata kerja)
+      const passiveChecks = [
+        { regex: /\bdi\s+kirim\b/i, correct: 'dikirim', wrong: 'di kirim' },
+        { regex: /\bdi\s+buat\b/i, correct: 'dibuat', wrong: 'di buat' },
+        { regex: /\bdi\s+terima\b/i, correct: 'diterima', wrong: 'di terima' },
+        { regex: /\bdi\s+lapor\b/i, correct: 'dilaporkan', wrong: 'di lapor' },
+        { regex: /\bdi\s+hubungi\b/i, correct: 'dihubungi', wrong: 'di hubungi' },
+        { regex: /\bdi\s+atur\b/i, correct: 'diatur', wrong: 'di atur' },
+        { regex: /\bdi\s+tunggu\b/i, correct: 'ditunggu', wrong: 'di tunggu' },
+        { regex: /\bdi\s+minta\b/i, correct: 'diminta', wrong: 'di minta' },
+        { regex: /\bdi\s+laksana\b/i, correct: 'dilaksanakan', wrong: 'di laksana' },
+        { regex: /\bdi\s+perbaiki\b/i, correct: 'diperbaiki', wrong: 'di perbaiki' },
+      ];
+
+      for (const check of passiveChecks) {
+        if (check.regex.test(body)) {
+          return {
+            passed: false,
+            tip: `Kata kerja pasif harus digabung: gunakan "${check.correct}" bukan "${check.wrong}".`,
+          };
+        }
+      }
+
+      // 4. Check sentence capitalization
+      const lines = body.split('\n').map((l) => l.trim()).filter(Boolean);
+      for (const line of lines) {
+        // Skip lines that start with numbers, bullets or symbols
+        const cleanLine = line.replace(/^[0-9•\-\*]+[.\)]\s*/, '').trim();
+        if (/^[a-z]/.test(cleanLine)) {
+          return {
+            passed: false,
+            tip: `Awali kalimat dengan huruf kapital (ditemukan: "${cleanLine.slice(0, 15)}...").`,
+          };
+        }
+      }
+
+      return { passed: true };
+    },
+  },
 ];
 
 export const EmailEditor: React.FC<EmailEditorProps> = ({
@@ -216,13 +276,32 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
     });
   }, [requirements, to, cc, subject, body, hasAttachment]);
 
-  const passedCount = validationResults.filter((r) => r.passed).length;
+  const isDraftUnchanged =
+    Boolean(initialBody && initialBody.trim().length > 0) &&
+    to.trim() === initialTo.trim() &&
+    subject.trim() === initialSubject.trim() &&
+    body.trim() === initialBody.trim() &&
+    hasAttachment === initialAttachment;
+
+  const passedCount = isDraftUnchanged ? 0 : validationResults.filter((r) => r.passed).length;
   const totalCount = validationResults.length;
-  const allPassed = passedCount === totalCount;
-  const scorePercent = Math.round((passedCount / totalCount) * 100);
+  const allPassed = !isDraftUnchanged && passedCount === totalCount;
+  const scorePercent = isDraftUnchanged ? 0 : Math.round((passedCount / totalCount) * 100);
 
   const handleSend = () => {
     setSubmitted(true);
+    if (isDraftUnchanged) {
+      sound.playError();
+      if (onComplete) {
+        onComplete({
+          passed: false,
+          score: 0,
+          data: { to, cc, subject, body, hasAttachment },
+        });
+      }
+      return;
+    }
+
     if (allPassed) {
       sound.playSuccess();
     } else {
@@ -338,6 +417,13 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
           </div>
 
           {/* Action buttons */}
+          {submitted && isDraftUnchanged && (
+            <div className="p-3 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-800 font-bold flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>Ubah draf dulu — ada yang perlu diperbaiki.</span>
+            </div>
+          )}
+
           <div className="flex items-center justify-between pt-2">
             <button
               type="button"
@@ -421,6 +507,9 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
               <strong>Concise:</strong> Padat & tanpa basa-basi berlebih.{' '}
               <strong>Courteous:</strong> Sopan & berempati.
             </p>
+            <div className="mt-2 text-[10px] text-slate-400 border-t border-slate-100 pt-2 leading-relaxed">
+              ℹ️ <strong>Catatan Edukasi:</strong> Pemeriksaan ejaan di atas berbasis aturan objektif (rule-based PUEBI) tanpa AI/jaringan eksternal, bukan klaim penilaian gaya bahasa menyeluruh.
+            </div>
           </div>
         </div>
       </div>

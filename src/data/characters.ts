@@ -64,4 +64,13 @@ export const CHARACTERS: Record<CharacterId, Character> = {
     personality: 'Dinamis, visual, butuh dashboard & laporan yang enak dibaca presentasi',
     greeting: 'Hai! Grafiknya tolong dibuat menarik ya, biar direksi langsung paham poin utamanya!',
   },
+  klien: {
+    id: 'klien',
+    name: 'Ibu Ratna',
+    role: 'Klien VIP & Mitra Bisnis',
+    department: 'Eksternal',
+    avatarBg: 'bg-emerald-700',
+    personality: 'Tegas, profesional, menghargai komitmen waktu dan kualitas layanan',
+    greeting: 'Selamat siang! Kami mengutamakan kepastian jadwal dan integritas kemitraan.',
+  },
 };

@@ -2,9 +2,12 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  * Domain D12: Komunikasi Profesional - Skills Definitions
+ * Compliant with Bagian B Rule 2 inheritance: roleRelevance <= role domain weight.
  */
 
 import { Skill } from '../../../types/skills';
+import { ROLES } from '../../roles';
+import { computeSkillRoleRelevance } from '../../roleRelevanceHelper';
 
 export const D12_SKILLS: Skill[] = [
   {
@@ -27,21 +30,12 @@ export const D12_SKILLS: Skill[] = [
     linkedLessons: ['D12-LESSON-01'],
     linkedLevels: ['D12-LEVEL-01'],
     linkedCases: ['case-d12-01'],
-    roleRelevance: {
-      'admin-perkantoran': 5,
-      'staf-akuntansi': 4,
-      'customer-service': 5,
-      'sales-account-exec': 5,
-      'koordinator-proyek': 5,
-      'supervisor-asisten-manajer': 5,
-      'pencari-kerja-freshgrad': 5,
-    },
-    depth: 'penuh',
+    roleRelevance: computeSkillRoleRelevance('D12-SKILL-01', 'D12', ROLES),
+    depth: 'menengah',
     estimatedHours: 6,
     sources: [
-      'PUEBI (Pedoman Umum Ejaan Bahasa Indonesia)',
-      'Pedoman Tata Naskah Dinas Perkantoran',
-      'Standar Korespondensi Eksekutif',
+      'Pedoman Umum Ejaan Bahasa Indonesia (EYD Edisi V, Badan Pengembangan dan Pembinaan Bahasa Kemendikbudristek RI, 2022)',
+      'Permenpan-RB No. 80 Tahun 2012 tentang Pedoman Tata Naskah Dinas Instansi Pemerintah (Kemenpan-RB, 2012)',
     ],
     lastReviewed: '2026-10-26',
     requires: ['email-editor'],
@@ -51,7 +45,7 @@ export const D12_SKILLS: Skill[] = [
     domain: 'D12',
     name: 'Etiket Chat Kerja & Komunikasi Cepat',
     description:
-      'Berkomunikasi secara efisien melalui aplikasi pesan instan kantor (WhatsApp/Slack), memperhatikan batasan jam kerja, nada profesional, dan pencegahan spam.',
+      'Berkomunikasi secara efisien melalui aplikasi pesan instan kantor, memperhatikan batasan jam kerja, nada profesional, dan pencegahan spam.',
     prerequisites: ['D12-SKILL-01'],
     canDo: {
       1: 'Menyapa rekan kerja dengan sopan di chat tanpa mengirim pesan sepotong "P" atau "Halo" tanpa maksud.',
@@ -66,17 +60,13 @@ export const D12_SKILLS: Skill[] = [
     linkedLessons: ['D12-LESSON-02'],
     linkedLevels: ['D12-LEVEL-02'],
     linkedCases: ['case-d12-01'],
-    roleRelevance: {
-      'admin-perkantoran': 4,
-      'customer-service': 5,
-      'admin-toko-online': 5,
-      'pemilik-umkm': 4,
-      'koordinator-proyek': 5,
-      'event-organizer': 4,
-    },
-    depth: 'penuh',
+    roleRelevance: computeSkillRoleRelevance('D12-SKILL-02', 'D12', ROLES),
+    depth: 'menengah',
     estimatedHours: 4,
-    sources: ['Etiket Komunikasi Digital Tempat Kerja', 'Pencegahan Kelelahan Notifikasi Karyawan'],
+    sources: [
+      'Undang-Undang Republik Indonesia No. 13 Tahun 2003 tentang Ketenagakerjaan (Pasal 77-78 Pengaturan Waktu Kerja dan Hak Istirahat, Pemerintah RI, 2003)',
+      'Pedoman Umum Ejaan Bahasa Indonesia (EYD Edisi V, Badan Pengembangan dan Pembinaan Bahasa Kemendikbudristek RI, 2022)',
+    ],
     lastReviewed: '2026-10-26',
     requires: ['simulation-engine'],
   },
@@ -94,23 +84,19 @@ export const D12_SKILLS: Skill[] = [
       4: 'Menangani pelanggan atau mitra kerja yang emosional dengan teknik komunikasi asertif tanpa menyerang.',
       5: 'Melakukan negosiasi kompensasi atau penyesuaian tenggat yang menguntungkan kedua belah pihak.',
       6: 'Menyelesaikan eskalasi sengketa kerja sama dagang atau komplain bernilai besar secara diplomatis.',
-      7: 'Membentuk gugus tugas manajemen krisis pelanggan dan protokol retensi mitra strategis.',
+      7: 'Membangun gugus tugas manajemen krisis pelanggan dan protokol retensi mitra strategis.',
     },
     practiceModes: ['S', 'T', 'K', 'P'],
     linkedLessons: ['D12-LESSON-03'],
     linkedLevels: ['D12-LEVEL-03'],
     linkedCases: ['case-d12-01'],
-    roleRelevance: {
-      'customer-service': 5,
-      'sales-account-exec': 5,
-      'pemilik-umkm': 5,
-      'supervisor-asisten-manajer': 5,
-      'staf-gudang-logistik': 4,
-      'admin-toko-online': 5,
-    },
-    depth: 'penuh',
+    roleRelevance: computeSkillRoleRelevance('D12-SKILL-03', 'D12', ROLES),
+    depth: 'menengah',
     estimatedHours: 8,
-    sources: ['Metode De-Eskalasi Krisis Pelayanan', 'Prinsip Negosiasi Harvard & Win-Win Solution'],
+    sources: [
+      'ISO 10002:2018 Quality Management — Customer Satisfaction — Guidelines for Complaints Handling in Organizations (International Organization for Standardization, 2018)',
+      'Fisher, R., Ury, W. L., & Patton, B. (2011). Getting to Yes: Negotiating Agreement Without Giving In (Penguin Books, 3rd ed.)',
+    ],
     lastReviewed: '2026-10-26',
     requires: ['simulation-engine', 'advanced-quiz-engine'],
   },

@@ -1,0 +1,7 @@
+export interface D4Level { id:string; domainId:'D4'; skillId:string; tier:number; title:string; subtitle:string; description:string; engine:'advanced-quiz-engine'; timeLimitSeconds:number; passThreshold:number }
+export const D4_LEVELS:D4Level[]=[
+{id:'D4-LEVEL-01',domainId:'D4',skillId:'D4-SKILL-01',tier:1,title:'Fondasi SELECT dan filter',subtitle:'Pilih dan saring data penjualan',description:'Menulis kueri SQLite untuk memilih kolom dan menyaring periode serta nilai.',engine:'advanced-quiz-engine',timeLimitSeconds:300,passThreshold:70},
+{id:'D4-LEVEL-02',domainId:'D4',skillId:'D4-SKILL-01',tier:2,title:'Urutan dan limit hasil',subtitle:'Atur hasil agar mudah ditinjau',description:'Mengurutkan dan membatasi baris dengan ORDER BY dan LIMIT.',engine:'advanced-quiz-engine',timeLimitSeconds:300,passThreshold:70},
+{id:'D4-LEVEL-03',domainId:'D4',skillId:'D4-SKILL-02',tier:3,title:'Agregasi per kelompok',subtitle:'Hitung total penjualan wilayah dan produk',description:'Memakai SUM, COUNT, GROUP BY, dan HAVING pada data penjualan.',engine:'advanced-quiz-engine',timeLimitSeconds:360,passThreshold:80},
+{id:'D4-LEVEL-04',domainId:'D4',skillId:'D4-SKILL-03',tier:4,title:'JOIN dan validasi hasil',subtitle:'Gabungkan tabel dan periksa integritas',description:'Menjalankan INNER JOIN atau LEFT JOIN, lalu menghitung ulang hasil.',engine:'advanced-quiz-engine',timeLimitSeconds:420,passThreshold:80}
+];

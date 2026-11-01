@@ -22,7 +22,7 @@ export const TIERS: Record<TierLevel, TierInfo> = {
   7: { tier: 7, title: 'Direktur', badge: '👑', minXp: 20000, description: 'Master - Proyek lintas modul, audit & arsitektur sistem' },
 };
 
-export type CharacterId = 'sari' | 'dimas' | 'maya' | 'intan' | 'reza' | 'hendra' | 'nadia';
+export type CharacterId = 'sari' | 'dimas' | 'maya' | 'intan' | 'reza' | 'hendra' | 'nadia' | 'klien';
 
 export type CharacterExpression = 'normal' | 'happy' | 'thinking' | 'surprised' | 'stern' | 'proud' | 'confused';
 
@@ -161,10 +161,67 @@ export interface LevelItem {
 
 export interface CaseFile {
   id: string;
+  code?: string;
   title: string;
   industry: string;
   tier: TierLevel;
+  scale?: 'mikro' | 'kecil' | 'menengah' | 'besar' | 'akademik';
+  businessFunction?: string;
   module: ModuleType;
+  modules?: ('excel' | 'word' | 'web' | 'js')[];
+  requires?: string[];
+  estimatedMinutes?: number;
+  tags?: string[];
+  stakeholders?: {
+    nama: string;
+    peran: string;
+    kepentingan: string;
+    gayaBicara: string;
+  }[];
+  timeline?: {
+    hour: number;
+    event: string;
+  }[];
+  attachments?: {
+    type: 'csv' | 'lembar-excel' | 'foto-nota' | 'ekspor-chat' | 'teks-pdf' | 'email-berantai';
+    name: string;
+    description: string;
+  }[];
+  dataPack?: {
+    generatorRef: string;
+    variantsCount: number;
+    anomalies: string[];
+  };
+  deliverables?: {
+    name: string;
+    module: ModuleType;
+    specification: string;
+    requiredElements: string[];
+  }[];
+  decisionPoints?: {
+    title: string;
+    scenario: string;
+    options: {
+      label: string;
+      impact: string;
+      isOptimal: boolean;
+    }[];
+  }[];
+  scopeChanges?: {
+    hour: number;
+    description: string;
+    impact: string;
+  }[];
+  handover?: {
+    summary: string;
+    assumptions: string[];
+    precautions: string[];
+    nextSteps: string[];
+  };
+  pitfalls?: string[];
+  linkedLessons?: string[];
+  templatesUnlocked?: string[];
+  modifiers?: string[];
   channel: 'email' | 'whatsapp' | 'voicenote' | 'nota';
   deadlineHours: number;
   clientName: string;

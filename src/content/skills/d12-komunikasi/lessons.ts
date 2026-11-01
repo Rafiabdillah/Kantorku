@@ -33,7 +33,10 @@ export const D12_LESSONS: D12Lesson[] = [
       'Pelajari cara menulis email kerja yang ringkas, profesional, dan langsung memicu tindakan tanpa bolak-balik bertanya.',
     estimatedMinutes: 15,
     lastReviewed: '2026-10-26',
-    sources: ['Standar Korespondensi Eksekutif', 'PUEBI'],
+    sources: [
+      'Pedoman Umum Ejaan Bahasa Indonesia (EYD Edisi V, Badan Pengembangan dan Pembinaan Bahasa Kemendikbudristek RI, 2022)',
+      'Permenpan-RB No. 80 Tahun 2012 tentang Pedoman Tata Naskah Dinas Instansi Pemerintah (Kemenpan-RB, 2012)',
+    ],
     sections: [
       {
         title: '1. Anatomi Email Profesional 3C',
@@ -72,7 +75,10 @@ export const D12_LESSONS: D12Lesson[] = [
       'Hindari sindrom "halo kosong" (anti-P), hormati batasan jam kerja, dan kemas pertanyaan kompleks dalam satu gelembung pesan padat.',
     estimatedMinutes: 12,
     lastReviewed: '2026-10-26',
-    sources: ['Etiket Komunikasi Digital Tempat Kerja Modern'],
+    sources: [
+      'Undang-Undang Republik Indonesia No. 13 Tahun 2003 tentang Ketenagakerjaan (Pasal 77-78 Pengaturan Waktu Kerja dan Hak Istirahat, Pemerintah RI, 2003)',
+      'Pedoman Umum Ejaan Bahasa Indonesia (EYD Edisi V, Badan Pengembangan dan Pembinaan Bahasa Kemendikbudristek RI, 2022)',
+    ],
     sections: [
       {
         title: '1. Bahaya Pesan Sepotong (Sindrom "P" dan "Halo")',
@@ -110,7 +116,10 @@ export const D12_LESSONS: D12Lesson[] = [
       'Metode diplomatis menangani pelanggan atau rekan yang emosional dengan pendekatan H.E.A.T (Hear, Empathize, Apologize, Take Action).',
     estimatedMinutes: 18,
     lastReviewed: '2026-10-26',
-    sources: ['Metode De-Eskalasi Krisis Pelayanan', 'Prinsip Negosiasi Harvard'],
+    sources: [
+      'ISO 10002:2018 Quality Management — Customer Satisfaction — Guidelines for Complaints Handling (ISO, 2018)',
+      'Getting to Yes: Negotiating Agreement Without Giving In (Roger Fisher & William Ury, Penguin Books, 2011)',
+    ],
     sections: [
       {
         title: '1. Kerangka H.E.A.T Menghadapi Keluhan',

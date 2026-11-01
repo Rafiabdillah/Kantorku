@@ -143,6 +143,7 @@ test('Learning Repository: Adaptive recommendations based on profile mastery', (
       reza: 50,
       hendra: 50,
       nadia: 50,
+      klien: 50,
     },
     completedLevelIds: [],
     levelStars: {},
