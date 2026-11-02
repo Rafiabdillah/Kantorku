@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { CASE_FILES } from '../../content/caseFiles';
 import { CharacterAvatar } from '../character/CharacterAvatar';
@@ -20,6 +20,8 @@ import {
   FileText,
   Send,
   BookOpen,
+  Maximize2,
+  Minimize2,
 } from 'lucide-react';
 import { ErrorBoundary } from '../common/ErrorBoundary';
 
@@ -38,6 +40,23 @@ export const CaseFileView: React.FC = () => {
   const [handoverNote, setHandoverNote] = useState<string>('Tugas telah selesai dirapikan sesuai instruksi.');
   const [showCompleteModal, setShowCompleteModal] = useState<boolean>(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'brief' | 'editor' | 'handover'>('editor');
+  const [editorExpanded, setEditorExpanded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!editorExpanded) return;
+    const handleExpandedKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      setEditorExpanded(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleExpandedKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleExpandedKey);
+    };
+  }, [editorExpanded]);
 
   const handleCellChange = (addr: string, data: any) => {
     setSheetData((prev) => ({
@@ -75,7 +94,7 @@ export const CaseFileView: React.FC = () => {
               sound.playClick();
               setView('office');
             }}
-            className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition shrink-0"
+            className="inline-flex items-center justify-center min-w-11 min-h-11 p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition shrink-0"
             aria-label="Kembali ke kantor"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -89,6 +108,19 @@ export const CaseFileView: React.FC = () => {
               <span className="text-[11px] sm:text-xs font-bold text-slate-800">{caseItem.title}</span>
             </div>
           </div>
+          <button
+            type="button"
+            onClick={() => {
+              setActiveMobileTab('editor');
+              setEditorExpanded(true);
+            }}
+            className="ml-auto inline-flex items-center justify-center gap-1.5 min-h-11 min-w-11 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition cursor-pointer shrink-0"
+            aria-label="Perbesar editor"
+            title="Perbesar editor"
+          >
+            <Maximize2 className="w-4 h-4" />
+            <span className="hidden lg:inline">Lebarkan</span>
+          </button>
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 w-full sm:w-auto">
@@ -254,22 +286,49 @@ export const CaseFileView: React.FC = () => {
 
         {/* Right Column: Workbook or Web Preview (8 Cols) */}
         <div
-          className={`lg:col-span-8 flex flex-col h-full min-h-0 overflow-hidden ${
-            activeMobileTab === 'editor' ? 'flex' : 'hidden lg:flex'
-          }`}
+          data-editor-expanded={editorExpanded ? 'true' : undefined}
+          className={
+            editorExpanded
+              ? 'fixed inset-0 z-40 flex flex-col gap-2 h-dvh w-screen bg-slate-900 p-2 sm:p-3 overflow-hidden safe-bottom'
+              : `lg:col-span-8 flex flex-col h-full min-h-0 overflow-hidden ${
+                  activeMobileTab === 'editor' ? 'flex' : 'hidden lg:flex'
+                }`
+          }
         >
-          <ErrorBoundary fallbackTitle="Editor Kasus Mengalami Kendala">
-            {caseItem.module === 'web' ? (
-              <WebPreviewEditor
-                html={htmlData}
-                css={cssData}
-                onHtmlChange={(h) => setHtmlData(h)}
-                onCssChange={(c) => setCssData(c)}
-              />
-            ) : (
-              <SpreadsheetEditor grid={sheetData} onCellChange={handleCellChange} />
-            )}
-          </ErrorBoundary>
+          {editorExpanded && (
+            <div className="flex items-center justify-between gap-2 text-white shrink-0 px-1">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <Maximize2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span className="text-xs font-bold truncate">Mode Editor Lebar</span>
+                <span className="text-[10px] text-slate-400 hidden sm:inline truncate">
+                  Tekan Esc untuk menutup
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditorExpanded(false)}
+                className="inline-flex items-center gap-1.5 min-h-11 px-3 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl transition cursor-pointer shrink-0"
+                aria-label="Perkecil editor"
+              >
+                <Minimize2 className="w-4 h-4" />
+                Perkecil
+              </button>
+            </div>
+          )}
+          <div className="flex-1 min-h-0 min-w-0 flex flex-col overflow-hidden">
+            <ErrorBoundary fallbackTitle="Editor Kasus Mengalami Kendala">
+              {caseItem.module === 'web' ? (
+                <WebPreviewEditor
+                  html={htmlData}
+                  css={cssData}
+                  onHtmlChange={(h) => setHtmlData(h)}
+                  onCssChange={(c) => setCssData(c)}
+                />
+              ) : (
+                <SpreadsheetEditor grid={sheetData} onCellChange={handleCellChange} />
+              )}
+            </ErrorBoundary>
+          </div>
         </div>
       </div>
 

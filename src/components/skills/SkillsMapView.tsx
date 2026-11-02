@@ -431,7 +431,7 @@ export const SkillsMapView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedFilter('semua')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[40px] ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[44px] ${
                   selectedFilter === 'semua' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500'
                 }`}
               >
@@ -440,7 +440,7 @@ export const SkillsMapView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedFilter('aktif')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[40px] ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[44px] ${
                   selectedFilter === 'aktif' ? 'bg-white text-emerald-700 shadow-xs' : 'text-slate-500'
                 }`}
               >
@@ -449,7 +449,7 @@ export const SkillsMapView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedFilter('segera-hadir')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[40px] ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[44px] ${
                   selectedFilter === 'segera-hadir' ? 'bg-white text-slate-700 shadow-xs' : 'text-slate-500'
                 }`}
               >

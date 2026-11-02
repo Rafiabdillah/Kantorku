@@ -37,17 +37,21 @@ for (const viewport of viewports) {
 
       const undersized = await page.evaluate(() =>
         [...document.querySelectorAll('button')]
-          .filter((button) => {
+          .map((button) => {
             const rect = button.getBoundingClientRect();
-            return rect.width > 0 && rect.height > 0;
+            return {
+              text: (button.textContent || '').trim().slice(0, 40),
+              width: Math.round(rect.width),
+              height: Math.round(rect.height),
+            };
           })
-          .filter((button) => {
-            const rect = button.getBoundingClientRect();
-            return rect.width < 44 || rect.height < 44;
-          })
-          .length
+          .filter((button) => button.width > 0 && button.height > 0)
+          .filter((button) => button.width < 44 || button.height < 44)
       );
-      expect(undersized, `${screen.view} has a button smaller than 44px`).toBe(0);
+      expect(
+        undersized,
+        `${screen.view} has buttons smaller than 44px: ${JSON.stringify(undersized)}`
+      ).toEqual([]);
     }
 
     expect(

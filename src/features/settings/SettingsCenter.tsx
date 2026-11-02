@@ -233,7 +233,7 @@ export const SettingsCenter: React.FC = () => {
               sound.playClick();
               setView('office');
             }}
-            className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl text-slate-500 cursor-pointer transition"
+            className="flex items-center justify-center p-2.5 min-h-[44px] min-w-[44px] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl text-slate-500 cursor-pointer transition"
             title="Kembali ke Ruang Kantor"
           >
             <ArrowLeft className="w-5 h-5" />

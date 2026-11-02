@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { SheetGrid, CellData } from '../../types';
 import { ExcelFormulaEngine, formatCellValue, parseCellAddress, colRowToAddress } from '../../engine/formula';
 import { settingsRepo } from '../../features/settings/settingsRepository';
-import { DollarSign, Percent, Hash, Undo2, Redo2, Maximize2 } from 'lucide-react';
+import { DollarSign, Percent, Hash, Undo2, Redo2, Maximize2, X, Check } from 'lucide-react';
 
 interface SpreadsheetEditorProps {
   grid: SheetGrid;
@@ -30,6 +30,10 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
   const [selectionEndCell, setSelectionEndCell] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editInput, setEditInput] = useState<string>('');
+
+  // Large formula editor for long formulas
+  const [formulaModalOpen, setFormulaModalOpen] = useState<boolean>(false);
+  const [formulaDraft, setFormulaDraft] = useState<string>('');
 
   // Column Widths with Resizing & Auto-fit
   const [colWidths, setColWidths] = useState<Record<string, number>>(() => {
@@ -164,6 +168,20 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
   const commitEdit = () => {
     setIsEditing(false);
     applyChangeWithHistory(selectedCell, { raw: editInput });
+  };
+
+  const openFormulaEditor = () => {
+    setFormulaDraft(isEditing ? editInput : (grid[selectedCell]?.raw ?? ''));
+    setFormulaModalOpen(true);
+  };
+
+  const closeFormulaEditor = () => setFormulaModalOpen(false);
+
+  const applyFormulaDraft = () => {
+    if (readOnly) return;
+    applyChangeWithHistory(selectedCell, { raw: formulaDraft });
+    setIsEditing(false);
+    setFormulaModalOpen(false);
   };
 
   const toggleFormat = (format: CellData['format']) => {
@@ -316,10 +334,8 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
   // Keyboard navigation & Shortcuts (Arrows, Tab, Enter, F2, Ctrl+C/V/Z)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if user is typing in another input element outside our spreadsheet
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-        if (!isEditing && e.target.getAttribute('data-formula-bar') !== 'true') return;
-      }
+      // Let form fields (inline cell editor, formula bar, dialogs) handle their own keys.
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
       // Undo / Redo
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
@@ -414,17 +430,37 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
 
   const currentCellData = grid[selectedCell] || { raw: '' };
 
+  const formulaDraftPreview = useMemo(() => {
+    const raw = formulaDraft.trim();
+    if (!raw) return { tone: 'muted' as const, text: 'Belum ada isi' };
+    if (!raw.startsWith('=')) return { tone: 'muted' as const, text: 'Disimpan sebagai teks/angka' };
+    const evaluated = engine.evaluateFormula(raw.slice(1));
+    if (evaluated.error) {
+      return { tone: 'error' as const, text: `Rumus belum valid: ${evaluated.friendlyError || evaluated.error}` };
+    }
+    return { tone: 'ok' as const, text: `Hasil: ${formatCellValue(evaluated.value, currentCellData.format)}` };
+  }, [formulaDraft, engine, currentCellData.format]);
+
+  const formulaPreviewClass =
+    formulaDraftPreview.tone === 'error'
+      ? 'text-rose-600'
+      : formulaDraftPreview.tone === 'ok'
+      ? 'text-emerald-700'
+      : 'text-slate-500';
+
   return (
-    <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden select-none">
+    <>
+      <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden select-none">
       {/* Formula & Formatting Ribbon Bar */}
-      <div className="flex flex-wrap items-center gap-2 p-2 px-3 bg-slate-50 border-b border-slate-200 text-xs">
+      <div className="flex flex-col gap-2 p-2 px-3 bg-slate-50 border-b border-slate-200 text-xs">
+        <div className="flex flex-wrap items-center gap-2">
         {/* Quick Format & Undo Tools */}
         <div className="flex items-center gap-1 border-r border-slate-200 pr-2">
           <button
             type="button"
             onClick={handleUndo}
             disabled={undoStack.length === 0}
-            className="p-1.5 rounded-lg flex items-center justify-center transition disabled:opacity-30 hover:bg-slate-200 text-slate-700 cursor-pointer"
+            className="p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center justify-center transition disabled:opacity-30 hover:bg-slate-200 text-slate-700 cursor-pointer"
             title="Urungkan (Undo Ctrl+Z)"
           >
             <Undo2 className="w-3.5 h-3.5" />
@@ -433,7 +469,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
             type="button"
             onClick={handleRedo}
             disabled={redoStack.length === 0}
-            className="p-1.5 rounded-lg flex items-center justify-center transition disabled:opacity-30 hover:bg-slate-200 text-slate-700 cursor-pointer"
+            className="p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center justify-center transition disabled:opacity-30 hover:bg-slate-200 text-slate-700 cursor-pointer"
             title="Ulangi (Redo Ctrl+Y)"
           >
             <Redo2 className="w-3.5 h-3.5" />
@@ -442,7 +478,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
           <button
             type="button"
             onClick={() => toggleFormat('rupiah')}
-            className={`p-1.5 rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
+            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
               currentCellData.format === 'rupiah' ? 'bg-emerald-100 text-emerald-800' : 'hover:bg-slate-200 text-slate-700'
             }`}
             title="Format Rupiah (Rp)"
@@ -453,7 +489,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
           <button
             type="button"
             onClick={() => toggleFormat('percent')}
-            className={`p-1.5 rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
+            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
               currentCellData.format === 'percent' ? 'bg-amber-100 text-amber-800' : 'hover:bg-slate-200 text-slate-700'
             }`}
             title="Format Persen (%)"
@@ -463,7 +499,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
           <button
             type="button"
             onClick={() => toggleFormat('number')}
-            className={`p-1.5 rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
+            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
               currentCellData.format === 'number' ? 'bg-blue-100 text-blue-800' : 'hover:bg-slate-200 text-slate-700'
             }`}
             title="Format Angka Ribuan"
@@ -477,20 +513,45 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
           {rangeLabel}
         </div>
 
-        {/* Formula Bar */}
-        <div className="flex items-center gap-1.5 flex-1 bg-white px-2.5 py-1 border border-slate-300 rounded focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500">
+        <button
+          type="button"
+          onClick={openFormulaEditor}
+          className="ml-auto flex items-center justify-center gap-1 px-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 font-semibold transition cursor-pointer shrink-0 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px]"
+          title="Buka editor rumus besar"
+          aria-label="Perbesar editor rumus"
+        >
+          <Maximize2 className="w-4 h-4" />
+          <span className="hidden sm:inline">Editor Rumus</span>
+        </button>
+        </div>
+
+        {/* Formula Bar: full width and mirrors the in-cell editor while typing */}
+        <div className="flex items-center gap-2 bg-white px-2.5 py-1 border border-slate-300 rounded focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500">
           <span className="font-serif italic font-bold text-slate-400 select-none text-xs">fx</span>
           <input
             type="text"
             data-formula-bar="true"
-            className="w-full text-xs font-mono outline-none text-slate-900 placeholder:text-slate-400"
+            aria-label="Formula bar"
+            className="flex-1 min-w-0 min-h-[44px] sm:min-h-[36px] py-1.5 text-base sm:text-sm font-mono outline-none text-slate-900 placeholder:text-slate-400"
             placeholder="Ketik rumus (misal: =SUM(B2:B4)) atau angka"
-            value={grid[selectedCell]?.raw ?? ''}
+            value={isEditing ? editInput : (grid[selectedCell]?.raw ?? '')}
             disabled={readOnly}
             onChange={(e) => {
-              applyChangeWithHistory(selectedCell, { raw: e.target.value });
+              if (isEditing) setEditInput(e.target.value);
+              else applyChangeWithHistory(selectedCell, { raw: e.target.value });
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                if (isEditing) commitEdit();
+                else e.currentTarget.blur();
+              } else if (e.key === 'Escape') {
+                if (isEditing) setIsEditing(false);
+                else e.currentTarget.blur();
+              }
             }}
           />
+          <span className="hidden lg:inline text-[10px] text-slate-400 shrink-0">Enter simpan</span>
         </div>
       </div>
 
@@ -604,7 +665,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
                           isHeader
                             ? 'bg-slate-100 font-bold text-slate-800'
                             : isSelected
-                            ? 'bg-emerald-50 ring-2 ring-emerald-600 ring-inset z-20'
+                            ? 'bg-emerald-50 text-slate-900 ring-2 ring-emerald-600 ring-inset z-20'
                             : inRange
                             ? 'bg-emerald-100/50 text-slate-900'
                             : 'bg-white hover:bg-slate-50 text-slate-800'
@@ -614,7 +675,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
                           <input
                             type="text"
                             autoFocus
-                            className="absolute inset-0 px-2 w-full h-full text-xs font-mono bg-white outline-none ring-2 ring-emerald-500 z-30"
+                            className="absolute inset-0 px-2 w-full h-full text-base sm:text-xs font-mono text-slate-900 bg-white outline-none ring-2 ring-emerald-500 z-30"
                             value={editInput}
                             onChange={(e) => setEditInput(e.target.value)}
                             onBlur={commitEdit}
@@ -674,10 +735,108 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
             Pemisah: {settingsRepo.get('excel_separator', 'semicolon') === 'semicolon' ? 'Titik Koma (;)' : 'Koma (,)'}
           </span>
         </div>
-        <div className="text-[11px] text-slate-500 font-mono">
-          {grid[selectedCell]?.raw ? `Sel ${selectedCell}: ${grid[selectedCell]?.raw}` : `${selectedCell}: (Kosong)`}
+          <div
+            className="text-[11px] text-slate-500 font-mono truncate max-w-[55%] text-right"
+            title={grid[selectedCell]?.raw || undefined}
+          >
+            {grid[selectedCell]?.raw ? `Sel ${selectedCell}: ${grid[selectedCell]?.raw}` : `${selectedCell}: (Kosong)`}
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Large Formula Editor Dialog */}
+      {formulaModalOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-0 sm:p-4"
+          onClick={closeFormulaEditor}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Editor rumus"
+            className="w-full sm:max-w-3xl bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[92dvh] sm:max-h-[85vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Dialog Header */}
+            <div className="flex items-center justify-between gap-2 px-4 py-2.5 border-b border-slate-200 bg-slate-50 shrink-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="font-serif italic font-bold text-emerald-700 text-sm">fx</span>
+                <h2 className="text-sm font-semibold text-slate-800">Editor Rumus</h2>
+                <span className="px-2 py-0.5 rounded-md bg-white border border-slate-300 font-mono font-bold text-[11px] text-slate-700">
+                  {selectedCell}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={closeFormulaEditor}
+                className="flex items-center justify-center min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition cursor-pointer shrink-0"
+                title="Tutup editor rumus (Esc)"
+                aria-label="Tutup editor rumus"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Draft Editor */}
+            <div className="flex flex-col gap-2 p-3 sm:p-4 min-h-0 overflow-y-auto">
+              <textarea
+                autoFocus
+                data-formula-modal="true"
+                aria-label="Isi sel"
+                className="w-full min-h-[28vh] sm:min-h-[240px] resize-y p-3 rounded-xl border border-slate-300 bg-slate-50 font-mono text-base sm:text-lg leading-relaxed text-slate-900 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30"
+                placeholder="Ketik rumus atau isi sel di sini (misal: =SUM(B2:B4))"
+                spellCheck={false}
+                autoCapitalize="off"
+                autoCorrect="off"
+                readOnly={readOnly}
+                value={formulaDraft}
+                onChange={(e) => setFormulaDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    e.stopPropagation();
+                    closeFormulaEditor();
+                  } else if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    applyFormulaDraft();
+                  }
+                }}
+              />
+
+              {/* Live Preview */}
+              <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-white border border-slate-200">
+                <span className="font-serif italic font-bold text-slate-400 text-xs mt-0.5 shrink-0">fx</span>
+                <p className={`text-xs sm:text-sm break-words ${formulaPreviewClass}`}>
+                  {formulaDraftPreview.text}
+                </p>
+              </div>
+
+              <p className="text-[11px] text-slate-400">
+                Ctrl+Enter menerapkan · Esc menutup · Perubahan hanya tersimpan setelah menekan Terapkan.
+              </p>
+            </div>
+
+            {/* Dialog Actions */}
+            <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-slate-200 bg-slate-50 shrink-0">
+              <button
+                type="button"
+                onClick={closeFormulaEditor}
+                className="min-h-[44px] px-4 rounded-lg border border-slate-300 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-100 transition cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={applyFormulaDraft}
+                disabled={readOnly}
+                className="min-h-[44px] flex items-center gap-1.5 px-4 rounded-lg bg-emerald-600 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+              >
+                <Check className="w-4 h-4" />
+                Terapkan Rumus
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };

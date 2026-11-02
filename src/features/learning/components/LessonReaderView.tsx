@@ -214,7 +214,8 @@ export const LessonReaderView: React.FC<LessonReaderViewProps> = ({
             <button
               type="button"
               onClick={onBack}
-              className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 hover:text-slate-800 transition cursor-pointer"
+              aria-label="Kembali ke Pusat Belajar"
+              className="inline-flex items-center justify-center min-w-11 min-h-11 p-2 hover:bg-slate-100 rounded-xl text-slate-500 hover:text-slate-800 transition cursor-pointer"
               title="Kembali ke Pusat Belajar"
             >
               <ArrowLeft className="w-5 h-5" />

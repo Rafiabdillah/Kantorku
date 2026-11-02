@@ -64,7 +64,7 @@ export const ZenModeView: React.FC = () => {
               sound.playClick();
               setView('office');
             }}
-            className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition shrink-0"
+            className="inline-flex items-center justify-center min-w-11 min-h-11 p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition shrink-0"
             aria-label="Kembali ke kantor"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -120,7 +120,7 @@ export const ZenModeView: React.FC = () => {
             <button
               type="button"
               onClick={handleResetData}
-              className="p-1.5 hover:bg-slate-100 text-slate-500 rounded-lg cursor-pointer transition shrink-0"
+              className="inline-flex items-center justify-center min-w-11 min-h-11 p-1.5 hover:bg-slate-100 text-slate-500 rounded-lg cursor-pointer transition shrink-0"
               title="Reset Dataset Contoh"
               aria-label="Reset dataset contoh"
             >

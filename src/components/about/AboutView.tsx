@@ -53,16 +53,15 @@ export const AboutView: React.FC = () => {
                       {skill.sources.map((source, index) => {
                         const match = source.match(/^(.*?),?\s+(https?:\/\/\S+)$/);
                         return (
-                          <li key={`${skill.id}-${index}`}>
+                          <li key={`${skill.id}-${index}`} className="flex flex-col gap-0.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-1">
                             {match ? (
                               <>
                                 <span>{match[1].replace(/,\s*$/, '')}</span>
-                                {' '}
                                 <a
                                   href={match[2]}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="inline-flex items-center gap-1 font-semibold text-blue-700 underline"
+                                  className="inline-flex w-fit items-center gap-1 min-h-[44px] font-semibold text-blue-700 underline sm:min-h-0"
                                 >
                                   Buka rujukan <ExternalLink className="h-3 w-3" />
                                 </a>

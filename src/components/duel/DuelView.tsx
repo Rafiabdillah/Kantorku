@@ -53,7 +53,8 @@ export const DuelView: React.FC = () => {
               sound.playClick();
               setView('office');
             }}
-            className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition"
+            aria-label="Kembali ke kantor"
+            className="inline-flex items-center justify-center min-w-11 min-h-11 p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>

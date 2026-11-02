@@ -47,6 +47,129 @@ test.describe('KantorKu P2: Feature Completeness & Integrity Suite', () => {
     expect(errors).toEqual([]);
   });
 
+  test('P2.1b Excel Editor: Formula bar mirrors input, large formula editor applies values, and editor expands full-screen', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (err) => errors.push(`[PageError]: ${err.message}`));
+
+    await page.goto('/?autostart=1&view=mission&level=excel-t1-01');
+    await page.waitForLoadState('domcontentloaded');
+
+    // Formula bar is full width and editable
+    const formulaBar = page.locator('input[data-formula-bar="true"]');
+    await expect(formulaBar).toBeVisible({ timeout: 10000 });
+    await formulaBar.fill('=SUM(1;2)');
+    await formulaBar.press('Enter');
+    await expect(page.locator('td[data-cell="B2"]')).toContainText('3');
+
+    // Large formula dialog with live preview
+    await page.locator('button[aria-label="Perbesar editor rumus"]').click();
+    const dialog = page.locator('div[role="dialog"][aria-label="Editor rumus"]');
+    await expect(dialog).toBeVisible();
+    const formulaTextarea = dialog.locator('textarea[data-formula-modal="true"]');
+    await expect(formulaTextarea).toBeVisible();
+    await formulaTextarea.fill('=SUM(2;3)');
+    await expect(dialog.getByText('Hasil: Rp 5')).toBeVisible();
+
+    await dialog.getByRole('button', { name: 'Terapkan Rumus' }).click();
+    await expect(dialog).not.toBeVisible();
+    await expect(page.locator('td[data-cell="B2"]')).toContainText('5');
+
+    // Full-screen wide editor mode
+    await page.locator('button[aria-label="Perbesar editor"]:visible').first().click();
+    const expandedEditor = page.locator('div[data-editor-expanded="true"]');
+    await expect(expandedEditor).toBeVisible();
+    await expect(page.getByText('Mode Editor Lebar')).toBeVisible();
+
+    await page.locator('button[aria-label="Perkecil editor"]').click();
+    await expect(expandedEditor).not.toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('P2.1c Mobile Excel Editor: Wide editor mode opens from the tab bar without horizontal overflow', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (err) => errors.push(`[PageError]: ${err.message}`));
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/?autostart=1&view=mission&level=excel-t1-01');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.locator('button[aria-label="Perbesar editor"]:visible').first().click();
+    const expandedEditor = page.locator('div[data-editor-expanded="true"]');
+    await expect(expandedEditor).toBeVisible();
+    await expect(page.getByText('Mode Editor Lebar')).toBeVisible();
+
+    const report = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(report.scrollWidth).toBeLessThanOrEqual(report.clientWidth);
+
+    // Formula dialog stays usable inside the expanded editor on a small screen
+    await page.locator('button[aria-label="Perbesar editor rumus"]').click();
+    const dialog = page.locator('div[role="dialog"][aria-label="Editor rumus"]');
+    await expect(dialog).toBeVisible();
+    const box = await dialog.boundingBox();
+    expect(box?.width ?? 0).toBeLessThanOrEqual(390);
+    await dialog.getByRole('button', { name: 'Batal' }).click();
+    await expect(dialog).not.toBeVisible();
+
+    await page.locator('button[aria-label="Perkecil editor"]').click();
+    await expect(expandedEditor).not.toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('P2.1d Mobile Case File: Editor can expand full-screen and close again', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (err) => errors.push(`[PageError]: ${err.message}`));
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/?autostart=1&view=case-file');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.locator('button[aria-label="Perbesar editor"]').click();
+    const expandedEditor = page.locator('div[data-editor-expanded="true"]');
+    await expect(expandedEditor).toBeVisible();
+    await expect(page.getByText('Mode Editor Lebar')).toBeVisible();
+
+    const report = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(report.scrollWidth).toBeLessThanOrEqual(report.clientWidth);
+
+    await page.locator('button[aria-label="Perkecil editor"]').click();
+    await expect(expandedEditor).toHaveCount(0);
+
+    expect(errors).toEqual([]);
+  });
+
+  test('P2.1e Excel Editor: Typed numbers format as Rupiah and selected cell text stays readable', async ({ page }) => {
+    await page.goto('/?autostart=1&view=mission&level=excel-t1-01');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.locator('td[data-cell="D4"]').click();
+    const formulaBar = page.locator('[data-formula-bar]');
+    await formulaBar.fill('50000');
+    await formulaBar.press('Enter');
+
+    const cell = page.locator('td[data-cell="D4"]');
+    await expect(cell).toHaveText('50000');
+
+    await page.locator('button[title="Format Rupiah (Rp)"]').click();
+    await expect(cell).toHaveText('Rp 50.000');
+    expect((await cell.getAttribute('title'))?.replace(/\u00a0/g, ' ')).toBe('Rp 50.000');
+    expect(await cell.getAttribute('class')).toContain('text-slate-900');
+
+    // Non-numeric text must not be coerced by the Rupiah formatter
+    await page.locator('td[data-cell="D5"]').click();
+    await formulaBar.fill('BPJS');
+    await formulaBar.press('Enter');
+    await page.locator('button[title="Format Rupiah (Rp)"]').click();
+    await expect(page.locator('td[data-cell="D5"]')).toHaveText('BPJS');
+  });
+
   test('P2.2 Word Editor (TipTap): Formats headings, tables, and document metadata', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (err) => errors.push(`[PageError]: ${err.message}`));

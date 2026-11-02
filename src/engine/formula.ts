@@ -64,9 +64,17 @@ export function formatCellValue(value: any, format?: CellData['format']): string
   if (typeof value === 'boolean') return value ? 'TRUE' : 'FALSE';
   if (typeof value === 'string' && value.startsWith('#')) return value;
 
-  const num = typeof value === 'number' ? value : Number(String(value).replace(/[^0-9.-]+/g, ''));
+  const text = typeof value === 'number' ? '' : String(value).trim();
+  const groupedThousands = /^-?\d{1,3}(\.\d{3})+$/.test(text);
+  const numericText = groupedThousands ? text.replace(/\./g, '') : text;
+  const num =
+    typeof value === 'number'
+      ? value
+      : /^-?\d+(?:\.\d+)?$/.test(numericText)
+      ? Number(numericText)
+      : NaN;
 
-  if (!isNaN(num) && typeof value !== 'string') {
+  if (!isNaN(num) && format) {
     if (format === 'rupiah') {
       return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
     }

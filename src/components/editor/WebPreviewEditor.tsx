@@ -162,7 +162,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               sound.playClick();
               setActiveTab('html');
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] sm:min-h-[30px] rounded-lg text-xs font-bold transition cursor-pointer touch-manipulation ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 min-h-[44px] sm:min-h-[30px] rounded-lg text-xs font-bold transition cursor-pointer touch-manipulation ${
               activeTab === 'html' ? 'bg-orange-600 text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -175,7 +175,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               sound.playClick();
               setActiveTab('css');
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] sm:min-h-[30px] rounded-lg text-xs font-bold transition cursor-pointer touch-manipulation ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 min-h-[44px] sm:min-h-[30px] rounded-lg text-xs font-bold transition cursor-pointer touch-manipulation ${
               activeTab === 'css' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -192,7 +192,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               sound.playClick();
               setViewport('mobile');
             }}
-            className={`p-2 min-h-[36px] min-w-[36px] sm:min-h-[30px] sm:min-w-[30px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
+            className={`p-2 min-h-[44px] min-w-[44px] sm:min-h-[30px] sm:min-w-[30px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
               viewport === 'mobile' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Tampilan Mobile (360px)"
@@ -205,7 +205,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               sound.playClick();
               setViewport('tablet');
             }}
-            className={`p-2 min-h-[36px] min-w-[36px] sm:min-h-[30px] sm:min-w-[30px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
+            className={`p-2 min-h-[44px] min-w-[44px] sm:min-h-[30px] sm:min-w-[30px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
               viewport === 'tablet' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Tampilan Tablet (768px)"
@@ -218,7 +218,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               sound.playClick();
               setViewport('desktop');
             }}
-            className={`p-2 min-h-[36px] min-w-[36px] sm:min-h-[30px] sm:min-w-[30px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
+            className={`p-2 min-h-[44px] min-w-[44px] sm:min-h-[30px] sm:min-w-[30px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
               viewport === 'desktop' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Tampilan Desktop (100%)"
@@ -228,7 +228,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
           <button
             type="button"
             onClick={handleRefreshPreview}
-            className="p-2 min-h-[36px] min-w-[36px] sm:min-h-[30px] sm:min-w-[30px] flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition cursor-pointer ml-1 touch-manipulation"
+            className="p-2 min-h-[44px] min-w-[44px] sm:min-h-[30px] sm:min-w-[30px] flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition cursor-pointer ml-1 touch-manipulation"
             title="Muat Ulang Pratinjau"
           >
             <RefreshCw className="w-3.5 h-3.5" />

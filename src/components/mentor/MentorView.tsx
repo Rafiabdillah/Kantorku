@@ -82,7 +82,7 @@ export const MentorView: React.FC = () => {
               }}
               aria-label={`Buka kasus magang ${i + 1}`}
               aria-current={selectedCaseIdx === i ? 'true' : undefined}
-              className={`w-10 h-10 sm:w-9 sm:h-9 rounded-xl font-bold text-xs transition cursor-pointer ${
+              className={`w-11 h-11 sm:w-9 sm:h-9 rounded-xl font-bold text-xs transition cursor-pointer ${
                 selectedCaseIdx === i ? 'bg-blue-600 text-white shadow-md' : 'bg-slate-100 text-slate-600'
               }`}
             >
@@ -136,7 +136,7 @@ export const MentorView: React.FC = () => {
                   type="checkbox"
                   checked={selectedIssues.includes(iss.id)}
                   onChange={() => {}}
-                  className="rounded text-blue-600 focus:ring-0"
+                  className="h-4 w-4 shrink-0 rounded text-blue-600 focus:ring-0"
                 />
                 <span>{iss.description}</span>
               </label>

@@ -137,7 +137,7 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
           type="button"
           onClick={handleRun}
           disabled={isRunning}
-          className="flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-sans font-semibold text-xs shadow-md transition active:scale-95 disabled:opacity-50 cursor-pointer touch-manipulation shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 min-h-[44px] sm:min-h-[36px] bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-sans font-semibold text-xs shadow-md transition active:scale-95 disabled:opacity-50 cursor-pointer touch-manipulation shrink-0"
         >
           <Play className="w-3.5 h-3.5 fill-current" />
           <span>{isRunning ? 'Mengeksekusi...' : 'Jalankan & Tes'}</span>

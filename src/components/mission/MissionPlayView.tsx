@@ -29,6 +29,8 @@ import {
   MessageCircle,
   Sliders,
   GraduationCap,
+  Maximize2,
+  Minimize2,
 } from 'lucide-react';
 import { QuickSettingsModal } from '../../features/settings/QuickSettingsModal';
 import { ALL_LESSONS } from '../../content/lessons';
@@ -58,6 +60,7 @@ export const MissionPlayView: React.FC = () => {
   } = useGameStore();
 
   const [activeMobileTab, setActiveMobileTab] = useState<'brief' | 'editor' | 'checklist'>('editor');
+  const [editorExpanded, setEditorExpanded] = useState<boolean>(false);
   const [showResultModal, setShowResultModal] = useState<boolean>(false);
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false);
   const [showQuickSettings, setShowQuickSettings] = useState<boolean>(false);
@@ -80,7 +83,25 @@ export const MissionPlayView: React.FC = () => {
     setValidationOutput(null);
     setSelectedChoiceId(null);
     setDialogueResponse(null);
+    setEditorExpanded(false);
   }, [activeLevelId]);
+
+  React.useEffect(() => {
+    if (!editorExpanded) return;
+    const handleExpandedKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      // Let inputs/textareas (inline cell editor, formula dialog) handle their own Escape first.
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      setEditorExpanded(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleExpandedKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleExpandedKey);
+    };
+  }, [editorExpanded]);
 
   const handleSelectChoice = (choice: any) => {
     sound.playClick();
@@ -636,6 +657,20 @@ export const MissionPlayView: React.FC = () => {
             <Sliders className="w-4 h-4 text-emerald-600" />
             <span className="hidden sm:inline">Pengaturan</span>
           </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              sound.playClick();
+              setEditorExpanded(true);
+            }}
+            className="hidden md:flex p-1.5 hover:bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold items-center gap-1 cursor-pointer min-h-[44px] min-w-[44px]"
+            title="Perbesar editor agar ruang menulis lebih lega (Esc untuk keluar)"
+            aria-label="Perbesar editor"
+          >
+            <Maximize2 className="w-4 h-4 text-emerald-600" />
+            <span>Perbesar</span>
+          </button>
         </div>
       </div>
 
@@ -667,6 +702,20 @@ export const MissionPlayView: React.FC = () => {
           }`}
         >
           Cek
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            sound.playClick();
+            setActiveMobileTab('editor');
+            setEditorExpanded(true);
+          }}
+          className="ml-auto flex items-center justify-center gap-1 px-3 rounded-lg text-xs font-semibold text-emerald-800 bg-white border border-emerald-200 shadow-xs min-h-[44px] cursor-pointer"
+          title="Perbesar editor agar ruang menulis lebih lega"
+          aria-label="Perbesar editor"
+        >
+          <Maximize2 className="w-4 h-4 text-emerald-600" />
+          <span>Lebarkan</span>
         </button>
       </div>
 
@@ -758,33 +807,61 @@ export const MissionPlayView: React.FC = () => {
 
         {/* Center Column: Editor */}
         <div
-          className={`md:col-span-6 flex flex-col h-full min-h-0 overflow-hidden ${
-            activeMobileTab === 'editor' ? 'flex' : 'hidden md:flex'
-          }`}
+          data-editor-expanded={editorExpanded ? 'true' : undefined}
+          className={
+            editorExpanded
+              ? 'fixed inset-0 z-40 flex flex-col gap-2 h-dvh w-screen bg-slate-900 p-2 sm:p-3 overflow-hidden safe-bottom'
+              : `md:col-span-6 flex flex-col h-full min-h-0 overflow-hidden ${
+                  activeMobileTab === 'editor' ? 'flex' : 'hidden md:flex'
+                }`
+          }
         >
-          <ErrorBoundary fallbackTitle="Editor Mengalami Kendala" fallbackMessage="Terjadi kendala teknis saat memuat editor. Anda dapat mencoba memuat ulang editor atau kembali ke kantor.">
-            {level.module === 'excel' && (
-              <SpreadsheetEditor grid={activeSheet} onCellChange={(addr, data) => setCell(addr, data)} />
-            )}
-            {level.module === 'web' && (
-              <WebPreviewEditor
-                html={activeHtml}
-                css={activeCss}
-                onHtmlChange={(h) => setHtml(h)}
-                onCssChange={(c) => setCss(c)}
-              />
-            )}
-            {level.module === 'coding' && (
-              <CodeScriptEditor
-                code={activeCode}
-                onChange={(c) => setCode(c)}
-                testCases={level.testCases}
-              />
-            )}
-            {level.module === 'word' && (
-              <WordDocumentEditor content={activeWord} onChange={(w) => setWord(w)} />
-            )}
-          </ErrorBoundary>
+          {editorExpanded && (
+            <div className="flex items-center justify-between gap-2 px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-xl text-slate-200 shrink-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <Maximize2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span className="text-xs font-bold truncate">Mode Editor Lebar</span>
+                <span className="hidden sm:inline text-[10px] text-slate-400 truncate">
+                  {level.module.toUpperCase()} • Esc untuk keluar
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditorExpanded(false)}
+                className="flex items-center justify-center gap-1 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition cursor-pointer shrink-0 min-h-[44px]"
+                title="Perkecil editor (Esc)"
+                aria-label="Perkecil editor"
+              >
+                <Minimize2 className="w-4 h-4" />
+                <span>Perkecil</span>
+              </button>
+            </div>
+          )}
+          <div className="flex-1 min-h-0 min-w-0 flex flex-col overflow-hidden">
+            <ErrorBoundary fallbackTitle="Editor Mengalami Kendala" fallbackMessage="Terjadi kendala teknis saat memuat editor. Anda dapat mencoba memuat ulang editor atau kembali ke kantor.">
+              {level.module === 'excel' && (
+                <SpreadsheetEditor grid={activeSheet} onCellChange={(addr, data) => setCell(addr, data)} />
+              )}
+              {level.module === 'web' && (
+                <WebPreviewEditor
+                  html={activeHtml}
+                  css={activeCss}
+                  onHtmlChange={(h) => setHtml(h)}
+                  onCssChange={(c) => setCss(c)}
+                />
+              )}
+              {level.module === 'coding' && (
+                <CodeScriptEditor
+                  code={activeCode}
+                  onChange={(c) => setCode(c)}
+                  testCases={level.testCases}
+                />
+              )}
+              {level.module === 'word' && (
+                <WordDocumentEditor content={activeWord} onChange={(w) => setWord(w)} />
+              )}
+            </ErrorBoundary>
+          </div>
         </div>
 
         {/* Right Column: Checklist, Hints, Action */}

@@ -46,7 +46,7 @@ export const DetectiveView: React.FC = () => {
               sound.playClick();
               setView('office');
             }}
-            className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition shrink-0"
+            className="inline-flex items-center justify-center min-w-11 min-h-11 p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition shrink-0"
             aria-label="Kembali ke kantor"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -78,7 +78,7 @@ export const DetectiveView: React.FC = () => {
                 setShowExplanation(false);
                 setShowHint(false);
               }}
-              className={`w-9 h-9 sm:w-8 sm:h-8 rounded-xl font-bold text-xs transition cursor-pointer ${
+              className={`w-11 h-11 sm:w-8 sm:h-8 rounded-xl font-bold text-xs transition cursor-pointer ${
                 selectedCaseIdx === i
                   ? 'bg-purple-600 text-white shadow-md'
                   : solvedCases.includes(c.id)

@@ -233,7 +233,7 @@ export const CareerMapView: React.FC = () => {
                         );
                         openLessonView(lesson?.id);
                       }}
-                      className="flex items-center gap-1.5 px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-xl transition cursor-pointer"
+                      className="flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[44px] min-w-[44px] bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-xl transition cursor-pointer"
                       title="Pelajari materi teori dan contoh interaktif di Pusat Belajar"
                     >
                       <GraduationCap className="w-3.5 h-3.5 text-indigo-600" />
