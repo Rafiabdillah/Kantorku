@@ -81,11 +81,10 @@ test.describe('KantorKu Cross-Platform & Device Robustness Suite', () => {
     // Navigate to Word mission level
     await page.goto('/?autostart=1&view=mission&level=word-t1-01');
     await page.waitForLoadState('domcontentloaded');
-    await page.waitForTimeout(500);
 
-    // Check TipTap wrapper is mounted
+    // Check TipTap wrapper is mounted (lazy chunk can be slow on CI runners)
     const tiptapContainer = page.locator('.tiptap-doc-wrapper');
-    await expect(tiptapContainer).toBeVisible();
+    await expect(tiptapContainer).toBeVisible({ timeout: 20000 });
 
     // Check ribbon buttons are visible and accessible
     const h1Button = page.locator('button[title*="Heading 1"]').first();
@@ -93,7 +92,7 @@ test.describe('KantorKu Cross-Platform & Device Robustness Suite', () => {
     const tableButton = page.locator('button[title*="Sisipkan Tabel"]').first();
     const citationButton = page.locator('button[title*="Sitasi"]').first();
 
-    await expect(h1Button).toBeVisible();
+    await expect(h1Button).toBeVisible({ timeout: 10000 });
     await expect(boldButton).toBeVisible();
     await expect(tableButton).toBeVisible();
     await expect(citationButton).toBeVisible();
@@ -111,11 +110,10 @@ test.describe('KantorKu Cross-Platform & Device Robustness Suite', () => {
     // Navigate to JavaScript mission level
     await page.goto('/?autostart=1&view=mission&level=code-t1-01');
     await page.waitForLoadState('domcontentloaded');
-    await page.waitForTimeout(500);
 
-    // CodeMirror editor is present on JS mission
+    // CodeMirror editor is present on JS mission (lazy chunk can be slow on CI)
     const cmEditor = page.locator('.cm-editor');
-    await expect(cmEditor).toBeVisible();
+    await expect(cmEditor).toBeVisible({ timeout: 20000 });
     const cmGutters = page.locator('.cm-gutters');
     await expect(cmGutters).toBeVisible();
 

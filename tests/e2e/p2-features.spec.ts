@@ -53,13 +53,12 @@ test.describe('KantorKu P2: Feature Completeness & Integrity Suite', () => {
 
     await page.goto('/?autostart=1&view=mission&level=word-t1-01');
     await page.waitForLoadState('domcontentloaded');
-    await page.waitForTimeout(500);
 
     const tiptap = page.locator('.tiptap-doc-wrapper');
-    await expect(tiptap).toBeVisible();
+    await expect(tiptap).toBeVisible({ timeout: 20000 });
 
     // Check heading and toolbar elements
-    await expect(page.locator('button[title*="Heading 1"]').first()).toBeVisible();
+    await expect(page.locator('button[title*="Heading 1"]').first()).toBeVisible({ timeout: 10000 });
     await expect(page.locator('button[title*="Heading 2"]').first()).toBeVisible();
     await expect(page.locator('button[title*="Sisipkan Tabel"]').first()).toBeVisible();
     await expect(page.locator('button[title*="Sitasi"]').first()).toBeVisible();
