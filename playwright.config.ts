@@ -4,6 +4,7 @@ export default defineConfig({
   testDir: './tests/e2e',
   timeout: 30000,
   fullyParallel: false,
+  retries: process.env.CI ? 2 : 0,
   reporter: 'list',
   use: {
     baseURL: 'http://localhost:3000',
