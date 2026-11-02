@@ -26,7 +26,9 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
   onValidate,
 }) => {
   const [activeTab, setActiveTab] = useState<'html' | 'css'>('html');
-  const [viewport, setViewport] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+  const [viewport, setViewport] = useState<'mobile' | 'tablet' | 'desktop'>(() =>
+    typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop'
+  );
   const [previewKey, setPreviewKey] = useState<number>(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -64,6 +66,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
         basicSetup,
         currentLang,
         oneDark,
+        EditorView.lineWrapping,
         EditorState.tabSize.of(tabSize),
         keymap.of([indentWithTab, ...defaultKeymap]),
         updateListener,
@@ -182,7 +185,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
         </div>
 
         {/* Viewport Switcher */}
-        <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl">
+        <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl shrink-0">
           <button
             type="button"
             onClick={() => {

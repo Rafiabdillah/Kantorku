@@ -40,28 +40,29 @@ export const ShopView: React.FC = () => {
   return (
     <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex items-center justify-between bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-white rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-xs">
+        <div className="flex items-center gap-3 min-w-0">
           <button
             type="button"
             onClick={() => {
               sound.playClick();
               setView('office');
             }}
-            className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition"
+            className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition shrink-0"
+            aria-label="Kembali ke kantor"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <div>
+          <div className="min-w-0">
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
               Toko Kantor & Kosmetik
             </span>
-            <h1 className="text-xl font-extrabold text-slate-900 mt-1">Dekorasi Meja & Fasilitas Kerja</h1>
+            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-1 leading-tight">Dekorasi Meja & Fasilitas Kerja</h1>
           </div>
         </div>
 
         {/* Player Wallet Status */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 font-bold text-xs">
             <Coins className="w-4 h-4 text-amber-600" />
             <span>{profile.coins} Koin</span>
@@ -74,7 +75,7 @@ export const ShopView: React.FC = () => {
       </div>
 
       {/* Category Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
         {(['all', 'desk', 'decor', 'avatar', 'badge'] as const).map((tab) => (
           <button
             key={tab}
@@ -83,7 +84,7 @@ export const ShopView: React.FC = () => {
               sound.playClick();
               setActiveTab(tab);
             }}
-            className={`px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition cursor-pointer capitalize ${
+            className={`shrink-0 px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition cursor-pointer capitalize ${
               activeTab === tab ? 'bg-slate-900 text-white shadow-sm' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
             }`}
           >

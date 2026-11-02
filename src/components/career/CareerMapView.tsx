@@ -62,7 +62,7 @@ export const CareerMapView: React.FC = () => {
               sound.playClick();
               setActiveModule('excel');
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+            className={`flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
               activeModule === 'excel' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -75,7 +75,7 @@ export const CareerMapView: React.FC = () => {
               sound.playClick();
               setActiveModule('web');
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+            className={`flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
               activeModule === 'web' ? 'bg-white text-orange-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -88,7 +88,7 @@ export const CareerMapView: React.FC = () => {
               sound.playClick();
               setActiveModule('coding');
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+            className={`flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
               activeModule === 'coding' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -101,7 +101,7 @@ export const CareerMapView: React.FC = () => {
               sound.playClick();
               setActiveModule('word');
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+            className={`flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
               activeModule === 'word' ? 'bg-white text-rose-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -126,7 +126,7 @@ export const CareerMapView: React.FC = () => {
                 sound.playClick();
                 setSelectedTier(t);
               }}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-semibold whitespace-nowrap transition border cursor-pointer ${
+              className={`flex shrink-0 items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-semibold whitespace-nowrap transition border cursor-pointer ${
                 isSelected
                   ? 'bg-slate-900 text-white border-slate-900 shadow-md'
                   : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'

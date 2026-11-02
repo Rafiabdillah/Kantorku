@@ -65,32 +65,33 @@ export const CaseFileView: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-8rem)] w-full max-w-7xl mx-auto pb-4 gap-3">
+    <div className="app-workspace flex flex-col w-full max-w-7xl mx-auto pb-4 gap-3">
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between px-5 py-2.5 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-3 sm:px-5 py-2.5 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
+        <div className="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
           <button
             type="button"
             onClick={() => {
               sound.playClick();
               setView('office');
             }}
-            className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition"
+            className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition shrink-0"
+            aria-label="Kembali ke kantor"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800 uppercase tracking-wide">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800 uppercase tracking-wide whitespace-nowrap">
                 Kasus Nyata v2.0 • {caseItem.industry}
               </span>
-              <span className="text-xs text-slate-400">|</span>
-              <span className="text-xs font-bold text-slate-800">{caseItem.title}</span>
+              <span className="hidden sm:inline text-xs text-slate-400">|</span>
+              <span className="text-[11px] sm:text-xs font-bold text-slate-800">{caseItem.title}</span>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 w-full sm:w-auto">
           <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500 font-mono bg-slate-100 px-2.5 py-1 rounded-lg">
             <Clock className="w-3.5 h-3.5 text-amber-600" />
             <span>Tenggat: {caseItem.deadlineHours} Jam</span>
@@ -140,10 +141,10 @@ export const CaseFileView: React.FC = () => {
       </div>
 
       {/* Main Split Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 min-h-0 overflow-hidden">
         {/* Left Column: Brief Channels (WhatsApp/Email/VoiceNote), Clarifications & Handover Note (4 Cols) */}
         <div
-          className={`lg:col-span-4 bg-white rounded-2xl border border-slate-200/80 p-4 flex flex-col gap-4 overflow-y-auto ${
+          className={`lg:col-span-4 bg-white rounded-2xl border border-slate-200/80 p-4 flex flex-col gap-4 overflow-y-auto min-h-0 ${
             activeMobileTab === 'brief' || activeMobileTab === 'handover' ? 'flex' : 'hidden lg:flex'
           }`}
         >
@@ -253,7 +254,7 @@ export const CaseFileView: React.FC = () => {
 
         {/* Right Column: Workbook or Web Preview (8 Cols) */}
         <div
-          className={`lg:col-span-8 flex flex-col h-full overflow-hidden ${
+          className={`lg:col-span-8 flex flex-col h-full min-h-0 overflow-hidden ${
             activeMobileTab === 'editor' ? 'flex' : 'hidden lg:flex'
           }`}
         >

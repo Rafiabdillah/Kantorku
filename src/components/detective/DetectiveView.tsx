@@ -38,34 +38,35 @@ export const DetectiveView: React.FC = () => {
   return (
     <div className="flex flex-col gap-5 w-full max-w-5xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex items-center justify-between bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-white rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-xs">
+        <div className="flex items-center gap-3 min-w-0">
           <button
             type="button"
             onClick={() => {
               sound.playClick();
               setView('office');
             }}
-            className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition"
+            className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition shrink-0"
+            aria-label="Kembali ke kantor"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700 uppercase">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700 uppercase whitespace-nowrap">
                 Mode Detektif & Audit
               </span>
-              <span className="text-xs text-slate-400">|</span>
-              <span className="text-xs font-semibold text-slate-600">
+              <span className="hidden sm:inline text-xs text-slate-400">|</span>
+              <span className="text-[11px] sm:text-xs font-semibold text-slate-600">
                 Selesai: {solvedCases.length}/{DETECTIVE_CASES.length} Kasus
               </span>
             </div>
-            <h1 className="text-xl font-extrabold text-slate-900 mt-0.5">{currentCase.title}</h1>
+            <h1 className="text-base sm:text-xl font-extrabold text-slate-900 mt-0.5 leading-tight">{currentCase.title}</h1>
           </div>
         </div>
 
         {/* Case Switcher */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {DETECTIVE_CASES.map((c, i) => (
             <button
               key={c.id}
@@ -77,7 +78,7 @@ export const DetectiveView: React.FC = () => {
                 setShowExplanation(false);
                 setShowHint(false);
               }}
-              className={`w-8 h-8 rounded-xl font-bold text-xs transition cursor-pointer ${
+              className={`w-9 h-9 sm:w-8 sm:h-8 rounded-xl font-bold text-xs transition cursor-pointer ${
                 selectedCaseIdx === i
                   ? 'bg-purple-600 text-white shadow-md'
                   : solvedCases.includes(c.id)
@@ -119,7 +120,7 @@ export const DetectiveView: React.FC = () => {
 
       {/* Interactive Sheet Grid to Click */}
       <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3">
-        <div className="flex items-center justify-between text-xs text-slate-500">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between text-xs text-slate-500">
           <span>Klik langsung pada sel yang memicu kesalahan untuk menandainya!</span>
           {selectedCell && (
             <span className="font-mono font-bold text-slate-800">

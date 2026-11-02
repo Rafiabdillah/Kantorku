@@ -215,9 +215,9 @@ export const SkillsMapView: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-6xl mx-auto pb-16">
+    <div className="flex flex-col gap-5 w-full max-w-6xl mx-auto">
       {/* Hero Banner: Semesta Keterampilan & Wizard Tujuan */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-800 flex flex-col gap-6">
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white rounded-3xl p-5 md:p-7 shadow-sm border border-slate-800 flex flex-col gap-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -278,7 +278,7 @@ export const SkillsMapView: React.FC = () => {
                   key={preset.roleId}
                   type="button"
                   onClick={() => handleSelectRole(preset.roleId)}
-                  className={`px-3.5 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
+                  className={`px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 min-h-[44px] ${
                     isSelected
                       ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 scale-[1.02]'
                       : 'bg-white/10 hover:bg-white/20 text-slate-200'
@@ -293,7 +293,7 @@ export const SkillsMapView: React.FC = () => {
 
           {/* Expanded 16-role selector grid (F4) */}
           {showAllRoles && (
-            <div className="mt-2 p-4 bg-slate-950/80 rounded-2xl border border-white/10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 max-h-80 overflow-y-auto">
+            <div className="mt-3 p-3.5 bg-slate-950/90 rounded-2xl border border-white/10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 max-h-[300px] overflow-y-auto">
               {ROLES.map((role) => {
                 const isSelected = currentRoleId === role.id;
                 const roleReadiness = calculateRoleReadiness(role, profile.domainMastery, availableSkillIds);
@@ -306,7 +306,7 @@ export const SkillsMapView: React.FC = () => {
                       handleSelectRole(role.id);
                       setShowAllRoles(false);
                     }}
-                    className={`p-2.5 rounded-xl text-left transition-all border flex flex-col gap-1 ${
+                    className={`p-2 rounded-xl text-left transition-all border flex flex-col gap-1 min-h-[72px] ${
                       isSelected
                         ? 'bg-emerald-500/20 border-emerald-500 text-white shadow-sm'
                         : 'bg-white/5 border-white/10 hover:bg-white/10 text-slate-200'
@@ -316,7 +316,7 @@ export const SkillsMapView: React.FC = () => {
                       <span>{role.icon}</span>
                       <span className="truncate">{role.name}</span>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] text-slate-400">
+                    <div className="flex items-center justify-between text-[9px] text-slate-400">
                       <span>Min Tier {minTier}</span>
                       <span className="text-amber-300/90 font-mono">{roleReadiness.bobotBelumTersedia}% belum ada</span>
                     </div>
@@ -329,7 +329,7 @@ export const SkillsMapView: React.FC = () => {
       </div>
 
       {/* Role Readiness Overview Card (F1.1 & F1.2) */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm flex flex-col gap-4">
+      <div className="bg-white rounded-3xl p-5 md:p-6 border border-slate-200/90 shadow-sm flex flex-col gap-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">
             <span className="text-3xl p-3 bg-indigo-50 rounded-2xl border border-indigo-100 shrink-0">
@@ -425,52 +425,52 @@ export const SkillsMapView: React.FC = () => {
       </div>
 
       {/* Domain Cards & Filter Navigation */}
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl w-fit">
-            <button
-              type="button"
-              onClick={() => setSelectedFilter('semua')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                selectedFilter === 'semua' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500'
-              }`}
-            >
-              Semua ({domainKeys.length})
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedFilter('aktif')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                selectedFilter === 'aktif' ? 'bg-white text-emerald-700 shadow-xs' : 'text-slate-500'
-              }`}
-            >
-              Aktif ({activeDomainsCount})
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedFilter('segera-hadir')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                selectedFilter === 'segera-hadir' ? 'bg-white text-slate-700 shadow-xs' : 'text-slate-500'
-              }`}
-            >
-              Segera Hadir ({upcomingDomainsCount})
-            </button>
-          </div>
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl w-fit">
+              <button
+                type="button"
+                onClick={() => setSelectedFilter('semua')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[40px] ${
+                  selectedFilter === 'semua' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500'
+                }`}
+              >
+                Semua ({domainKeys.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedFilter('aktif')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[40px] ${
+                  selectedFilter === 'aktif' ? 'bg-white text-emerald-700 shadow-xs' : 'text-slate-500'
+                }`}
+              >
+                Aktif ({activeDomainsCount})
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedFilter('segera-hadir')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[40px] ${
+                  selectedFilter === 'segera-hadir' ? 'bg-white text-slate-700 shadow-xs' : 'text-slate-500'
+                }`}
+              >
+                Segera Hadir ({upcomingDomainsCount})
+              </button>
+            </div>
 
-          <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari domain atau keahlian..."
-              className="pl-9 pr-4 py-2 text-xs rounded-2xl border border-slate-200 bg-white focus:outline-none focus:border-emerald-500 w-full sm:w-64"
-            />
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Cari domain atau keahlian..."
+                className="pl-9 pr-4 py-2.5 text-xs rounded-2xl border border-slate-200 bg-white focus:outline-none focus:border-emerald-500 w-full sm:w-64 min-h-[44px]"
+              />
+            </div>
           </div>
-        </div>
 
         {/* Domains Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {filteredDomains.map((domainId) => {
             const meta = DOMAIN_CATALOG[domainId];
             const isActive = meta.status === 'aktif';
@@ -484,17 +484,17 @@ export const SkillsMapView: React.FC = () => {
                 key={domainId}
                 data-domain-id={domainId}
                 onClick={() => handleOpenDomain(domainId)}
-                className={`p-5 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between gap-4 text-left ${
+                className={`p-4 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between gap-3 text-left ${
                   isActive
                     ? 'bg-white hover:border-emerald-500 hover:shadow-md border-slate-200/90 group'
                     : 'bg-slate-50/70 border-slate-200/60 opacity-80 hover:opacity-100'
-                }`}
+                } min-h-[170px] flex-shrink-0`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-2xl">{meta.icon}</span>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                      className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${
                         isActive
                           ? 'bg-emerald-100 text-emerald-800'
                           : 'bg-slate-200 text-slate-600'
@@ -503,28 +503,38 @@ export const SkillsMapView: React.FC = () => {
                       {isActive ? `Aktif (${meta.wave})` : `Segera Hadir (${meta.wave})`}
                     </span>
                   </div>
-                  <div className="text-[11px] font-bold text-slate-400 font-mono">{meta.code}</div>
+                  <div className="text-[10px] font-bold text-slate-400 font-mono">{meta.code}</div>
                   <h3 className="text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
                     {meta.name}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">{meta.description}</p>
+                  <p className="text-[10px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">{meta.description}</p>
+                  <div className="mt-3 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                    <div
+                      className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                      style={{ width: `${domainMastery}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-[9px] mt-1">
+                    <span className="text-slate-500">Penguasaan</span>
+                    <span className="font-bold text-emerald-700">{domainMastery}%</span>
+                  </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[9px]">
                   {isActive ? (
                     <>
                       <span className="font-semibold text-slate-600 flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                         {domainId === 'D12' ? 'Pilot: 3 dari 12 sub-topik' : `${skills.length} Keterampilan`}
                       </span>
-                      <span className="font-bold text-emerald-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                        Buka Detail <ArrowRight className="w-3.5 h-3.5" />
+                      <span className="font-bold text-emerald-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform min-h-[36px]">
+                        Buka Detail <ArrowRight className="w-3 h-3" />
                       </span>
                     </>
                   ) : (
                     <>
-                      <span className="text-slate-400 text-[11px]">Rilis: Gelombang {meta.wave}</span>
-                      <span className="text-slate-400 text-[11px] font-medium">Dalam Pengembangan</span>
+                      <span className="text-slate-400 text-[9px]">Rilis: Gelombang {meta.wave}</span>
+                      <span className="text-slate-400 text-[9px] font-medium">Dalam Pengembangan</span>
                     </>
                   )}
                 </div>

@@ -48,6 +48,7 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
         basicSetup,
         javascript(),
         oneDark,
+        EditorView.lineWrapping,
         EditorState.tabSize.of(tabSize),
         keymap.of([indentWithTab, ...defaultKeymap]),
         updateListener,
@@ -124,11 +125,11 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
   return (
     <div className="flex flex-col h-full bg-slate-900 rounded-2xl border border-slate-800 shadow-xl overflow-hidden font-mono text-xs text-slate-100">
       {/* Editor Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-slate-950 border-b border-slate-800">
-        <div className="flex items-center gap-2">
-          <Code2 className="w-4 h-4 text-emerald-400" />
-          <span className="font-semibold text-slate-300">script.js</span>
-          <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-sans hidden sm:inline">
+      <div className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2.5 bg-slate-950 border-b border-slate-800">
+        <div className="flex items-center gap-2 min-w-0">
+          <Code2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span className="font-semibold text-slate-300 truncate">script.js</span>
+          <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-sans hidden sm:inline shrink-0">
             CodeMirror 6 • Web Worker Sandbox
           </span>
         </div>
@@ -136,7 +137,7 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
           type="button"
           onClick={handleRun}
           disabled={isRunning}
-          className="flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-sans font-semibold text-xs shadow-md transition active:scale-95 disabled:opacity-50 cursor-pointer touch-manipulation"
+          className="flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-sans font-semibold text-xs shadow-md transition active:scale-95 disabled:opacity-50 cursor-pointer touch-manipulation shrink-0"
         >
           <Play className="w-3.5 h-3.5 fill-current" />
           <span>{isRunning ? 'Mengeksekusi...' : 'Jalankan & Tes'}</span>
@@ -171,23 +172,23 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
                   {result.testResults.map((tc, idx) => (
                     <div
                       key={idx}
-                      className={`p-2 rounded-lg border text-[11px] flex items-center justify-between ${
+                      className={`p-2 rounded-lg border text-[11px] flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between ${
                         tc.passed
                           ? 'bg-emerald-950/40 border-emerald-800/60 text-emerald-300'
                           : 'bg-rose-950/40 border-rose-800/60 text-rose-300'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
                         {tc.passed ? (
                           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                         ) : (
                           <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
                         )}
-                        <span>{tc.description}</span>
-                        {tc.hidden && <span className="text-[9px] bg-slate-800 px-1 rounded text-slate-400">Hidden</span>}
+                        <span className="min-w-0">{tc.description}</span>
+                        {tc.hidden && <span className="text-[9px] bg-slate-800 px-1 rounded text-slate-400 shrink-0">Hidden</span>}
                       </div>
                       {!tc.passed && !tc.hidden && (
-                        <div className="text-[10px] text-slate-400 font-mono">
+                        <div className="text-[10px] text-slate-400 font-mono break-all sm:text-right">
                           Harapan: {JSON.stringify(tc.expected)} | Hasil: {JSON.stringify(tc.actual)}
                         </div>
                       )}

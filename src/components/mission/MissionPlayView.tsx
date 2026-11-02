@@ -581,102 +581,113 @@ export const MissionPlayView: React.FC = () => {
     }
   };
 
+  const characterName = (() => {
+    if (level.character === 'sari') return 'Bu Sari';
+    if (level.character === 'reza') return 'Pak Reza';
+    if (level.character === 'intan') return 'Kak Intan';
+    if (level.character === 'maya') return 'Maya (HR)';
+    return level.character;
+  })();
+
   return (
-    <div className="flex flex-col h-[calc(100vh-8rem)] w-full max-w-7xl mx-auto pb-4 gap-3">
+    <div className="app-workspace flex flex-col w-full max-w-6xl mx-auto pb-4 gap-2 safe-bottom">
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between px-4 py-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between px-3 md:px-4 py-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => {
               sound.playClick();
               setView('career-map');
             }}
-            className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition"
+            className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition min-h-[44px] min-w-[44px]"
             title="Kembali ke Peta Karier"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase tracking-wide">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase tracking-wide">
                 Tier {level.tier} • {level.module.toUpperCase()} {level.track ? `(${level.track.toUpperCase()})` : ''}
               </span>
-              <span className="text-xs text-slate-400">|</span>
+              <span className="text-[9px] text-slate-400">|</span>
               <span className="text-xs font-semibold text-slate-700">{level.title}</span>
             </div>
           </div>
         </div>
 
-        {/* Action icons & Mobile View Switcher */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <button
             type="button"
             onClick={() => setShowHistoryModal(true)}
-            className="p-1.5 hover:bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer"
+            className="p-1.5 hover:bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer min-h-[44px] min-w-[44px]"
             title="Riwayat Dialog"
           >
             <History className="w-4 h-4" />
-            <span className="hidden sm:inline">Riwayat Dialog</span>
+            <span className="hidden sm:inline">Riwayat</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowQuickSettings(true)}
-            className="p-1.5 hover:bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer"
+            className="p-1.5 hover:bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer min-h-[44px] min-w-[44px]"
             title="Pengaturan Cepat Misi"
           >
             <Sliders className="w-4 h-4 text-emerald-600" />
             <span className="hidden sm:inline">Pengaturan</span>
           </button>
-
-          <div className="flex md:hidden items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
-            <button
-              type="button"
-              onClick={() => setActiveMobileTab('brief')}
-              className={`px-2.5 py-1 rounded-lg ${activeMobileTab === 'brief' ? 'bg-white shadow-xs' : ''}`}
-            >
-              Brief
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveMobileTab('editor')}
-              className={`px-2.5 py-1 rounded-lg ${activeMobileTab === 'editor' ? 'bg-white shadow-xs' : ''}`}
-            >
-              Editor
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveMobileTab('checklist')}
-              className={`px-2.5 py-1 rounded-lg ${activeMobileTab === 'checklist' ? 'bg-white shadow-xs' : ''}`}
-            >
-              Cek
-            </button>
-          </div>
         </div>
       </div>
 
-      {/* Main 3-Column Responsive Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 flex-1 overflow-hidden">
-        {/* Left Column: Story, Character Dialogue with 7 Expressions & Choices (3 Cols) */}
-        <div
-          className={`md:col-span-3 bg-white rounded-2xl border border-slate-200/80 p-4 flex flex-col gap-3.5 overflow-y-auto ${
-            activeMobileTab === 'brief' ? 'block' : 'hidden md:flex'
+      {/* Mobile Tab Switcher */}
+      <div className="flex md:hidden items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200/60 mb-2">
+        <button
+          type="button"
+          onClick={() => setActiveMobileTab('brief')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition min-h-[44px] ${
+            activeMobileTab === 'brief' ? 'bg-white shadow-xs text-emerald-700' : 'text-slate-600'
           }`}
         >
-          {/* Character Dialog Card with SVG Expression */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-3">
-            <div className="flex items-start gap-3">
+          Brief
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveMobileTab('editor')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition min-h-[44px] ${
+            activeMobileTab === 'editor' ? 'bg-white shadow-xs text-emerald-700' : 'text-slate-600'
+          }`}
+        >
+          Editor
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveMobileTab('checklist')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition min-h-[44px] ${
+            activeMobileTab === 'checklist' ? 'bg-white shadow-xs text-emerald-700' : 'text-slate-600'
+          }`}
+        >
+          Cek
+        </button>
+      </div>
+
+      {/* Main Responsive Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 flex-1 overflow-hidden">
+        {/* Left Column: Story & Dialogue */}
+        <div
+          className={`md:col-span-3 bg-white rounded-2xl border border-slate-200/80 p-3 md:p-4 flex flex-col gap-2.5 overflow-y-auto min-h-0 ${
+            activeMobileTab === 'brief' ? 'flex' : 'hidden md:flex'
+          } safe-bottom`}
+        >
+          <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2.5">
+            <div className="flex items-start gap-2.5">
               <CharacterAvatar
                 id={level.character}
                 size="md"
                 expression={activeDialogNode?.expression || 'normal'}
               />
               <div>
-                <div className="font-bold text-xs text-slate-800 capitalize">
-                  {level.character === 'sari' ? 'Bu Sari' : level.character === 'reza' ? 'Pak Reza' : level.character === 'intan' ? 'Kak Intan' : level.character === 'maya' ? 'Maya (HR)' : level.character}
-                </div>
-                <div className="text-[10px] text-slate-400 font-medium">PT Maju Sejahtera</div>
+                <div className="font-bold text-xs text-slate-800 capitalize">{characterName}</div>
+                <div className="text-[9px] text-slate-400 font-medium">PT Maju Sejahtera</div>
               </div>
             </div>
 
@@ -684,16 +695,15 @@ export const MissionPlayView: React.FC = () => {
               "{activeDialogNode?.text}"
             </p>
 
-            {/* Branching Dialogue Choices (Komunikasi, Prioritas, Etika) */}
             {activeDialogNode?.choices && activeDialogNode.choices.length > 0 && !dialogueResponse && (
-              <div className="space-y-1.5 pt-1">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Pilih Responsmu:</span>
+              <div className="space-y-1 pt-0.5">
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Pilih Responsmu:</span>
                 {activeDialogNode.choices.map((c) => (
                   <button
                     key={c.id}
                     type="button"
                     onClick={() => handleSelectChoice(c)}
-                    className="w-full text-left p-2 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50 text-[11px] text-slate-700 font-medium transition cursor-pointer"
+                    className="w-full text-left p-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50 text-[11px] text-slate-700 font-medium transition cursor-pointer min-h-[44px]"
                   >
                     {c.text}
                   </button>
@@ -709,9 +719,8 @@ export const MissionPlayView: React.FC = () => {
             )}
           </div>
 
-          {/* Konsep Singkat */}
           <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+            <div className="flex items-center gap-1 text-xs font-bold text-slate-900">
               <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
               <span>Konsep Inti</span>
             </div>
@@ -720,9 +729,8 @@ export const MissionPlayView: React.FC = () => {
             </p>
           </div>
 
-          {/* Contoh Dikerjakan */}
           <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+            <div className="flex items-center gap-1 text-xs font-bold text-slate-900">
               <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
               <span>Contoh Dikerjakan</span>
             </div>
@@ -731,7 +739,6 @@ export const MissionPlayView: React.FC = () => {
             </div>
           </div>
 
-          {/* Tautan Pelajaran Pusat Belajar */}
           <div className="pt-1">
             <button
               type="button"
@@ -741,7 +748,7 @@ export const MissionPlayView: React.FC = () => {
                 );
                 openLessonView(relatedLesson?.id);
               }}
-              className="w-full py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-800 flex items-center justify-center gap-1.5 transition cursor-pointer"
+              className="w-full py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-800 flex items-center justify-center gap-1.5 transition cursor-pointer min-h-[44px]"
             >
               <GraduationCap className="w-4 h-4 text-emerald-600" />
               <span>Belum paham? Buka Pelajarannya</span>
@@ -749,10 +756,10 @@ export const MissionPlayView: React.FC = () => {
           </div>
         </div>
 
-        {/* Center Column: The Primary Tool Editor (6 Cols) */}
+        {/* Center Column: Editor */}
         <div
-          className={`md:col-span-6 flex flex-col h-full overflow-hidden ${
-            activeMobileTab === 'editor' ? 'block' : 'hidden md:flex'
+          className={`md:col-span-6 flex flex-col h-full min-h-0 overflow-hidden ${
+            activeMobileTab === 'editor' ? 'flex' : 'hidden md:flex'
           }`}
         >
           <ErrorBoundary fallbackTitle="Editor Mengalami Kendala" fallbackMessage="Terjadi kendala teknis saat memuat editor. Anda dapat mencoba memuat ulang editor atau kembali ke kantor.">
@@ -780,14 +787,14 @@ export const MissionPlayView: React.FC = () => {
           </ErrorBoundary>
         </div>
 
-        {/* Right Column: Objectives Checklist, Hints, Boss Help & Check Button (3 Cols) */}
+        {/* Right Column: Checklist, Hints, Action */}
         <div
-          className={`md:col-span-3 bg-white rounded-2xl border border-slate-200/80 p-4 flex flex-col justify-between overflow-y-auto ${
-            activeMobileTab === 'checklist' ? 'block' : 'hidden md:flex'
-          }`}
+          className={`md:col-span-3 bg-white rounded-2xl border border-slate-200/80 p-3 md:p-4 flex flex-col justify-between overflow-y-auto min-h-0 ${
+            activeMobileTab === 'checklist' ? 'flex' : 'hidden md:flex'
+          } safe-bottom`}
         >
-          <div className="space-y-4">
-            {/* Objectives List */}
+          <div className="space-y-3">
+            {/* Objectives */}
             <div>
               <div className="text-xs font-bold text-slate-900 mb-2 uppercase tracking-wide flex items-center justify-between">
                 <span>Target Pekerjaan</span>
@@ -795,13 +802,13 @@ export const MissionPlayView: React.FC = () => {
                   {Object.values(objectiveStates).filter(s => s.status === 'passed').length}/{level.objectives.length} Selesai
                 </span>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {level.objectives.map((obj) => {
                   const state = objectiveStates[obj.id] || { status: 'untested' };
                   return (
                     <div
                       key={obj.id}
-                      className={`p-2.5 rounded-xl border text-xs flex flex-col gap-1 transition-colors ${
+                      className={`p-2 rounded-xl border text-xs flex flex-col gap-1 transition-colors min-h-[44px] ${
                         state.status === 'passed'
                           ? 'bg-emerald-50/70 border-emerald-200/80 text-emerald-900'
                           : state.status === 'failed'
@@ -809,18 +816,18 @@ export const MissionPlayView: React.FC = () => {
                           : 'bg-slate-50 border-slate-200/70 text-slate-700'
                       }`}
                     >
-                      <div className="flex items-start gap-2">
+                      <div className="flex items-start gap-1.5">
                         {state.status === 'passed' ? (
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                         ) : state.status === 'failed' ? (
-                          <XCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                          <XCircle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
                         ) : (
-                          <Circle className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                          <Circle className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
                         )}
                         <span className="leading-tight font-medium">{obj.text}</span>
                       </div>
                       {state.status === 'failed' && state.reason && (
-                        <p className="text-[11px] text-rose-600 pl-6 leading-tight font-sans">
+                        <p className="text-[10px] text-rose-600 pl-5 leading-tight font-sans">
                           {state.reason}
                         </p>
                       )}
@@ -830,19 +837,19 @@ export const MissionPlayView: React.FC = () => {
               </div>
             </div>
 
-            {/* Hint Tiered System */}
-            <div className="space-y-2">
+            {/* Hints */}
+            <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs font-bold text-slate-900">
                 <span>Bantuan (Hint)</span>
-                <span className="text-[10px] text-slate-500 font-normal">Level {unlockedHintLevel}/3</span>
+                <span className="text-[9px] text-slate-500 font-normal">Level {unlockedHintLevel}/3</span>
               </div>
 
               {unlockedHintLevel > 0 && (
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   {level.hints.slice(0, unlockedHintLevel).map((h, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded-xl bg-blue-50 border border-blue-200/60 text-xs text-blue-900"
+                      className="p-2 rounded-xl bg-blue-50 border border-blue-200/60 text-xs text-blue-900"
                     >
                       <span className="font-bold">Hint {idx + 1}:</span> {h}
                     </div>
@@ -854,32 +861,31 @@ export const MissionPlayView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => unlockHint()}
-                  className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer min-h-[44px]"
                 >
                   <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
                   <span>Buka Hint {unlockedHintLevel + 1} ({(unlockedHintLevel + 1) * 20} Koin)</span>
                 </button>
               )}
 
-              {/* Free Boss Help triggered after 3 fails */}
               {missionFailCount >= 3 && (
-                <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl space-y-1.5">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-rose-800">
+                <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl space-y-1">
+                  <div className="flex items-center gap-1 text-[10px] font-bold text-rose-800">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Bantuan Bos Bu Sari (Gratis)</span>
                   </div>
-                  <p className="text-xs text-rose-900 leading-relaxed">{level.bossHelp}</p>
+                  <p className="text-[10px] text-rose-900 leading-relaxed">{level.bossHelp}</p>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Bottom Primary Action Button */}
-          <div className="pt-4 border-t border-slate-100 mt-4">
+          {/* Primary Action Button - sticky bottom on mobile */}
+          <div className="pt-2 border-t border-slate-100 mt-3">
             <button
               type="button"
               onClick={handleValidate}
-              className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer min-h-[48px]"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>Kirim & Periksa Jawaban</span>
@@ -890,7 +896,7 @@ export const MissionPlayView: React.FC = () => {
 
       {/* Dialog History Modal */}
       {showHistoryModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 safe-top safe-bottom safe-horizontal">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
@@ -900,7 +906,7 @@ export const MissionPlayView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowHistoryModal(false)}
-                className="text-slate-400 hover:text-slate-600 font-bold p-1 cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 font-bold p-1.5 cursor-pointer min-h-[44px] min-w-[44px]"
               >
                 ✕
               </button>
@@ -917,9 +923,9 @@ export const MissionPlayView: React.FC = () => {
         </div>
       )}
 
-      {/* 5-Dimension Rubric Result Modal */}
+      {/* Result Modal - stacked rubric for mobile */}
       {showResultModal && validationOutput && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 safe-top safe-bottom safe-horizontal">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
             <div className="text-center">
               {validationOutput.passed ? (
@@ -941,7 +947,6 @@ export const MissionPlayView: React.FC = () => {
               </p>
             </div>
 
-            {/* Stars */}
             {validationOutput.passed && (
               <div className="flex justify-center gap-2">
                 {[1, 2, 3].map((s) => (
@@ -955,32 +960,38 @@ export const MissionPlayView: React.FC = () => {
               </div>
             )}
 
-            {/* 5-Dimension Rubric Scoring */}
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 text-center text-xs">
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Benar</span>
-                <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.correctness}%</div>
+            {/* 5-Dimension Rubric - stacked on mobile, grid on desktop */}
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-900 mb-1">
+                <span>Skor 4 Dimensi</span>
+                <span className="text-[10px] text-slate-500">Rubrik Penilaian</span>
               </div>
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Efisien</span>
-                <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.efficiency}%</div>
-              </div>
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Rapi</span>
-                <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.neatness}%</div>
-              </div>
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Dirawat</span>
-                <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.maintainability}%</div>
-              </div>
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Komunikasi</span>
-                <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.communication}%</div>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-1">
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
+                  <span className="text-slate-400 text-[9px] block">Benar</span>
+                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.correctness}%</div>
+                </div>
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
+                  <span className="text-slate-400 text-[9px] block">Efisien</span>
+                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.efficiency}%</div>
+                </div>
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
+                  <span className="text-slate-400 text-[9px] block">Rapi</span>
+                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.neatness}%</div>
+                </div>
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
+                  <span className="text-slate-400 text-[9px] block">Dirawat</span>
+                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.maintainability}%</div>
+                </div>
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
+                  <span className="text-slate-400 text-[9px] block">Komunikasi</span>
+                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.communication}%</div>
+                </div>
               </div>
             </div>
 
-            {/* Feedback messages */}
-            <div className="space-y-1.5 text-xs">
+            {/* Feedback */}
+            <div className="space-y-1 text-xs">
               {validationOutput.feedback.map((fb, i) => (
                 <div
                   key={i}
@@ -988,14 +999,14 @@ export const MissionPlayView: React.FC = () => {
                     validationOutput.passed
                       ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
                       : 'bg-rose-50 border-rose-200 text-rose-900'
-                  }`}
+                  } min-h-[44px] flex items-start`}
                 >
                   {fb}
                 </div>
               ))}
             </div>
 
-            {/* Modal Action Buttons */}
+            {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-2 pt-2">
               {validationOutput.passed ? (
                 <button
@@ -1004,7 +1015,7 @@ export const MissionPlayView: React.FC = () => {
                     setShowResultModal(false);
                     setView('career-map');
                   }}
-                  className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition cursor-pointer"
+                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px]"
                 >
                   Lanjut ke Peta Karier
                 </button>
@@ -1019,7 +1030,7 @@ export const MissionPlayView: React.FC = () => {
                       );
                       openLessonView(relatedLesson?.id);
                     }}
-                    className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                    className="flex-1 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px] flex items-center justify-center gap-1.5 shadow-sm"
                   >
                     <GraduationCap className="w-4 h-4" />
                     <span>Pelajari Bagian Ini</span>
@@ -1027,7 +1038,7 @@ export const MissionPlayView: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowResultModal(false)}
-                    className="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition cursor-pointer"
+                    className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px]"
                   >
                     Coba Perbaiki Lagi
                   </button>
@@ -1038,7 +1049,6 @@ export const MissionPlayView: React.FC = () => {
         </div>
       )}
 
-      {/* Quick Settings Modal */}
       <QuickSettingsModal
         isOpen={showQuickSettings}
         onClose={() => setShowQuickSettings(false)}

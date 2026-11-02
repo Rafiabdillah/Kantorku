@@ -22,12 +22,15 @@ import {
   FileCheck,
   GraduationCap,
   Info,
+  MoreHorizontal,
 } from 'lucide-react';
 import { PWAInstallButton } from '../pwa/PWAInstallButton';
+import { MobileTabBar } from './MobileTabBar';
 
 export const HeaderNav: React.FC = () => {
   const { profile, currentView, setView } = useGameStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [desktopMenuOpen, setDesktopMenuOpen] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(sound.getMuted());
 
   useEffect(() => {
@@ -35,9 +38,23 @@ export const HeaderNav: React.FC = () => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setMobileMenuOpen(false);
     };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!desktopMenuOpen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setDesktopMenuOpen(false);
+    };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [mobileMenuOpen]);
+  }, [desktopMenuOpen]);
 
   const tierInfo = TIERS[profile.currentTier] || TIERS[1];
   const nextTier = profile.currentTier < 7 ? TIERS[(profile.currentTier + 1) as TierLevel] : null;
@@ -47,13 +64,16 @@ export const HeaderNav: React.FC = () => {
   const xpNeeded = Math.max(1, nextTierXp - currentTierXp);
   const xpPercent = Math.min(100, Math.round((xpInTier / xpNeeded) * 100));
 
-  const navItems: { view: AppView; label: string; icon: React.ReactNode }[] = [
+  const primaryNavItems: { view: AppView; label: string; icon: React.ReactNode }[] = [
     { view: 'office', label: 'Kantor', icon: <Compass className="w-4 h-4" /> },
     { view: 'skills-map', label: 'Keterampilan', icon: <Sparkles className="w-4 h-4" /> },
     { view: 'learning', label: 'Belajar', icon: <GraduationCap className="w-4 h-4" /> },
     { view: 'career-map', label: 'Peta Karier', icon: <Map className="w-4 h-4" /> },
     { view: 'case-file', label: 'Kasus Nyata', icon: <Briefcase className="w-4 h-4" /> },
     { view: 'portfolio', label: 'Portofolio', icon: <FileCheck className="w-4 h-4" /> },
+  ];
+
+  const secondaryNavItems: { view: AppView; label: string; icon: React.ReactNode }[] = [
     { view: 'shop', label: 'Toko', icon: <ShoppingBag className="w-4 h-4" /> },
     { view: 'achievements', label: 'Lencana', icon: <Trophy className="w-4 h-4" /> },
     { view: 'dictionary', label: 'Kamus', icon: <BookOpen className="w-4 h-4" /> },
@@ -62,9 +82,12 @@ export const HeaderNav: React.FC = () => {
     { view: 'about', label: 'Tentang & Sumber', icon: <Info className="w-4 h-4" /> },
   ];
 
+  const navItems = [...primaryNavItems, ...secondaryNavItems];
+
   const handleNavClick = (view: AppView) => {
     setView(view);
     setMobileMenuOpen(false);
+    setDesktopMenuOpen(false);
   };
 
   const handleToggleSound = () => {
@@ -73,39 +96,37 @@ export const HeaderNav: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-3 md:px-6 py-2 w-full max-w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 xl:gap-4 w-full">
+    <>
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-3 sm:px-6 py-2.5 w-full max-w-full">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 sm:gap-2 xl:gap-4 w-full">
         {/* Brand Lockup */}
         <button
           type="button"
           onClick={() => handleNavClick('office')}
-          className="flex items-center gap-2 cursor-pointer select-none shrink-0 group text-left"
+          className="flex items-center gap-2 cursor-pointer select-none shrink-0 group text-left min-h-[44px]"
           title="KantorKu - Game Simulasi Karier Kantor"
           aria-label="Buka Kantor"
         >
-          {/* Official Horizontal Logo for Desktop & Tablet */}
           <div className="hidden sm:block transition-transform duration-200 group-hover:scale-[1.02]">
             <BrandLogoHorizontal className="h-7 md:h-8 w-auto" />
           </div>
-          {/* Official App Icon + Typography for Compact Mobile */}
-          <div className="flex sm:hidden items-center gap-2">
-            <BrandLogoIcon className="w-7 h-7 rounded-xl shadow-sm" />
-            <div>
+          <div className="flex sm:hidden items-center gap-2 min-w-0">
+            <BrandLogoIcon className="w-7 h-7 rounded-xl shadow-sm shrink-0" />
+            <div className="min-w-0">
               <div className="font-black text-sm tracking-tight text-slate-900 leading-none">
                 KantorKu
               </div>
-              <div className="text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">
+              <div className="hidden min-[360px]:block text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">
                 PT Maju Sejahtera
               </div>
             </div>
           </div>
-          {/* Accessible text label */}
           <span className="sr-only">KantorKu</span>
         </button>
 
         {/* Desktop Nav Items */}
-        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 shrink min-w-0 overflow-x-auto no-scrollbar py-0.5">
-          {navItems.map((item) => {
+        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 shrink-0 py-0.5">
+          {primaryNavItems.map((item) => {
             const isActive = currentView === item.view;
             return (
               <button
@@ -113,23 +134,25 @@ export const HeaderNav: React.FC = () => {
                 type="button"
                 onClick={() => handleNavClick(item.view)}
                 aria-current={isActive ? 'page' : undefined}
-                className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1 rounded-xl text-[11px] xl:text-xs font-semibold whitespace-nowrap transition cursor-pointer shrink-0 ${
+                aria-label={item.label}
+                title={item.label}
+                className={`flex items-center justify-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-xl text-[11px] xl:text-xs font-semibold whitespace-nowrap transition cursor-pointer shrink-0 min-h-[44px] min-w-[44px] ${
                   isActive
                     ? 'bg-emerald-50 text-emerald-800 font-bold'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
                 {item.icon}
-                <span>{item.label}</span>
+                <span className="hidden xl:inline min-w-fit">{item.label}</span>
               </button>
             );
           })}
         </nav>
 
         {/* Player Status HUD & Wallet */}
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* XP Progress Capsule */}
-          <div className="hidden md:flex flex-col items-end text-right">
+          <div className="hidden 2xl:flex flex-col items-end text-right">
             <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
               <span className="text-emerald-700">{tierInfo.badge} {tierInfo.title}</span>
               <span className="text-slate-400 text-[10px]">({profile.xp} XP)</span>
@@ -146,7 +169,7 @@ export const HeaderNav: React.FC = () => {
           <button
             type="button"
             onClick={() => handleNavClick('shop')}
-            className="flex items-center gap-1 px-2.5 py-1 bg-amber-50 hover:bg-amber-100/70 border border-amber-200/70 rounded-xl text-amber-900 text-xs font-bold cursor-pointer transition"
+            className="flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100/70 border border-amber-200/70 rounded-xl text-amber-900 text-xs font-bold cursor-pointer transition min-h-[44px]"
             title="Koin Kantor"
             aria-label={`Koin Kantor: ${profile.coins}`}
           >
@@ -158,7 +181,7 @@ export const HeaderNav: React.FC = () => {
           <button
             type="button"
             onClick={() => handleNavClick('daily')}
-            className="flex items-center gap-1 px-2 py-1 bg-rose-50 hover:bg-rose-100/70 border border-rose-200/70 rounded-xl text-rose-900 text-xs font-bold cursor-pointer transition"
+            className="hidden min-[360px]:flex items-center justify-center gap-1 px-2 py-1.5 bg-rose-50 hover:bg-rose-100/70 border border-rose-200/70 rounded-xl text-rose-900 text-xs font-bold cursor-pointer transition min-h-[44px] min-w-[44px]"
             title="Streak Harian"
             aria-label={`Streak harian: ${profile.streakDays} hari`}
           >
@@ -166,11 +189,58 @@ export const HeaderNav: React.FC = () => {
             <span className="font-mono text-[11px]">{profile.streakDays}</span>
           </button>
 
+          {/* More Navigation (Laptop/Desktop) */}
+          <div className="relative hidden lg:block">
+            <button
+              type="button"
+              onClick={() => setDesktopMenuOpen((open) => !open)}
+              aria-expanded={desktopMenuOpen}
+              aria-haspopup="menu"
+              className={`flex items-center justify-center gap-1 px-2 py-1.5 rounded-xl text-[11px] xl:text-xs font-semibold transition cursor-pointer min-h-[44px] min-w-[44px] ${
+                desktopMenuOpen
+                  ? 'bg-emerald-50 text-emerald-800'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+              title="Menu lainnya"
+            >
+              <MoreHorizontal className="w-4 h-4" />
+              <span className="hidden xl:inline">Lainnya</span>
+            </button>
+            {desktopMenuOpen && (
+              <div
+                role="menu"
+                aria-label="Menu lainnya"
+                className="absolute right-0 top-full mt-2 w-60 bg-white border border-slate-200 rounded-2xl shadow-xl p-1.5 z-50"
+              >
+                {secondaryNavItems.map((item) => {
+                  const isActive = currentView === item.view;
+                  return (
+                    <button
+                      key={item.view}
+                      type="button"
+                      role="menuitem"
+                      onClick={() => handleNavClick(item.view)}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-left transition cursor-pointer ${
+                        isActive
+                          ? 'bg-emerald-50 text-emerald-800'
+                          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                      }`}
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
           {/* Sound Mute Toggle (Desktop/Tablet) */}
           <button
             type="button"
             onClick={handleToggleSound}
-            className="hidden sm:flex p-1.5 hover:bg-slate-100 text-slate-500 rounded-lg transition cursor-pointer"
+            className="hidden sm:flex p-1.5 hover:bg-slate-100 text-slate-500 rounded-lg transition cursor-pointer min-h-[44px] min-w-[44px]"
             title={isMuted ? 'Nyalakan Suara' : 'Matikan Suara'}
             aria-label={isMuted ? 'Nyalakan Suara' : 'Matikan Suara'}
             aria-pressed={isMuted}
@@ -182,7 +252,7 @@ export const HeaderNav: React.FC = () => {
           <button
             type="button"
             onClick={() => handleNavClick('settings')}
-            className={`hidden sm:flex p-1.5 rounded-lg transition cursor-pointer ${
+            className={`hidden sm:flex p-1.5 rounded-lg transition cursor-pointer min-h-[44px] min-w-[44px] ${
               currentView === 'settings'
                 ? 'bg-emerald-100 text-emerald-800'
                 : 'hover:bg-slate-100 text-slate-500 hover:text-slate-800'
@@ -202,7 +272,7 @@ export const HeaderNav: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-1.5 hover:bg-slate-100 text-slate-700 rounded-lg transition cursor-pointer"
+            className="lg:hidden p-2 hover:bg-slate-100 text-slate-700 rounded-xl transition cursor-pointer min-h-[44px] min-w-[44px]"
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
@@ -211,40 +281,127 @@ export const HeaderNav: React.FC = () => {
           </button>
         </div>
       </div>
+      </header>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <nav
-          id="mobile-navigation"
-          aria-label="Navigasi utama"
-          className="lg:hidden pt-3 pb-2 border-t border-slate-100 mt-2 space-y-2 animate-in slide-in-from-top-2"
-        >
-          {/* Mobile PWA Install */}
-          <div className="px-2.5 py-2 flex items-center justify-between bg-slate-50 rounded-xl border border-slate-200/60">
-            <div className="flex items-center gap-2">
-              <BrandLogoIcon className="w-5 h-5 rounded-md shadow-xs" />
-              <span className="text-xs font-bold text-slate-800">Aplikasi KantorKu</span>
-            </div>
-            <PWAInstallButton />
-          </div>
-          <div className="grid grid-cols-2 gap-1.5 p-1">
-            {navItems.map((item) => (
-              <button
-                key={item.view}
-                type="button"
-                onClick={() => handleNavClick(item.view)}
-                aria-current={currentView === item.view ? 'page' : undefined}
-                className={`flex items-center gap-2 p-2.5 rounded-xl text-xs font-semibold transition ${
-                  currentView === item.view ? 'bg-emerald-100 text-emerald-900 font-bold' : 'bg-slate-50 text-slate-700'
-                }`}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
-        </nav>
+      {/* Backdrop untuk dropdown "Lainnya" di desktop */}
+      {desktopMenuOpen && (
+        <div
+          className="hidden lg:block fixed inset-0 z-30 bg-slate-900/20"
+          onClick={() => setDesktopMenuOpen(false)}
+          aria-hidden="true"
+        />
       )}
-    </header>
+
+      {/*
+       * Drawer harus berada di luar <header>: header memakai backdrop-filter
+       * + konteks overflow sehingga position:fixed akan terkunci setinggi
+       * header dan seluruh menu terpotong di mobile.
+       */}
+      {mobileMenuOpen && (
+        <div
+          id="mobile-navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigasi utama"
+          className="lg:hidden fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-md flex flex-col animate-in fade-in zoom-in-95 safe-top safe-horizontal safe-bottom"
+        >
+          {/* Header bar of drawer */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-slate-900/80">
+            <div className="flex items-center gap-2.5">
+              <BrandLogoIcon className="w-6 h-6 rounded-xl shadow-sm" />
+              <span className="text-sm font-bold text-white">Navigasi KantorKu</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Tutup menu navigasi"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition min-h-[44px] min-w-[44px]"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* PWA Install + Player quick stats */}
+          <div className="px-5 py-4 border-b border-white/10 bg-slate-900/60">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <BrandLogoIcon className="w-5 h-5 rounded-md shadow-xs" />
+                <span className="text-xs font-bold text-slate-200">Aplikasi KantorKu</span>
+              </div>
+              <PWAInstallButton />
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                  <Flame className="w-4 h-4 text-emerald-400 fill-current" />
+                </div>
+                <div>
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase">Streak</div>
+                  <div className="text-sm font-bold text-white">{profile.streakDays} Hari</div>
+                </div>
+              </div>
+              <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">
+                  <Coins className="w-4 h-4 text-amber-400 fill-current" />
+                </div>
+                <div>
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase">Koin</div>
+                  <div className="text-sm font-bold text-white">{profile.coins}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Nav list - 2 columns grid for easy thumb reach */}
+          <div className="flex-1 overflow-y-auto px-4 pb-6">
+            <div className="grid grid-cols-2 gap-2">
+              {navItems.map((item) => {
+                const isActive = currentView === item.view;
+                return (
+                  <button
+                    key={item.view}
+                    type="button"
+                    onClick={() => handleNavClick(item.view)}
+                    aria-current={currentView === item.view ? 'page' : undefined}
+                    className={`flex flex-col items-center gap-1 p-3 rounded-2xl text-xs font-semibold transition min-h-[72px] ${
+                      currentView === item.view
+                        ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/25'
+                        : 'bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300'
+                    }`}
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {/* Sound + Settings quick actions */}
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={handleToggleSound}
+                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 transition min-h-[56px] cursor-pointer"
+                aria-label={isMuted ? 'Nyalakan Suara' : 'Matikan Suara'}
+                aria-pressed={isMuted}
+              >
+                {isMuted ? <VolumeX className="w-5 h-5 text-slate-400" /> : <Volume2 className="w-5 h-5 text-emerald-400" />}
+                <span className="text-[10px] font-semibold">{isMuted ? 'Nyalakan' : 'Matikan'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleNavClick('settings')}
+                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 transition min-h-[56px] cursor-pointer"
+                aria-label="Pengaturan"
+              >
+                <Settings className="w-5 h-5 text-slate-400" />
+                <span className="text-[10px] font-semibold">Pengaturan</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <MobileTabBar onOpenMenu={() => setMobileMenuOpen(true)} menuOpen={mobileMenuOpen} />
+    </>
   );
 };

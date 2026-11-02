@@ -26,6 +26,53 @@ export default defineConfig(() => {
         '@': import.meta.dirname,
       },
     },
+    build: {
+      rolldownOptions: {
+        output: {
+          codeSplitting: {
+            groups: [
+              {
+                name: 'react-vendor',
+                test: /node_modules[\\/](react|react-dom|scheduler|use-sync-external-store)[\\/]/,
+                priority: 30,
+              },
+              {
+                name: 'icons',
+                test: /node_modules[\\/]lucide-react[\\/]/,
+                priority: 20,
+              },
+              {
+                name: 'codemirror-langs',
+                test: /node_modules[\\/](@codemirror[\\/]lang-[^\\/]+|@lezer[\\/](javascript|css|html))[\\/]/,
+                priority: 27,
+                includeDependenciesRecursively: false,
+              },
+              {
+                name: 'codemirror-core',
+                test: /node_modules[\\/](@codemirror|@lezer|codemirror|style-mod|w3c-keyname|@marijn)[\\/]/,
+                priority: 25,
+                includeDependenciesRecursively: false,
+              },
+              {
+                name: 'content-lessons',
+                test: /src[\\/]content[\\/]lessons[\\/]/,
+                priority: 15,
+              },
+              {
+                name: 'content-levels',
+                test: /src[\\/]content[\\/]levels/,
+                priority: 14,
+              },
+              {
+                name: 'content-cases',
+                test: /src[\\/]content[\\/]caseFiles/,
+                priority: 13,
+              },
+            ],
+          },
+        },
+      },
+    },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modify—file watching is disabled to prevent flickering during agent edits.

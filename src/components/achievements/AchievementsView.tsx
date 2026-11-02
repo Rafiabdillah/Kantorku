@@ -50,7 +50,7 @@ export const AchievementsView: React.FC = () => {
       </div>
 
       {/* Category Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
         {['all', 'career', 'excel', 'coding', 'word', 'audit', 'speed'].map((cat) => (
           <button
             key={cat}
@@ -59,7 +59,7 @@ export const AchievementsView: React.FC = () => {
               sound.playClick();
               setActiveCategory(cat);
             }}
-            className={`px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition cursor-pointer capitalize ${
+            className={`shrink-0 px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition cursor-pointer capitalize ${
               activeCategory === cat
                 ? 'bg-slate-900 text-white shadow-sm'
                 : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'

@@ -60,8 +60,12 @@ for (const viewport of viewports) {
 }
 
 test('closing audit: all 17 domain dialogs open and close at mobile and desktop widths', async ({ page }) => {
+  // 17 dialog x 3 viewport dengan animasi melebihi timeout default 30 detik.
+  test.setTimeout(120_000);
   await page.goto('/?autostart=1&view=skills-map');
   await page.waitForLoadState('domcontentloaded');
+
+  const closeButton = page.getByRole('button', { name: 'Tutup Modal' });
 
   for (const viewport of [viewports[0], viewports[1], viewports[2]]) {
     await page.setViewportSize(viewport);
@@ -73,12 +77,13 @@ test('closing audit: all 17 domain dialogs open and close at mobile and desktop 
     for (let index = 0; index < 17; index += 1) {
       const card = cards.nth(index);
       await card.click();
-      await expect(page.getByRole('button', { name: 'Tutup Modal' })).toBeVisible();
+      await expect(closeButton).toBeVisible();
       const overflow = await page.evaluate(() =>
         document.documentElement.scrollWidth > document.documentElement.clientWidth
       );
       expect(overflow).toBe(false);
-      await page.getByRole('button', { name: 'Tutup Modal' }).click();
+      await closeButton.click();
+      await expect(closeButton).toBeHidden();
     }
   }
 });

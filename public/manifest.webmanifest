@@ -54,7 +54,7 @@
   "shortcuts": [
     {
       "name": "Mulai Misi",
-      "url": "/?view=mission&level=excel-t1-01",
+      "url": "./?view=mission&level=excel-t1-01",
       "icons": [
         {
           "src": "./pwa-192x192.png",
@@ -64,7 +64,7 @@
     },
     {
       "name": "Pusat Belajar",
-      "url": "/?view=learning",
+      "url": "./?view=learning",
       "icons": [
         {
           "src": "./pwa-192x192.png",

@@ -43,30 +43,33 @@ export const MentorView: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto pb-12">
+    <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-4xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex items-center justify-between bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-white rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-xs">
+        <div className="flex items-start gap-3 min-w-0">
           <button
             type="button"
             onClick={() => {
               sound.playClick();
               setView('office');
             }}
-            className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition"
+            aria-label="Kembali ke kantor"
+            className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <div>
+          <div className="min-w-0">
             <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase">
               Mode Mentor (Peran Terbalik)
             </span>
-            <h1 className="text-xl font-extrabold text-slate-900 mt-1">Review Hasil Kerja Karyawan Magang</h1>
+            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-1 leading-tight">
+              Review Hasil Kerja Karyawan Magang
+            </h1>
           </div>
         </div>
 
         {/* Case Switcher */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {MENTOR_CASES.map((c, i) => (
             <button
               key={c.id}
@@ -77,7 +80,9 @@ export const MentorView: React.FC = () => {
                 setSelectedIssues([]);
                 setIsGraded(false);
               }}
-              className={`w-8 h-8 rounded-xl font-bold text-xs transition cursor-pointer ${
+              aria-label={`Buka kasus magang ${i + 1}`}
+              aria-current={selectedCaseIdx === i ? 'true' : undefined}
+              className={`w-10 h-10 sm:w-9 sm:h-9 rounded-xl font-bold text-xs transition cursor-pointer ${
                 selectedCaseIdx === i ? 'bg-blue-600 text-white shadow-md' : 'bg-slate-100 text-slate-600'
               }`}
             >
@@ -88,7 +93,7 @@ export const MentorView: React.FC = () => {
       </div>
 
       {/* Intern Submission Card */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+      <div className="bg-white rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
         <div className="flex items-start gap-3.5 pb-4 border-b border-slate-100">
           <CharacterAvatar id="dimas" size="md" />
           <div>

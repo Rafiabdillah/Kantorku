@@ -7,6 +7,7 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { useGameStore, AppView } from './store/useGameStore';
 import { HeaderNav } from './components/layout/HeaderNav';
+import { shouldShowMobileTabBar } from './components/layout/MobileTabBar';
 import { OnboardingView } from './components/onboarding/OnboardingView';
 import { OfficeHubView } from './components/office/OfficeHubView';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
@@ -124,7 +125,7 @@ export default function App() {
     return (
       <ErrorBoundary>
         <OfflineIndicator />
-        <div className="min-h-screen bg-slate-900 text-slate-100 flex items-center justify-center p-4">
+        <div className="min-h-dvh bg-slate-900 text-slate-100 flex items-center justify-center p-4">
           <OnboardingView />
         </div>
       </ErrorBoundary>
@@ -182,13 +183,19 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
+      <div className="min-h-dvh bg-slate-900 text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
         <OfflineIndicator />
         <a className="skip-link" href="#main-content">
           Lewati ke konten utama
         </a>
         <HeaderNav />
-        <main id="main-content" tabIndex={-1} className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 lg:p-8">
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className={`flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 lg:p-8 ${
+            shouldShowMobileTabBar(currentView) ? 'pb-24 lg:pb-8' : ''
+          }`}
+        >
           <Suspense
             fallback={
               <div className="min-h-[50vh] flex items-center justify-center">
