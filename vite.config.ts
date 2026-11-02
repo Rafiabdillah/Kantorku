@@ -26,6 +26,27 @@ export default defineConfig(() => {
         '@': import.meta.dirname,
       },
     },
+    optimizeDeps: {
+      // Editor chunks are lazy-loaded; pre-bundling avoids mid-session
+      // re-optimization that can fail E2E on cold CI runners.
+      include: [
+        '@tiptap/react',
+        '@tiptap/starter-kit',
+        '@tiptap/extension-table',
+        '@tiptap/extension-table-row',
+        '@tiptap/extension-table-cell',
+        '@tiptap/extension-table-header',
+        'codemirror',
+        '@codemirror/state',
+        '@codemirror/view',
+        '@codemirror/commands',
+        '@codemirror/lang-html',
+        '@codemirror/lang-css',
+        '@codemirror/lang-javascript',
+        '@codemirror/theme-one-dark',
+        'sql.js',
+      ],
+    },
     build: {
       rolldownOptions: {
         output: {
