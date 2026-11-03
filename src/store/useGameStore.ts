@@ -31,6 +31,15 @@ export type AppView =
   | 'settings'
   | 'about';
 
+export interface RewardNotice {
+  xp: number;
+  coins: number;
+  /** true bila ini pertama kali tugas diselesaikan (hadiah penuh). */
+  firstClear: boolean;
+  /** Tier baru bila hadiah ini menaikkan tier, selain itu null. */
+  tierUp: TierLevel | null;
+}
+
 interface GameState {
   // Navigation
   currentView: AppView;
@@ -50,6 +59,11 @@ interface GameState {
   setProfileName: (name: string) => void;
   setProfileAvatar: (avatar: string) => void;
   addXp: (amount: number) => void;
+  /** Beri XP/koin hanya sekali per kunci (mis. `case:abc`, `daily:2026-11-04`). Mengembalikan hadiah yang benar-benar diberikan. */
+  awardOnce: (key: string, xp: number, coins?: number) => { granted: boolean; xp: number; coins: number };
+  /** Hadiah terakhir (untuk toast/modal) dan notifikasi naik tier. */
+  lastReward: RewardNotice | null;
+  clearReward: () => void;
   addCoins: (amount: number) => void;
   spendCoins: (amount: number) => boolean;
   completeOnboarding: (name: string, avatar: string, startTier: TierLevel) => void;
@@ -74,7 +88,7 @@ interface GameState {
   setHtml: (html: string) => void;
   setCss: (css: string) => void;
   unlockHint: () => boolean;
-  recordMissionSuccess: (levelId: string, stars: number, xp: number, coins: number) => void;
+  recordMissionSuccess: (levelId: string, stars: number, xp: number, coins: number) => RewardNotice;
   recordMissionFail: (mistakeText: string) => void;
 
   // Real Case File
@@ -112,6 +126,29 @@ export function getTierForXp(xp: number): TierLevel {
   return tier;
 }
 
+/** Tanggal lokal (YYYY-MM-DD). toISOString() memakai UTC sehingga "hari baru" di WIB mulai pukul 07.00. */
+export function localDateKey(d: Date = new Date()): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+/** Selisih hari kalender antara dua kunci tanggal lokal (tahan terhadap pergantian DST). */
+export function dayDiff(fromKey: string, toKey: string): number {
+  const [fy, fm, fd] = fromKey.split('-').map(Number);
+  const [ty, tm, td] = toKey.split('-').map(Number);
+  return Math.round((Date.UTC(ty, tm - 1, td) - Date.UTC(fy, fm - 1, fd)) / 86400000);
+}
+
+/** Tambah XP dan promosikan tier jika melewati ambang. Tier tidak pernah turun. */
+export function grantXp(profile: PlayerProfile, amount: number): PlayerProfile {
+  const gain = Math.max(0, Math.round(Number.isFinite(amount) ? amount : 0));
+  const xp = profile.xp + gain;
+  const currentTier = Math.max(profile.currentTier, getTierForXp(xp)) as TierLevel;
+  return { ...profile, xp, currentTier };
+}
+
 export const initialProfile: PlayerProfile = {
   name: 'Karyawan Baru',
   avatar: 'player',
@@ -119,7 +156,8 @@ export const initialProfile: PlayerProfile = {
   coins: 100,
   streakDays: 1,
   streakFreeze: 1,
-  lastActiveDate: new Date().toISOString().split('T')[0],
+  lastActiveDate: localDateKey(),
+  xpClaims: {},
   currentTier: 1,
   moduleMastery: {
     excel: 10,
@@ -209,6 +247,7 @@ export function migrateLegacyProfile(raw: any): PlayerProfile {
     },
     domainMastery: migratedDomainMastery,
     skillMastery: existingSkillMastery,
+    xpClaims: { ...(raw.xpClaims && typeof raw.xpClaims === 'object' ? raw.xpClaims : {}) },
     targetRoleId: raw.targetRoleId || 'admin-perkantoran',
     reputation: {
       ...initialProfile.reputation,
@@ -301,25 +340,41 @@ export const useGameStore = create<GameState>()(
       setProfileAvatar: (avatar) =>
         set((state) => ({ profile: { ...state.profile, avatar } })),
 
+      lastReward: null,
+      clearReward: () => set({ lastReward: null }),
+
       addXp: (amount) =>
         set((state) => {
-          const newXp = state.profile.xp + amount;
           // Tier is a career achievement: XP can promote but never demote
           // (placement-started or imported profiles may hold a tier above their XP).
-          const newTier = Math.max(state.profile.currentTier, getTierForXp(newXp)) as TierLevel;
-
-          if (newTier > state.profile.currentTier) {
-            sound.playLevelUp();
-          }
-
+          const next = grantXp(state.profile, amount);
+          const tierUp = next.currentTier > state.profile.currentTier ? next.currentTier : null;
+          if (tierUp) sound.playLevelUp();
           return {
-            profile: {
-              ...state.profile,
-              xp: newXp,
-              currentTier: newTier,
-            },
+            profile: next,
+            lastReward: tierUp
+              ? { xp: next.xp - state.profile.xp, coins: 0, firstClear: false, tierUp }
+              : state.lastReward,
           };
         }),
+
+      awardOnce: (key, xp, coins = 0) => {
+        const state = get();
+        const claims = state.profile.xpClaims || {};
+        if (claims[key]) return { granted: false, xp: 0, coins: 0 };
+        const promoted = grantXp(state.profile, xp);
+        const tierUp = promoted.currentTier > state.profile.currentTier ? promoted.currentTier : null;
+        if (tierUp) sound.playLevelUp();
+        set({
+          profile: {
+            ...promoted,
+            coins: promoted.coins + Math.max(0, coins),
+            xpClaims: { ...claims, [key]: localDateKey() },
+          },
+          lastReward: { xp, coins, firstClear: true, tierUp },
+        });
+        return { granted: true, xp, coins };
+      },
 
       addCoins: (amount) => {
         sound.playCoin();
@@ -360,7 +415,7 @@ export const useGameStore = create<GameState>()(
 
       updateReputation: (char, delta) => {
         set((state) => {
-          const current = state.profile.reputation[char] || 50;
+          const current = state.profile.reputation[char] ?? 50;
           const updated = Math.min(100, Math.max(0, current + delta));
           return {
             profile: {
@@ -375,13 +430,11 @@ export const useGameStore = create<GameState>()(
       },
 
       checkStreak: () => {
-        const today = new Date().toISOString().split('T')[0];
+        const today = localDateKey();
         const last = get().profile.lastActiveDate;
-        if (today === last) return;
-
-        const lastDate = new Date(last);
-        const currDate = new Date(today);
-        const diffDays = Math.round((currDate.getTime() - lastDate.getTime()) / (1000 * 3600 * 24));
+        const diffDays = dayDiff(last, today);
+        // Hari yang sama, atau jam perangkat mundur: jangan ubah apa pun.
+        if (diffDays <= 0) return;
 
         set((state) => {
           let newStreak = state.profile.streakDays;
@@ -389,11 +442,14 @@ export const useGameStore = create<GameState>()(
 
           if (diffDays === 1) {
             newStreak += 1;
-          } else if (diffDays > 1) {
-            if (newFreeze > 0) {
-              newFreeze -= 1; // used freeze
+          } else {
+            // Setiap hari yang terlewat memakai 1 Streak Freeze. Kalau tidak cukup, streak mulai dari 1.
+            const missed = diffDays - 1;
+            if (newFreeze >= missed) {
+              newFreeze -= missed;
+              newStreak += 1;
             } else {
-              newStreak = 1; // broken
+              newStreak = 1;
             }
           }
 
@@ -410,13 +466,10 @@ export const useGameStore = create<GameState>()(
 
       recordLessonStreak: () => {
         get().checkStreak();
-        // Award learning bonus XP and coins
+        // Bonus belajar: XP lewat jalur yang sama agar tier ikut naik.
+        get().addXp(25);
         set((state) => ({
-          profile: {
-            ...state.profile,
-            xp: state.profile.xp + 25,
-            coins: state.profile.coins + 10,
-          },
+          profile: { ...state.profile, coins: state.profile.coins + 10 },
         }));
       },
 
@@ -506,8 +559,27 @@ export const useGameStore = create<GameState>()(
 
       recordMissionSuccess: (levelId, stars, xp, coins) => {
         sound.playSuccess();
+        get().checkStreak();
         const lvl = LEVELS.find((l) => l.id === levelId);
         const moduleName = lvl?.module || 'excel';
+
+        // Hadiah penuh hanya saat pertama kali selesai. Mengulang hanya memberi bonus 25% per bintang yang bertambah,
+        // sehingga tombol "Kirim" tidak bisa ditekan berulang untuk menambah XP.
+        const before = get().profile;
+        const firstClear = !before.completedLevelIds.includes(levelId);
+        const starGain = Math.max(0, stars - (before.levelStars[levelId] || 0));
+        const factor = firstClear ? 1 : 0.25 * starGain;
+        const xpGain = Math.round(Math.max(0, xp) * factor);
+        const coinGain = Math.round(Math.max(0, coins) * factor);
+        const progressed = firstClear || starGain > 0;
+        const tierAfter = grantXp(before, xpGain).currentTier;
+        const reward: RewardNotice = {
+          xp: xpGain,
+          coins: coinGain,
+          firstClear,
+          tierUp: tierAfter > before.currentTier ? tierAfter : null,
+        };
+        if (reward.tierUp) sound.playLevelUp();
 
         set((state) => {
           const completed = new Set(state.profile.completedLevelIds);
@@ -518,7 +590,7 @@ export const useGameStore = create<GameState>()(
 
           // Boost mastery (legacy)
           const curMastery = state.profile.moduleMastery[moduleName] || 0;
-          const newMastery = Math.min(100, curMastery + 12);
+          const newMastery = progressed ? Math.min(100, curMastery + 12) : curMastery;
 
           // Jembatan level lama ke Semesta Keterampilan (F3):
           // Map level legacy ke skill D1, D2, atau D5
@@ -545,11 +617,13 @@ export const useGameStore = create<GameState>()(
             [targetDomain]: calculateDomainMasteryFromSkills(targetDomain, currentSkills),
           };
 
+          const granted = grantXp(state.profile, xpGain);
           return {
+            // Modal hasil misi sudah menampilkan XP; toast hanya untuk naik tier.
+            lastReward: reward.tierUp ? reward : state.lastReward,
             profile: {
-              ...state.profile,
-              xp: state.profile.xp + xp,
-              coins: state.profile.coins + coins,
+              ...granted,
+              coins: state.profile.coins + coinGain,
               completedLevelIds: Array.from(completed),
               levelStars: {
                 ...state.profile.levelStars,
@@ -564,6 +638,7 @@ export const useGameStore = create<GameState>()(
             },
           };
         });
+        return reward;
       },
 
       recordMissionFail: (mistakeText) => {

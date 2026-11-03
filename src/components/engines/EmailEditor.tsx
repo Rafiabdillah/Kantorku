@@ -344,8 +344,8 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
         <div className="lg:col-span-8 p-5 flex flex-col gap-3">
           {/* Top meta fields */}
           <div className="flex items-center gap-3 border-b border-slate-100 pb-2">
-            <label className="text-xs font-bold text-slate-500 w-16">Kepada:</label>
-            <input
+            <label htmlFor="emaileditor-f1" className="text-xs font-bold text-slate-500 w-16">Kepada:</label>
+            <input id="emaileditor-f1"
               type="text"
               value={to}
               onChange={(e) => setTo(e.target.value)}
@@ -365,8 +365,8 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
 
           {showCc && (
             <div className="flex items-center gap-3 border-b border-slate-100 pb-2 animate-in fade-in">
-              <label className="text-xs font-bold text-slate-500 w-16">Cc:</label>
-              <input
+              <label htmlFor="emaileditor-f2" className="text-xs font-bold text-slate-500 w-16">Cc:</label>
+              <input id="emaileditor-f2"
                 type="text"
                 value={cc}
                 onChange={(e) => setCc(e.target.value)}
@@ -377,8 +377,8 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
           )}
 
           <div className="flex items-center gap-3 border-b border-slate-100 pb-2">
-            <label className="text-xs font-bold text-slate-500 w-16">Subjek:</label>
-            <input
+            <label htmlFor="emaileditor-f3" className="text-xs font-bold text-slate-500 w-16">Subjek:</label>
+            <input id="emaileditor-f3"
               type="text"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}

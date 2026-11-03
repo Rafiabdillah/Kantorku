@@ -7,7 +7,7 @@ import confetti from 'canvas-confetti';
 import { Search, Award, AlertCircle, ArrowLeft, Lightbulb, CheckCircle2 } from 'lucide-react';
 
 export const DetectiveView: React.FC = () => {
-  const { setView, addCoins, addXp } = useGameStore();
+  const { setView, awardOnce } = useGameStore();
   const [selectedCaseIdx, setSelectedCaseIdx] = useState<number>(0);
   const [solvedCases, setSolvedCases] = useState<string[]>([]);
   const [selectedCell, setSelectedCell] = useState<string | null>(null);
@@ -27,8 +27,7 @@ export const DetectiveView: React.FC = () => {
       setShowExplanation(true);
       if (!isSolved) {
         setSolvedCases([...solvedCases, currentCase.id]);
-        addCoins(currentCase.coinReward);
-        addXp(currentCase.xpReward);
+        awardOnce(`detective:${currentCase.id}`, currentCase.xpReward, currentCase.coinReward);
       }
     } else {
       sound.playError();
@@ -78,7 +77,7 @@ export const DetectiveView: React.FC = () => {
                 setShowExplanation(false);
                 setShowHint(false);
               }}
-              className={`w-11 h-11 sm:w-8 sm:h-8 rounded-xl font-bold text-xs transition cursor-pointer ${
+              className={`w-11 h-11 sm:w-10 sm:h-10 rounded-xl font-bold text-xs transition cursor-pointer ${
                 selectedCaseIdx === i
                   ? 'bg-purple-600 text-white shadow-md'
                   : solvedCases.includes(c.id)

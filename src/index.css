@@ -209,3 +209,14 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Placeholder terbaca: slate-500 di atas putih = 4.7:1 (WCAG AA). Browser default terlalu pucat. */
+input::placeholder,
+textarea::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #94a3b8;
+}

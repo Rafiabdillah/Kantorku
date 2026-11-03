@@ -110,8 +110,8 @@ export const CustomPathBuilderModal: React.FC<CustomPathBuilderModalProps> = ({
           )}
 
           <div>
-            <label className="font-bold text-slate-700 block mb-1">Judul Jalur Belajar:</label>
-            <input
+            <label htmlFor="custompathbuildermodal-f1" className="font-bold text-slate-700 block mb-1">Judul Jalur Belajar:</label>
+            <input id="custompathbuildermodal-f1"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -121,8 +121,8 @@ export const CustomPathBuilderModal: React.FC<CustomPathBuilderModalProps> = ({
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 block mb-1">Target Capaian Pembelajaran:</label>
-            <input
+            <label htmlFor="custompathbuildermodal-f2" className="font-bold text-slate-700 block mb-1">Target Capaian Pembelajaran:</label>
+            <input id="custompathbuildermodal-f2"
               type="text"
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
@@ -132,8 +132,8 @@ export const CustomPathBuilderModal: React.FC<CustomPathBuilderModalProps> = ({
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 block mb-1">Nama Instruktur / Dosen:</label>
-            <input
+            <label htmlFor="custompathbuildermodal-f3" className="font-bold text-slate-700 block mb-1">Nama Instruktur / Dosen:</label>
+            <input id="custompathbuildermodal-f3"
               type="text"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
@@ -142,9 +142,9 @@ export const CustomPathBuilderModal: React.FC<CustomPathBuilderModalProps> = ({
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 block mb-2">
+            <p className="font-bold text-slate-700 block mb-2">
               Pilih Pelajaran & Tandai Bacaan Wajib ({selectedLessonIds.length} Terpilih):
-            </label>
+            </p>
             <div className="space-y-1.5 max-h-56 overflow-y-auto p-2 bg-slate-50 rounded-xl border border-slate-200">
               {ALL_LESSONS.map((lesson) => {
                 const isSelected = selectedLessonIds.includes(lesson.id);

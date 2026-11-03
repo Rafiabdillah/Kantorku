@@ -101,8 +101,8 @@ export const OnboardingView: React.FC = () => {
             <div className="space-y-4">
               {/* Nama Lengkap */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap Karyawan</label>
-                <input
+                <label htmlFor="onboardingview-f1" className="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap Karyawan</label>
+                <input id="onboardingview-f1"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -113,7 +113,7 @@ export const OnboardingView: React.FC = () => {
 
               {/* Pilihan Avatar Karakter */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">Pilih Avatar Kantor</label>
+                <p className="block text-xs font-bold text-slate-700 mb-1.5">Pilih Avatar Kantor</p>
                 <div className="grid grid-cols-5 gap-2">
                   {avatarOptions.map((opt) => {
                     const isSelected = avatar === opt.id;
@@ -143,7 +143,7 @@ export const OnboardingView: React.FC = () => {
 
               {/* Fokus Keahlian Utama */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">Fokus Keahlian Utama</label>
+                <p className="block text-xs font-bold text-slate-700 mb-1.5">Fokus Keahlian Utama</p>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <button
                     type="button"

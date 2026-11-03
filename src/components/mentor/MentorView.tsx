@@ -7,7 +7,7 @@ import confetti from 'canvas-confetti';
 import { Users, Award, CheckCircle2, ArrowLeft, MessageSquare, AlertTriangle } from 'lucide-react';
 
 export const MentorView: React.FC = () => {
-  const { setView, addCoins, addXp } = useGameStore();
+  const { setView, awardOnce } = useGameStore();
   const [selectedCaseIdx, setSelectedCaseIdx] = useState<number>(0);
   const [selectedIssues, setSelectedIssues] = useState<string[]>([]);
   const [isGraded, setIsGraded] = useState<boolean>(false);
@@ -37,8 +37,7 @@ export const MentorView: React.FC = () => {
 
     if (score >= 70) {
       confetti({ particleCount: 70, spread: 60 });
-      addCoins(currentCase.coinReward);
-      addXp(currentCase.xpReward);
+      awardOnce(`mentor:${currentCase.id}`, currentCase.xpReward, currentCase.coinReward);
     }
   };
 
@@ -82,7 +81,7 @@ export const MentorView: React.FC = () => {
               }}
               aria-label={`Buka kasus magang ${i + 1}`}
               aria-current={selectedCaseIdx === i ? 'true' : undefined}
-              className={`w-11 h-11 sm:w-9 sm:h-9 rounded-xl font-bold text-xs transition cursor-pointer ${
+              className={`w-11 h-11 sm:w-10 sm:h-10 rounded-xl font-bold text-xs transition cursor-pointer ${
                 selectedCaseIdx === i ? 'bg-blue-600 text-white shadow-md' : 'bg-slate-100 text-slate-600'
               }`}
             >
@@ -135,7 +134,7 @@ export const MentorView: React.FC = () => {
                   type="checkbox"
                   checked={selectedIssues.includes(iss.id)}
                   onChange={() => toggleIssue(iss.id)}
-                  className="h-4 w-4 shrink-0 rounded text-blue-600 focus:ring-0"
+                  className="h-5 w-5 shrink-0 rounded text-blue-600 focus-visible:outline-2 focus-visible:outline-blue-600"
                 />
                 <span>{iss.description}</span>
               </label>

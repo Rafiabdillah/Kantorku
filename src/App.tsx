@@ -12,6 +12,7 @@ import { OnboardingView } from './components/onboarding/OnboardingView';
 import { OfficeHubView } from './components/office/OfficeHubView';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { OfflineIndicator } from './components/pwa/OfflineIndicator';
+import { RewardToast } from './components/common/RewardToast';
 
 // Lazy-loaded secondary views for high performance & clean code-splitting
 const SkillsMapView = lazy(() =>
@@ -82,8 +83,19 @@ const AboutView = lazy(() =>
 );
 
 export default function App() {
-  const { profile, currentView, setView, completeOnboarding, startMission, activeLevelId } = useGameStore();
+  const { profile, currentView, setView, completeOnboarding, startMission, activeLevelId, checkStreak } = useGameStore();
   const hasAppliedUrlRoute = useRef(false);
+
+  // Streak dihitung saat aplikasi dibuka dan saat tab kembali aktif, bukan hanya saat Daily dikerjakan.
+  useEffect(() => {
+    if (!profile.hasCompletedOnboarding) return;
+    checkStreak();
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') checkStreak();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [profile.hasCompletedOnboarding, checkStreak]);
 
   // Query parameter support: apply the deep link once so it cannot hijack in-app navigation.
   useEffect(() => {
@@ -191,6 +203,7 @@ export default function App() {
     <ErrorBoundary>
       <div className="min-h-dvh bg-slate-900 text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
         <OfflineIndicator />
+        <RewardToast />
         <a className="skip-link" href="#main-content">
           Lewati ke konten utama
         </a>

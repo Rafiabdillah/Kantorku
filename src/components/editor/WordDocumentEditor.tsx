@@ -116,7 +116,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
               editor?.chain().focus().toggleHeading({ level: 1 }).run();
             }}
             aria-label="Judul Heading 1"
-            className={`px-2 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg font-bold flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`px-2 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg font-bold flex items-center justify-center cursor-pointer touch-manipulation transition ${
               editor?.isActive('heading', { level: 1 })
                 ? 'bg-blue-100 text-blue-700'
                 : 'hover:bg-slate-100 text-slate-700'
@@ -132,7 +132,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
               editor?.chain().focus().toggleHeading({ level: 2 }).run();
             }}
             aria-label="Judul Heading 2"
-            className={`px-2 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg font-bold flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`px-2 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg font-bold flex items-center justify-center cursor-pointer touch-manipulation transition ${
               editor?.isActive('heading', { level: 2 })
                 ? 'bg-blue-100 text-blue-700'
                 : 'hover:bg-slate-100 text-slate-700'
@@ -148,7 +148,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
               editor?.chain().focus().setParagraph().run();
             }}
             aria-label="Paragraf normal"
-            className={`px-2 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg text-xs font-semibold flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`px-2 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg text-xs font-semibold flex items-center justify-center cursor-pointer touch-manipulation transition ${
               editor?.isActive('paragraph') && !editor?.isActive('heading')
                 ? 'bg-blue-100 text-blue-700'
                 : 'hover:bg-slate-100 text-slate-700'
@@ -164,7 +164,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <select
             value={fontFamily}
             onChange={(e) => setFontFamily(e.target.value as any)}
-            className="text-xs min-h-[44px] sm:min-h-[32px] bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700 font-medium outline-none cursor-pointer"
+            className="text-xs min-h-[44px] sm:min-h-[40px] bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700 font-medium outline-none cursor-pointer"
           >
             <option value="Times New Roman">Times New Roman (Akademik)</option>
             <option value="Calibri">Calibri (Bisnis)</option>
@@ -180,7 +180,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
               sound.playClick();
               editor?.chain().focus().toggleBold().run();
             }}
-            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg font-bold flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg font-bold flex items-center justify-center cursor-pointer touch-manipulation transition ${
               editor?.isActive('bold')
                 ? 'bg-blue-100 text-blue-700'
                 : 'hover:bg-slate-100 text-slate-700'
@@ -195,7 +195,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
               sound.playClick();
               editor?.chain().focus().toggleItalic().run();
             }}
-            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg italic flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg italic flex items-center justify-center cursor-pointer touch-manipulation transition ${
               editor?.isActive('italic')
                 ? 'bg-blue-100 text-blue-700'
                 : 'hover:bg-slate-100 text-slate-700'
@@ -210,7 +210,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
               sound.playClick();
               editor?.chain().focus().toggleUnderline().run();
             }}
-            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
               editor?.isActive('underline')
                 ? 'bg-blue-100 text-blue-700'
                 : 'hover:bg-slate-100 text-slate-700'
@@ -222,7 +222,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <select
             value={lineSpacing}
             onChange={(e) => setLineSpacing(e.target.value as any)}
-            className="text-[11px] min-h-[44px] sm:min-h-[32px] bg-slate-50 border border-slate-200 rounded px-1.5 py-1 text-slate-700 font-medium cursor-pointer"
+            className="text-[11px] min-h-[44px] sm:min-h-[40px] bg-slate-50 border border-slate-200 rounded px-1.5 py-1 text-slate-700 font-medium cursor-pointer"
             title="Spasi Baris"
           >
             <option value="1.0">1.0</option>
@@ -237,7 +237,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <button
             type="button"
             onClick={() => setTextAlign('left')}
-            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
               textAlign === 'left' ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-100 text-slate-700'
             }`}
             title="Rata Kiri"
@@ -247,7 +247,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <button
             type="button"
             onClick={() => setTextAlign('center')}
-            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
               textAlign === 'center' ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-100 text-slate-700'
             }`}
             title="Rata Tengah"
@@ -257,7 +257,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <button
             type="button"
             onClick={() => setTextAlign('justify')}
-            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
               textAlign === 'justify' ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-100 text-slate-700'
             }`}
             title="Rata Kanan Kiri (Justify)"
@@ -270,7 +270,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
               sound.playClick();
               editor?.chain().focus().toggleBulletList().run();
             }}
-            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
               editor?.isActive('bulletList')
                 ? 'bg-blue-100 text-blue-700'
                 : 'hover:bg-slate-100 text-slate-700'
@@ -285,7 +285,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
               sound.playClick();
               editor?.chain().focus().toggleOrderedList().run();
             }}
-            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
+            className={`p-1.5 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg flex items-center justify-center cursor-pointer touch-manipulation transition ${
               editor?.isActive('orderedList')
                 ? 'bg-blue-100 text-blue-700'
                 : 'hover:bg-slate-100 text-slate-700'
@@ -301,7 +301,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <select
             value={marginPreset}
             onChange={(e) => setMarginPreset(e.target.value as any)}
-            className="text-[11px] min-h-[44px] sm:min-h-[32px] bg-slate-50 border border-slate-200 rounded px-2 py-1 text-slate-700 font-medium cursor-pointer"
+            className="text-[11px] min-h-[44px] sm:min-h-[40px] bg-slate-50 border border-slate-200 rounded px-2 py-1 text-slate-700 font-medium cursor-pointer"
             title="Preset Margin Kertas A4"
           >
             <option value="akademik">Margin 4-3-3-3 cm (Akademik ID)</option>
@@ -311,7 +311,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <button
             type="button"
             onClick={insertSampleTable}
-            className="p-1.5 px-2 min-h-[44px] sm:min-h-[32px] rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium flex items-center gap-1 text-xs cursor-pointer touch-manipulation transition active:scale-95"
+            className="p-1.5 px-2 min-h-[44px] sm:min-h-[40px] rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium flex items-center gap-1 text-xs cursor-pointer touch-manipulation transition active:scale-95"
             title="Sisipkan Tabel Matriks Tindak Lanjut"
           >
             <TableIcon className="w-3.5 h-3.5 text-blue-600" />
@@ -320,7 +320,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <button
             type="button"
             onClick={insertFootnote}
-            className="p-1.5 px-2 min-h-[44px] sm:min-h-[32px] rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium flex items-center gap-1 text-xs cursor-pointer touch-manipulation transition active:scale-95"
+            className="p-1.5 px-2 min-h-[44px] sm:min-h-[40px] rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium flex items-center gap-1 text-xs cursor-pointer touch-manipulation transition active:scale-95"
             title="Sisipkan Catatan Kaki / Sitasi [1]"
           >
             <Bookmark className="w-3.5 h-3.5 text-purple-600" />
@@ -333,7 +333,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <select
             value={watermark}
             onChange={(e) => setWatermark(e.target.value)}
-            className="text-[11px] min-h-[44px] sm:min-h-[32px] bg-slate-50 border border-slate-200 rounded px-2 py-1 text-slate-700 font-medium cursor-pointer"
+            className="text-[11px] min-h-[44px] sm:min-h-[40px] bg-slate-50 border border-slate-200 rounded px-2 py-1 text-slate-700 font-medium cursor-pointer"
             title="Watermark Dokumen"
           >
             <option value="">Tanpa Watermark</option>
@@ -345,7 +345,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
           <button
             type="button"
             onClick={handleExportDoc}
-            className="flex items-center gap-1 px-2.5 py-1 min-h-[44px] sm:min-h-[32px] bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition active:scale-95 cursor-pointer touch-manipulation"
+            className="flex items-center gap-1 px-2.5 py-1 min-h-[44px] sm:min-h-[40px] bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition active:scale-95 cursor-pointer touch-manipulation"
             title="Ekspor ke file Word (.doc)"
           >
             <Download className="w-3.5 h-3.5" />

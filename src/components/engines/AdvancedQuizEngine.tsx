@@ -258,10 +258,10 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
         {/* TYPE 1: URUTAN (Ordering) */}
         {currentQ.type === 'urutan' && (
           <div className="space-y-2.5">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
               <ArrowUpDown className="w-4 h-4 text-emerald-600" />
               Susun urutan dengan tombol panah:
-            </label>
+            </p>
             {currentOrder.map((itemId, idx) => {
               const item = currentQ.items.find((i) => i.id === itemId);
               if (!item) return null;
@@ -305,10 +305,10 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
         {/* TYPE 2: COCOKKAN (Matching) */}
         {currentQ.type === 'cocokkan' && (
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
               <Link2 className="w-4 h-4 text-blue-600" />
               Pasangkan konteks di kiri dengan respon tepat di kanan:
-            </label>
+            </p>
             <div className="space-y-3">
               {currentQ.pairs.map((pair) => (
                 <div
@@ -341,11 +341,11 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
         {currentQ.type === 'temukan-kesalahan' && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                 <Search className="w-4 h-4 text-rose-600" />
                 Klik kalimat yang mengandung kesalahan / red flag ({currentSelectedErrors.length} /{' '}
                 {currentQ.requiredErrorCount} dipilih):
-              </label>
+              </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-900 text-slate-100 font-sans text-xs space-y-2 border border-slate-800">
@@ -375,10 +375,10 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
         {/* TYPE 4: KLIK AREA (Hotspot) */}
         {currentQ.type === 'klik-area' && (
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
               <Crosshair className="w-4 h-4 text-purple-600" />
               Pilih area yang paling kritis untuk diperiksa:
-            </label>
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {currentQ.previewImageOrBox.zones.map((zone) => {
                 const isSelected = selectedZoneId === zone.id;

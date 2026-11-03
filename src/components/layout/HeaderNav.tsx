@@ -24,6 +24,12 @@ import {
   Info,
   MoreHorizontal,
   Zap,
+  Search,
+  Users,
+  Timer,
+  ShieldCheck,
+  Swords,
+  Wrench,
 } from 'lucide-react';
 import { PWAInstallButton } from '../pwa/PWAInstallButton';
 import { MobileTabBar } from './MobileTabBar';
@@ -84,6 +90,16 @@ export const HeaderNav: React.FC = () => {
   ];
 
   const navItems = [...primaryNavItems, ...secondaryNavItems];
+
+  const gameModeItems: { view: AppView; label: string; icon: React.ReactNode }[] = [
+    { view: 'daily', label: 'Tantangan Harian', icon: <Zap className="w-4 h-4" /> },
+    { view: 'detective', label: 'Detektif', icon: <Search className="w-4 h-4" /> },
+    { view: 'mentor', label: 'Mentor', icon: <Users className="w-4 h-4" /> },
+    { view: 'speed', label: 'Kilat', icon: <Timer className="w-4 h-4" /> },
+    { view: 'exam', label: 'Ujian & Sertif', icon: <ShieldCheck className="w-4 h-4" /> },
+    { view: 'duel', label: 'Duel Asinkron', icon: <Swords className="w-4 h-4" /> },
+    { view: 'creator', label: 'Kreator Level', icon: <Wrench className="w-4 h-4" /> },
+  ];
 
   const handleNavClick = (view: AppView) => {
     setView(view);
@@ -397,8 +413,28 @@ export const HeaderNav: React.FC = () => {
                 );
               })}
             </div>
-            {/* Sound + Settings quick actions */}
-            <div className="mt-4 grid grid-cols-2 gap-2">
+            {/* Mode game: dulu hanya bisa dicapai dengan menggulir jauh ke bawah di halaman Kantor */}
+            <h3 className="mt-5 mb-2 px-1 text-[11px] font-bold uppercase tracking-wide text-slate-300">Mode Game</h3>
+            <div className="grid grid-cols-2 gap-2">
+              {gameModeItems.map((item) => (
+                <button
+                  key={item.view}
+                  type="button"
+                  onClick={() => handleNavClick(item.view)}
+                  aria-current={currentView === item.view ? 'page' : undefined}
+                  className={`flex flex-col items-center gap-1 p-3 rounded-2xl text-xs font-semibold transition min-h-[64px] cursor-pointer focus-visible:outline-2 focus-visible:outline-emerald-400 ${
+                    currentView === item.view
+                      ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/25'
+                      : 'bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300'
+                  }`}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </div>
+            {/* Sound quick action */}
+            <div className="mt-4 grid grid-cols-1 gap-2">
               <button
                 type="button"
                 onClick={handleToggleSound}
@@ -408,15 +444,6 @@ export const HeaderNav: React.FC = () => {
               >
                 {isMuted ? <VolumeX className="w-5 h-5 text-slate-400" /> : <Volume2 className="w-5 h-5 text-emerald-400" />}
                 <span className="text-[10px] font-semibold">{isMuted ? 'Nyalakan' : 'Matikan'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleNavClick('settings')}
-                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 transition min-h-[56px] cursor-pointer"
-                aria-label="Pengaturan"
-              >
-                <Settings className="w-5 h-5 text-slate-400" />
-                <span className="text-[10px] font-semibold">Pengaturan</span>
               </button>
             </div>
           </div>

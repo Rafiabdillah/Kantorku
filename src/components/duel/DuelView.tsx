@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useGameStore } from '../../store/useGameStore';
+import { useGameStore, localDateKey } from '../../store/useGameStore';
 import { CharacterAvatar } from '../character/CharacterAvatar';
 import { sound } from '../../services/sound';
 import confetti from 'canvas-confetti';
 import { Trophy, Swords, ArrowLeft, CheckCircle2, UserCheck } from 'lucide-react';
 
 export const DuelView: React.FC = () => {
-  const { profile, setView, addCoins, addXp } = useGameStore();
+  const { profile, setView, awardOnce } = useGameStore();
 
   const [selectedOpponent, setSelectedOpponent] = useState<'dimas' | 'intan' | 'reza'>('dimas');
   const [duelState, setDuelState] = useState<'select' | 'battling' | 'result'>('select');
@@ -32,8 +32,7 @@ export const DuelView: React.FC = () => {
         setWinner('player');
         sound.playSuccess();
         confetti({ particleCount: 70 });
-        addCoins(200);
-        addXp(300);
+        awardOnce(`duel:${selectedOpponent}:${localDateKey()}`, 300, 200);
       } else {
         setWinner('opponent');
         sound.playError();

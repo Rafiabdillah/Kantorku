@@ -14,7 +14,7 @@ interface SpreadsheetEditorProps {
 const ALL_COLS = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 const TOTAL_ROWS = 200;
 const ROW_HEIGHT = 28;
-const DEFAULT_COL_WIDTH = 112;
+const DEFAULT_COL_WIDTH = 120;
 
 interface UndoHistoryEntry {
   grid: SheetGrid;
@@ -40,7 +40,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
     const widths: Record<string, number> = {};
     ALL_COLS.forEach((col) => {
       // Default widths: wider for B and C where amounts or names usually live
-      widths[col] = col === 'A' ? 140 : col === 'B' || col === 'C' ? 120 : DEFAULT_COL_WIDTH;
+      widths[col] = col === 'A' ? 180 : col === 'B' || col === 'C' ? 150 : DEFAULT_COL_WIDTH;
     });
     return widths;
   });
@@ -460,7 +460,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
             type="button"
             onClick={handleUndo}
             disabled={undoStack.length === 0}
-            className="p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center justify-center transition disabled:opacity-30 hover:bg-slate-200 text-slate-700 cursor-pointer"
+            className="p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[40px] sm:min-h-[40px] rounded-lg flex items-center justify-center transition disabled:opacity-30 hover:bg-slate-200 text-slate-700 cursor-pointer"
             title="Urungkan (Undo Ctrl+Z)"
           >
             <Undo2 className="w-3.5 h-3.5" />
@@ -469,7 +469,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
             type="button"
             onClick={handleRedo}
             disabled={redoStack.length === 0}
-            className="p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center justify-center transition disabled:opacity-30 hover:bg-slate-200 text-slate-700 cursor-pointer"
+            className="p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[40px] sm:min-h-[40px] rounded-lg flex items-center justify-center transition disabled:opacity-30 hover:bg-slate-200 text-slate-700 cursor-pointer"
             title="Ulangi (Redo Ctrl+Y)"
           >
             <Redo2 className="w-3.5 h-3.5" />
@@ -478,7 +478,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
           <button
             type="button"
             onClick={() => toggleFormat('rupiah')}
-            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
+            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[40px] sm:min-h-[40px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
               currentCellData.format === 'rupiah' ? 'bg-emerald-100 text-emerald-800' : 'hover:bg-slate-200 text-slate-700'
             }`}
             title="Format Rupiah (Rp)"
@@ -489,7 +489,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
           <button
             type="button"
             onClick={() => toggleFormat('percent')}
-            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
+            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[40px] sm:min-h-[40px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
               currentCellData.format === 'percent' ? 'bg-amber-100 text-amber-800' : 'hover:bg-slate-200 text-slate-700'
             }`}
             title="Format Persen (%)"
@@ -499,7 +499,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
           <button
             type="button"
             onClick={() => toggleFormat('number')}
-            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
+            className={`p-1.5 min-w-[44px] min-h-[44px] sm:min-w-[40px] sm:min-h-[40px] rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer ${
               currentCellData.format === 'number' ? 'bg-blue-100 text-blue-800' : 'hover:bg-slate-200 text-slate-700'
             }`}
             title="Format Angka Ribuan"
@@ -516,7 +516,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
         <button
           type="button"
           onClick={openFormulaEditor}
-          className="ml-auto flex items-center justify-center gap-1 px-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 font-semibold transition cursor-pointer shrink-0 min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px]"
+          className="ml-auto flex items-center justify-center gap-1 px-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 font-semibold transition cursor-pointer shrink-0 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px]"
           title="Buka editor rumus besar"
           aria-label="Perbesar editor rumus"
         >
@@ -769,7 +769,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
               <button
                 type="button"
                 onClick={closeFormulaEditor}
-                className="flex items-center justify-center min-h-[44px] min-w-[44px] sm:min-h-[32px] sm:min-w-[32px] rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition cursor-pointer shrink-0"
+                className="flex items-center justify-center min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition cursor-pointer shrink-0"
                 title="Tutup editor rumus (Esc)"
                 aria-label="Tutup editor rumus"
               >

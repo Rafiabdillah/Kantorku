@@ -88,8 +88,8 @@ export const LevelCreatorView: React.FC = () => {
 
       <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Judul Tugas</label>
-          <input
+          <label htmlFor="levelcreatorview-f1" className="block text-xs font-bold text-slate-700 mb-1">Judul Tugas</label>
+          <input id="levelcreatorview-f1"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -98,13 +98,14 @@ export const LevelCreatorView: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Modul Pembelajaran</label>
+          <p className="block text-xs font-bold text-slate-700 mb-1">Modul Pembelajaran</p>
           <div className="flex gap-2">
             {(['excel', 'coding', 'word'] as const).map((m) => (
               <button
                 key={m}
                 type="button"
                 onClick={() => setModuleType(m)}
+                aria-pressed={moduleType === m}
                 className={`flex-1 py-2 rounded-xl text-xs font-bold border transition cursor-pointer capitalize ${
                   moduleType === m ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-50 text-slate-700 border-slate-200'
                 }`}
@@ -116,8 +117,8 @@ export const LevelCreatorView: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Target / Checklist Objektif</label>
-          <input
+          <label htmlFor="levelcreatorview-f2" className="block text-xs font-bold text-slate-700 mb-1">Target / Checklist Objektif</label>
+          <input id="levelcreatorview-f2"
             type="text"
             value={objective}
             onChange={(e) => setObjective(e.target.value)}
@@ -126,8 +127,8 @@ export const LevelCreatorView: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Petunjuk (Hint)</label>
-          <input
+          <label htmlFor="levelcreatorview-f3" className="block text-xs font-bold text-slate-700 mb-1">Petunjuk (Hint)</label>
+          <input id="levelcreatorview-f3"
             type="text"
             value={hint}
             onChange={(e) => setHint(e.target.value)}

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useGameStore } from '../../store/useGameStore';
+import { useGameStore, localDateKey } from '../../store/useGameStore';
 import { PLACEMENT_QUESTIONS } from '../../content/placementQuestions';
 import { sound } from '../../services/sound';
 import confetti from 'canvas-confetti';
 import { Zap, Flame, Award, ArrowLeft, CheckCircle2, ShieldAlert } from 'lucide-react';
 
 export const DailyChallengeView: React.FC = () => {
-  const { profile, setView, addCoins, addXp, checkStreak, buyStreakFreeze } = useGameStore();
+  const { profile, setView, awardOnce, checkStreak, buyStreakFreeze } = useGameStore();
 
   const [question] = useState(
     () => PLACEMENT_QUESTIONS[Math.floor(Math.random() * PLACEMENT_QUESTIONS.length)]
@@ -25,8 +25,8 @@ export const DailyChallengeView: React.FC = () => {
     if (correct) {
       sound.playSuccess();
       confetti({ particleCount: 70, spread: 60 });
-      addCoins(100);
-      addXp(150);
+      // Satu hadiah per hari (tanggal lokal), bukan per kali membuka halaman.
+      awardOnce(`daily:${localDateKey()}`, 150, 100);
       checkStreak();
     } else {
       sound.playError();

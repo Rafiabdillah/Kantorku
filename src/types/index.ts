@@ -345,4 +345,6 @@ export interface PlayerProfile {
   domainMastery?: Record<string, number>; // DomainId -> 0-100
   skillMastery?: Record<string, number>; // skillId -> 0-100
   targetRoleId?: string;
+  /** Hadiah sekali-klaim: kunci -> tanggal klaim (YYYY-MM-DD, zona waktu lokal). Mencegah XP bisa diulang. */
+  xpClaims?: Record<string, string>;
 }

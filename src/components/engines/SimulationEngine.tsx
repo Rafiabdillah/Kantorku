@@ -319,9 +319,9 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
           {/* Action Area: Choices or Sentence Block Assembly */}
           {!completed && currentNode.mode === 'choice' && (
             <div className="mt-auto pt-4 border-t border-slate-100 space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
                 Pilih Tanggapan Diplomatis Terbaik:
-              </label>
+              </p>
               {currentNode.choices?.map((choice) => (
                 <button
                   key={choice.id}
@@ -339,10 +339,10 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
           {!completed && currentNode.mode === 'assembly' && currentNode.sentenceBlocks && (
             <div className="mt-auto pt-4 border-t border-slate-100 space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <p className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
                   <Layers className="w-4 h-4 text-emerald-600" />
                   Susun Jawaban dari Blok Kalimat
-                </label>
+                </p>
                 <span className="text-[11px] text-slate-400">Klik blok untuk memindahkan</span>
               </div>
 

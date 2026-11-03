@@ -26,7 +26,7 @@ import {
 import { ErrorBoundary } from '../common/ErrorBoundary';
 
 export const CaseFileView: React.FC = () => {
-  const { activeCaseId, setView, addCoins, addXp, updateReputation } = useGameStore();
+  const { activeCaseId, setView, awardOnce, updateReputation } = useGameStore();
 
   const caseItem = CASE_FILES.find((c) => c.id === activeCaseId) || CASE_FILES[0];
 
@@ -77,9 +77,9 @@ export const CaseFileView: React.FC = () => {
   const handleFinishCase = () => {
     sound.playSuccess();
     confetti({ particleCount: 70, spread: 60 });
-    addCoins(caseItem.coinsReward);
-    addXp(caseItem.xpReward);
-    updateReputation(caseItem.character, caseItem.reputationReward);
+    // Hadiah hanya diberikan pada penyelesaian pertama kasus ini.
+    const res = awardOnce(`case:${caseItem.id}`, caseItem.xpReward, caseItem.coinsReward);
+    if (res.granted) updateReputation(caseItem.character, caseItem.reputationReward);
     setShowCompleteModal(true);
   };
 

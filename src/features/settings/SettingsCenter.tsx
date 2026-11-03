@@ -899,8 +899,8 @@ export const SettingsCenter: React.FC = () => {
             <h3 className="font-black text-base text-slate-900 dark:text-white">Buat Profil Kantor Baru</h3>
             <form onSubmit={handleCreateProfileSubmit} className="space-y-3 text-xs">
               <div>
-                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Nama Pegawai</label>
-                <input
+                <label htmlFor="settingscenter-f1" className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Nama Pegawai</label>
+                <input id="settingscenter-f1"
                   type="text"
                   required
                   value={newProfileName}
@@ -910,8 +910,8 @@ export const SettingsCenter: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Tujuan Belajar</label>
-                <select
+                <label htmlFor="settingscenter-f2" className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Tujuan Belajar</label>
+                <select id="settingscenter-f2"
                   value={newProfileGoal}
                   onChange={(e) => setNewProfileGoal(e.target.value)}
                   className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none"
@@ -923,10 +923,10 @@ export const SettingsCenter: React.FC = () => {
                 </select>
               </div>
               <div>
-                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                <label htmlFor="settingscenter-f3" className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
                   Kunci PIN Profil (Opsional, minimal 4 digit)
                 </label>
-                <input
+                <input id="settingscenter-f3"
                   type="password"
                   value={newProfilePin}
                   onChange={(e) => setNewProfilePin(e.target.value)}
@@ -1042,10 +1042,10 @@ export const SettingsCenter: React.FC = () => {
               Tindakan ini tidak dapat dibatalkan. Seluruh profil, koin, riwayat dialog, dan berkas kantor akan terhapus bersih dari peramban ini.
             </p>
             <div>
-              <label className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1">
+              <label htmlFor="settingscenter-f4" className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block mb-1">
                 Ketik kata <span className="font-mono text-rose-600">HAPUS</span> untuk melanjutkan:
               </label>
-              <input
+              <input id="settingscenter-f4"
                 type="text"
                 value={wipeConfirmText}
                 onChange={(e) => setWipeConfirmText(e.target.value)}

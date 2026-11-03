@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useGameStore } from '../../store/useGameStore';
+import { useGameStore, type RewardNotice } from '../../store/useGameStore';
+import { TIERS } from '../../types';
 import { LEVELS } from '../../content/levels';
 import { CharacterAvatar } from '../character/CharacterAvatar';
 import { SpreadsheetEditor } from '../editor/SpreadsheetEditor';
@@ -63,6 +64,7 @@ export const MissionPlayView: React.FC = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'brief' | 'editor' | 'checklist'>('editor');
   const [editorExpanded, setEditorExpanded] = useState<boolean>(false);
   const [showResultModal, setShowResultModal] = useState<boolean>(false);
+  const [reward, setReward] = useState<RewardNotice | null>(null);
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false);
   const [showQuickSettings, setShowQuickSettings] = useState<boolean>(false);
   const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
@@ -103,6 +105,16 @@ export const MissionPlayView: React.FC = () => {
       window.removeEventListener('keydown', handleExpandedKey);
     };
   }, [editorExpanded]);
+
+  // Modal hasil bisa ditutup dengan Escape (aksesibilitas keyboard).
+  React.useEffect(() => {
+    if (!showResultModal) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowResultModal(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [showResultModal]);
 
   const handleSelectChoice = (choice: any) => {
     sound.playClick();
@@ -603,8 +615,9 @@ export const MissionPlayView: React.FC = () => {
         spread: 70,
         origin: { y: 0.6 },
       });
-      recordMissionSuccess(level.id, stars, level.xpReward, level.coinReward);
+      setReward(recordMissionSuccess(level.id, stars, level.xpReward, level.coinReward));
     } else {
+      setReward(null);
       recordMissionFail(feedbackList[0] || 'Hasil belum memenuhi rubrik.');
     }
   };
@@ -981,7 +994,7 @@ export const MissionPlayView: React.FC = () => {
       {/* Dialog History Modal */}
       {showHistoryModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 safe-top safe-bottom safe-horizontal">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
+          <div role="dialog" aria-modal="true" aria-label="Hasil tugas" className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
                 <MessageCircle className="w-4 h-4 text-emerald-600" />
@@ -1030,6 +1043,18 @@ export const MissionPlayView: React.FC = () => {
                   : 'Cek catatan evaluasi di bawah dan coba lagi tanpa panik!'}
               </p>
             </div>
+
+            {validationOutput.passed && reward && (
+              <p
+                role="status"
+                className="text-center text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2"
+              >
+                {reward.xp > 0
+                  ? `+${reward.xp.toLocaleString('id-ID')} XP, +${reward.coins.toLocaleString('id-ID')} koin${reward.firstClear ? '' : ' (bonus bintang baru)'}`
+                  : 'Tugas ini sudah pernah diselesaikan. Raih bintang lebih banyak untuk bonus XP.'}
+                {reward.tierUp ? ` Naik jabatan: ${TIERS[reward.tierUp].title}!` : ''}
+              </p>
+            )}
 
             {validationOutput.passed && (
               <div className="flex justify-center gap-2">

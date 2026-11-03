@@ -7,7 +7,7 @@ import confetti from 'canvas-confetti';
 import { Award, ArrowLeft, CheckCircle2, ShieldCheck, Printer, Download, Star } from 'lucide-react';
 
 export const ExamCertificationView: React.FC = () => {
-  const { profile, setView, addCoins, addXp } = useGameStore();
+  const { profile, setView, awardOnce } = useGameStore();
   const [selectedTier, setSelectedTier] = useState<TierLevel>(1);
   const [selectedTrack, setSelectedTrack] = useState<ExamTrack>('excel');
   const [isExamActive, setIsExamActive] = useState<boolean>(false);
@@ -51,8 +51,7 @@ export const ExamCertificationView: React.FC = () => {
         sound.playSuccess();
         confetti({ particleCount: 90, spread: 70 });
         setCertificateId(`KTK-2026-${Math.random().toString(36).substring(2, 8).toUpperCase()}`);
-        addCoins(300);
-        addXp(500);
+        awardOnce('exam:certification', 500, 300);
       } else {
         sound.playError();
       }
