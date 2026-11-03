@@ -14,7 +14,7 @@ interface SpreadsheetEditorProps {
 const ALL_COLS = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 const TOTAL_ROWS = 200;
 const ROW_HEIGHT = 28;
-const DEFAULT_COL_WIDTH = 100;
+const DEFAULT_COL_WIDTH = 112;
 
 interface UndoHistoryEntry {
   grid: SheetGrid;
@@ -648,7 +648,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
                     // Truncation check ("####") if column is too narrow for large formatted numbers
                     const colW = colWidths[col] || DEFAULT_COL_WIDTH;
                     const isNumeric = typeof displayVal === 'number' || cell.format === 'rupiah';
-                    const isTooNarrow = isNumeric && formattedDisplay.length * 8.5 > colW - 12;
+                    const isTooNarrow = isNumeric && formattedDisplay.length * 6.8 > colW - 16;
                     const renderedText = isTooNarrow ? '####' : formattedDisplay;
 
                     const width = colWidths[col] || DEFAULT_COL_WIDTH;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { TIERS, TierLevel } from '../../types';
-import { PLACEMENT_QUESTIONS } from '../../content/placementQuestions';
+import { EXAM_QUESTIONS, ExamTrack } from '../../content/examQuestions';
 import { sound } from '../../services/sound';
 import confetti from 'canvas-confetti';
 import { Award, ArrowLeft, CheckCircle2, ShieldCheck, Printer, Download, Star } from 'lucide-react';
@@ -9,22 +9,23 @@ import { Award, ArrowLeft, CheckCircle2, ShieldCheck, Printer, Download, Star } 
 export const ExamCertificationView: React.FC = () => {
   const { profile, setView, addCoins, addXp } = useGameStore();
   const [selectedTier, setSelectedTier] = useState<TierLevel>(1);
-  const [selectedTrack, setSelectedTrack] = useState<string>('excel');
+  const [selectedTrack, setSelectedTrack] = useState<ExamTrack>('excel');
   const [isExamActive, setIsExamActive] = useState<boolean>(false);
   const [currentQIndex, setCurrentQIndex] = useState<number>(0);
   const [userScore, setUserScore] = useState<number>(0);
   const [examFinished, setExamFinished] = useState<boolean>(false);
   const [certificateId, setCertificateId] = useState<string>('');
 
-  const tracks = [
+  const tracks: { id: ExamTrack; label: string; icon: string }[] = [
     { id: 'excel', label: 'Excel Bisnis & Analisis Data', icon: '📊' },
     { id: 'web', label: 'Web Frontend (HTML & CSS)', icon: '🌐' },
     { id: 'coding', label: 'JavaScript Pemrograman Kantor', icon: '💻' },
     { id: 'word', label: 'Word Bisnis & Standar Akademik', icon: '📝' },
   ];
 
-  const questions = PLACEMENT_QUESTIONS.slice(0, 5); // 5 exam questions
+  const questions = EXAM_QUESTIONS[selectedTrack];
   const currentQ = questions[currentQIndex];
+  const selectedTrackLabel = tracks.find((t) => t.id === selectedTrack)?.label ?? '';
 
   const handleStartExam = (tier: TierLevel) => {
     sound.playClick();
@@ -32,6 +33,7 @@ export const ExamCertificationView: React.FC = () => {
     setCurrentQIndex(0);
     setUserScore(0);
     setExamFinished(false);
+    setCertificateId('');
     setIsExamActive(true);
   };
 
@@ -100,6 +102,7 @@ export const ExamCertificationView: React.FC = () => {
                     sound.playClick();
                     setSelectedTrack(tr.id);
                   }}
+                  aria-pressed={selectedTrack === tr.id}
                   className={`p-3 rounded-xl border text-left transition flex items-center gap-2.5 cursor-pointer ${
                     selectedTrack === tr.id
                       ? 'bg-emerald-50 border-emerald-500 text-emerald-950 font-bold shadow-xs'
@@ -160,9 +163,9 @@ export const ExamCertificationView: React.FC = () => {
       {/* Active Exam Questions Screen */}
       {isExamActive && !examFinished && currentQ && (
         <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-md space-y-5 animate-in fade-in">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
             <span className="text-xs font-bold text-slate-500">
-              Soal Ujian {currentQIndex + 1} dari {questions.length} (Tier {selectedTier})
+              Soal Ujian {currentQIndex + 1} dari {questions.length} (Tier {selectedTier}) • {selectedTrackLabel}
             </span>
             <span className="text-xs text-rose-600 font-semibold bg-rose-50 px-2 py-0.5 rounded-md">
               Mode Ujian (Tanpa Bantuan)

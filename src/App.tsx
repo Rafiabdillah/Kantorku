@@ -4,7 +4,7 @@
  * KantorKu - Game Simulasi Karier Kantor Main App Shell
  */
 
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, useRef, Suspense, lazy } from 'react';
 import { useGameStore, AppView } from './store/useGameStore';
 import { HeaderNav } from './components/layout/HeaderNav';
 import { shouldShowMobileTabBar } from './components/layout/MobileTabBar';
@@ -83,10 +83,12 @@ const AboutView = lazy(() =>
 
 export default function App() {
   const { profile, currentView, setView, completeOnboarding, startMission, activeLevelId } = useGameStore();
+  const hasAppliedUrlRoute = useRef(false);
 
-  // Query parameter support: autostart & view routing
+  // Query parameter support: apply the deep link once so it cannot hijack in-app navigation.
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    if (hasAppliedUrlRoute.current) return;
     const params = new URLSearchParams(window.location.search);
     const autostart = params.get('autostart');
     const targetView = params.get('view') as AppView | null;
@@ -98,21 +100,25 @@ export default function App() {
       }
       if (targetLevel) {
         startMission(targetLevel);
+        hasAppliedUrlRoute.current = true;
       } else if (targetView) {
         if (targetView === 'mission' && !activeLevelId) {
           startMission('excel-t1-01');
         } else {
           setView(targetView);
         }
+        hasAppliedUrlRoute.current = true;
       }
     } else if (targetLevel) {
       startMission(targetLevel);
+      hasAppliedUrlRoute.current = true;
     } else if (targetView && profile.hasCompletedOnboarding) {
       if (targetView === 'mission' && !activeLevelId) {
         startMission('excel-t1-01');
       } else {
         setView(targetView);
       }
+      hasAppliedUrlRoute.current = true;
     }
   }, [profile.hasCompletedOnboarding, setView, completeOnboarding, startMission, activeLevelId]);
 

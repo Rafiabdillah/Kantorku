@@ -1,0 +1,381 @@
+import { test, expect, Page } from '@playwright/test';
+
+const IGNORED_CONSOLE = ['WebSocket', 'favicon', 'Download the React DevTools'];
+
+function watchErrors(page: Page): string[] {
+  const errors: string[] = [];
+  page.on('pageerror', (err) => errors.push(`[PageError]: ${err.message}`));
+  page.on('console', (msg) => {
+    if (msg.type() !== 'error') return;
+    const text = msg.text();
+    if (IGNORED_CONSOLE.some((noise) => text.includes(noise))) return;
+    errors.push(`[ConsoleError]: ${text}`);
+  });
+  return errors;
+}
+
+async function openView(page: Page, view: string) {
+  await page.goto(`/?autostart=1&view=${view}`);
+  await page.waitForLoadState('domcontentloaded');
+}
+
+async function fillCell(page: Page, addr: string, value: string) {
+  await page.locator(`td[data-cell="${addr}"]`).click();
+  const formulaBar = page.locator('[data-formula-bar]');
+  await formulaBar.fill(value);
+  await formulaBar.press('Enter');
+}
+
+test.describe('KantorKu full feature simulation', () => {
+  test('SIM.01 Office hub: rooms, inbox dialog, and daily challenge navigation', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'office');
+
+    await expect(page.getByRole('heading', { name: /Selamat Datang, Budi Pratama/ })).toBeVisible();
+    await expect(page.getByText('Denah Interaktif Kantor PT Maju Sejahtera')).toBeVisible();
+
+    await page.getByRole('button', { name: /Inbox Kantor/ }).click();
+    await expect(page.getByRole('dialog', { name: 'Kotak Masuk Email Kantor' })).toBeVisible();
+    await expect(page.getByText('Tugas Evaluasi Laporan Bulanan')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('dialog', { name: 'Kotak Masuk Email Kantor' })).toHaveCount(0);
+
+    await page.getByRole('button', { name: 'Mulai latihan Excel di meja Pak Reza' }).click();
+    await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Input Data & Format Rupiah')).toBeVisible();
+    await openView(page, 'office');
+
+    await page.getByRole('button', { name: /Tantangan Harian/ }).click();
+    await expect(page.getByRole('heading', { name: 'Daily Office Sprint' })).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.02 Excel mission: fill cells, submit, and earn the success debrief', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'mission&level=excel-t1-01');
+
+    await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
+    await fillCell(page, 'B2', '55000');
+    await fillCell(page, 'B3', '12000');
+    await fillCell(page, 'B4', '35000');
+
+    await expect(page.locator('td[data-cell="B2"]')).toContainText('55.000');
+    await expect(page.locator('td[data-cell="B4"]')).toContainText('35.000');
+
+    await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Skor 4 Dimensi')).toBeVisible();
+
+    await page.getByRole('button', { name: 'Lanjut ke Peta Karier' }).click();
+    await expect(page.getByRole('heading', { name: 'Jalur Pembelajaran Profesional' })).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.03 Case file: clarification reply and handover debrief', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'case-file');
+
+    await expect(page.getByText(/Kasus Nyata v2\.0/)).toBeVisible({ timeout: 15000 });
+    await page.getByRole('button', { name: /Keluarkan transaksi Retur/ }).click();
+    await expect(page.getByText(/Tepat sekali! Omzet bersih/)).toBeVisible();
+
+    await page.locator('textarea[placeholder*="ringkasan hasil pekerjaan"]').fill('Rekap sayur selesai, retur dikeluarkan dari omzet bersih.');
+    await page.getByRole('button', { name: 'Kirim Serah Terima' }).click();
+
+    await expect(page.getByRole('heading', { name: 'Serah Terima Kasus Disetujui!' })).toBeVisible();
+    await expect(page.getByText('Debrief: Catatan Mentor Portofolio')).toBeVisible();
+    await page.getByRole('button', { name: 'Kembali ke Denah Kantor' }).click();
+    await expect(page.getByText('Denah Interaktif Kantor PT Maju Sejahtera')).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.04 Speed attack: answer correctly, keep combo, and return to office', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'speed');
+
+    await page.getByRole('button', { name: 'Mulai Time Attack' }).click();
+    await expect(page.getByText('Soal #1')).toBeVisible();
+    await page.getByRole('button', { name: '=SUM(A1:A10)' }).click();
+
+    await expect(page.getByText('Soal #2')).toBeVisible();
+    await expect(page.getByText('1x Combo')).toBeVisible();
+    await expect(page.locator('text=Skor:').first()).toContainText('100');
+
+    await page.getByRole('button', { name: 'Kembali ke kantor' }).click();
+    await expect(page.getByText('Denah Interaktif Kantor PT Maju Sejahtera')).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.05 Duel: deterministic win versus Dimas awards coins', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'duel');
+
+    await page.getByRole('button', { name: /Mulai Duel Asinkron/ }).click();
+    await expect(page.getByText('Duel Sedang Berlangsung...')).toBeVisible();
+    await expect(page.getByText('Kamu Memenangkan Duel!')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('+200 Koin & +300 XP')).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.06 Detective: hint then find the culprit cell', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'detective');
+
+    await expect(page.getByText('Kasus Selisih Kasir Toko Cabang')).toBeVisible();
+    await page.getByRole('button', { name: 'Lihat Hint' }).click();
+    await expect(page.getByText('Petunjuk Detektif:')).toBeVisible();
+
+    await page.locator('td').filter({ hasText: '=SUM(B2:B3)' }).first().click();
+    await expect(page.getByText(/Sel Dipilih: B5.*TEPAT/)).toBeVisible();
+    await expect(page.getByText('Audit Berhasil! Sel B5 Terbukti Bermasalah')).toBeVisible();
+    await expect(page.getByText('Selesai: 1/3 Kasus')).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.07 Mentor: identify both real issues and pass evaluation', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'mentor');
+
+    await expect(page.getByText('Review Hasil Kerja Karyawan Magang')).toBeVisible();
+    await page.getByText('Angka di-hardcode secara statis tanpa rumus =SUM(D2:D9)').click();
+    await page.getByText('Jika ada penambahan karyawan atau kenaikan gaji, total di D10 tidak akan ikut berubah').click();
+    await page.getByRole('button', { name: 'Beri Evaluasi & Nilai Magang' }).click();
+
+    await expect(page.getByText(/Ketajaman Review Mentor: 100%/)).toBeVisible();
+    await expect(page.getByText('✅ Lulus Evaluasi')).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.08 Zen mode: switch Excel, Coding, and Word editors', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'zen');
+
+    await expect(page.locator('td[data-cell="D2"]')).toContainText('7.000.000', { timeout: 15000 });
+
+    await page.getByRole('button', { name: 'Coding', exact: true }).click();
+    await expect(page.locator('.cm-editor')).toBeVisible({ timeout: 20000 });
+    await page.getByRole('button', { name: /Jalankan/ }).first().click();
+
+    await page.getByRole('button', { name: 'Word', exact: true }).click();
+    await expect(page.locator('.tiptap-doc-wrapper')).toBeVisible({ timeout: 20000 });
+
+    await page.getByRole('button', { name: 'Excel', exact: true }).click();
+    await page.locator('button[aria-label="Reset dataset contoh"]').click();
+    await expect(page.locator('td[data-cell="D2"]')).toContainText('7.000.000');
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.09 Exam: web track serves web questions and issues a certificate', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'exam');
+
+    const webTrack = page.getByRole('button', { name: /Web Frontend/ });
+    await webTrack.click();
+    await expect(webTrack).toHaveAttribute('aria-pressed', 'true');
+
+    await page.getByRole('button', { name: 'Mulai Ujian' }).first().click();
+    await expect(page.getByText(/Soal Ujian 1 dari 5 .*Web Frontend/)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Tag HTML semantik/ })).toBeVisible();
+
+    const answers = [
+      '<main>',
+      'display: flex;',
+      '.menu { }',
+      /name="viewport"/,
+      'Gaya di dalamnya diterapkan saat lebar viewport 600px atau kurang',
+    ];
+    for (const answer of answers) {
+      await page.getByRole('button', { name: answer }).click();
+    }
+
+    await expect(page.getByText('SERTIFIKAT KELULUSAN KOMPETENSI')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(/Nomor Registrasi: KTK-2026-/)).toBeVisible();
+    await expect(page.getByText('Web Frontend (HTML & CSS)').first()).toBeVisible();
+    await expect(page.getByText(/nilai keunggulan 100%/)).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.10 Daily challenge: answering always returns feedback with explanation', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'daily');
+
+    await expect(page.getByRole('heading', { name: 'Daily Office Sprint' })).toBeVisible();
+    const questionCard = page.locator('div.rounded-3xl').filter({ hasText: 'Soal Hari Ini' }).last();
+    await questionCard.locator('button').first().click();
+    await expect(page.getByText(/Benar Sekali!|Belum Tepat\./)).toBeVisible();
+    await expect(page.getByText('Pembeku Streak:')).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.11 Settings: preset applies and search reports empty state', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'settings');
+
+    await page.getByRole('heading', { name: /Preset Konfigurasi 1-Klik/ }).scrollIntoViewIfNeeded();
+    await page.getByText('Pemula Santai', { exact: true }).click();
+    await expect(page.getByText(/berhasil diterapkan/)).toBeVisible();
+
+    const search = page.getByPlaceholder('Cari pengaturan (cth: margin, koma, font)...');
+    await search.fill('zzz-pengaturan-tidak-ada');
+    await expect(page.getByText('Tidak ada pengaturan yang cocok')).toBeVisible();
+    await search.fill('margin');
+    await expect(page.getByText('Tidak ada pengaturan yang cocok')).toHaveCount(0);
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.12 Learning center: tabs, catalog search, cheatsheet, glossary', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'learning');
+
+    await expect(page.getByRole('heading', { name: 'Pusat Belajar & Akademi Kantor' })).toBeVisible();
+
+    await page.getByRole('tab', { name: /Katalog Pelajaran/ }).click();
+    await page.getByPlaceholder('Cari pelajaran, skill, atau rumus...').fill('VLOOKUP');
+    await expect(page.getByText(/VLOOKUP/i).first()).toBeVisible();
+
+    await page.getByRole('tab', { name: /Lembar Contekan/ }).click();
+    await expect(page.getByRole('heading', { name: 'Lembar Contekan Siap Cetak' })).toBeVisible();
+
+    await page.getByRole('tab', { name: /Kamus & Glosarium/ }).click();
+    await expect(page.getByPlaceholder(/Cari fungsi Excel/)).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.13 Dictionary: search and copy formula feedback', async ({ page, context }) => {
+    const errors = watchErrors(page);
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await openView(page, 'dictionary');
+
+    await expect(page.getByRole('heading', { name: 'Referensi Cepat KantorKu' })).toBeVisible();
+    await page.getByPlaceholder(/Cari rumus/).fill('VLOOKUP');
+    const firstCopy = page.getByRole('button', { name: 'Salin Rumus' }).first();
+    await expect(firstCopy).toBeVisible();
+    await firstCopy.click();
+    await expect(page.getByRole('button', { name: 'Disalin!' }).first()).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.14 Portfolio: CSV, JS, and DOC exports download real files', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'portfolio');
+
+    await expect(page.getByRole('heading', { name: 'Bukti Kompetensi & Ekspor CV' })).toBeVisible();
+
+    const csvPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Ekspor CSV' }).click();
+    const csv = await csvPromise;
+    expect(csv.suggestedFilename()).toBe('rekap_anggaran_atk_portfolio.csv');
+
+    const jsPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Ekspor Script JS' }).click();
+    const js = await jsPromise;
+    expect(js.suggestedFilename()).toBe('engine_diskon_transaksi.js');
+
+    const docPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Ekspor DOC' }).click();
+    const doc = await docPromise;
+    expect(doc.suggestedFilename()).toBe('notulen_rapat_pic.doc');
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.15 Shop economy: default wallet locks premium items, mission rewards unlock a purchase', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'shop');
+
+    await expect(page.getByRole('heading', { name: 'Dekorasi Meja & Fasilitas Kerja' })).toBeVisible();
+    await expect(page.getByText('100 Koin').first()).toBeVisible();
+
+    // Default inventory is already equipped and premium items stay locked at 100 coins.
+    const cactusCard = page.locator('div.rounded-3xl').filter({ hasText: 'Kaktus Meja Anti Radiasi' }).last();
+    await expect(cactusCard.getByText('Sedang Dipakai')).toBeVisible();
+    const freezeCard = page.locator('div.rounded-3xl').filter({ hasText: 'Pembeku Streak (Streak Freeze)' }).last();
+    await expect(freezeCard.getByRole('button', { name: 'Beli (150 Koin)' })).toBeDisabled();
+
+    // Complete a mission to earn the missing 50 coins.
+    await openView(page, 'mission&level=excel-t1-01');
+    await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
+    await fillCell(page, 'B2', '55000');
+    await fillCell(page, 'B3', '12000');
+    await fillCell(page, 'B4', '35000');
+    await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+
+    // Spend the earned coins on a streak freeze.
+    await openView(page, 'shop');
+    await expect(page.getByText('150 Koin').first()).toBeVisible();
+    const unlockedFreezeCard = page.locator('div.rounded-3xl').filter({ hasText: 'Pembeku Streak (Streak Freeze)' }).last();
+    await unlockedFreezeCard.getByRole('button', { name: 'Beli (150 Koin)' }).click();
+    await expect(page.getByText('0 Koin').first()).toBeVisible();
+    await expect(page.getByText('2 Freeze Tersedia')).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.16 Achievements, errors notebook, career map, and about', async ({ page }) => {
+    const errors = watchErrors(page);
+
+    await openView(page, 'achievements');
+    await expect(page.getByRole('heading', { name: 'Daftar Rekor Kinerja Kantor' })).toBeVisible();
+    await expect(page.getByText(/Terbuka/)).toBeVisible();
+    await page.getByRole('button', { name: 'Excel', exact: true }).click();
+    await expect(page.getByText('Semua Lencana')).toBeVisible();
+
+    await openView(page, 'errors');
+    await expect(page.getByRole('heading', { name: 'Evaluasi & Refleksi Mandiri' })).toBeVisible();
+    await expect(page.getByText('Buku Catatanmu Masih Bersih!')).toBeVisible();
+
+    await openView(page, 'career-map');
+    await expect(page.getByRole('heading', { name: 'Jalur Pembelajaran Profesional' })).toBeVisible();
+    await page.getByRole('button', { name: 'Track Web', exact: true }).click();
+    await expect(page.getByText('Struktur Dasar HTML5 & Profil Usaha')).toBeVisible();
+    await page.getByRole('button', { name: /Mulai Tugas/ }).first().click();
+    await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
+
+    await openView(page, 'about');
+    await expect(page.getByRole('heading', { name: 'Tentang & Sumber' })).toBeVisible();
+    const externalLink = page.locator('a[target="_blank"]').first();
+    await expect(externalLink).toHaveAttribute('href', /^https?:\/\//);
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.17 Mobile: core job flows stay usable at 390x844', async ({ page }) => {
+    const errors = watchErrors(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await openView(page, 'office');
+    await page.getByRole('button', { name: 'Mulai latihan Excel di meja Pak Reza' }).click();
+    await expect(page.getByText('Input Data & Format Rupiah').first()).toBeVisible({ timeout: 15000 });
+
+    await page.locator('button[aria-label="Perbesar editor"]:visible').first().click();
+    await expect(page.locator('div[data-editor-expanded="true"]')).toBeVisible();
+    await page.locator('button[aria-label="Perkecil editor"]').click();
+
+    await fillCell(page, 'B2', '55000');
+    await fillCell(page, 'B3', '12000');
+    await fillCell(page, 'B4', '35000');
+    await page.getByRole('button', { name: 'Cek', exact: true }).click();
+    await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth <= document.documentElement.clientWidth
+    );
+    expect(overflow).toBe(true);
+
+    expect(errors).toEqual([]);
+  });
+});

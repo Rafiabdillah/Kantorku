@@ -20,6 +20,35 @@ export const PortfolioView: React.FC = () => {
     document.body.removeChild(link);
   };
 
+  const handleExportDoc = (title: string) => {
+    sound.playClick();
+    const docHtml = `<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
+<head><meta charset="utf-8"><title>${title}</title></head>
+<body style="font-family:Calibri,Arial,sans-serif">
+<h1>Notulen Rapat Koordinasi</h1>
+<p><strong>Perusahaan:</strong> PT Maju Sejahtera<br/><strong>Tanggal:</strong> ${new Date().toLocaleDateString('id-ID')}</p>
+<h2>Rencana Tindak Lanjut</h2>
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><th>Agenda</th><th>PIC</th><th>Deadline</th><th>Status</th></tr>
+<tr><td>Rekap inventaris ATK</td><td>Budi Pratama</td><td>Hari ini</td><td>Selesai</td></tr>
+<tr><td>Audit kas harian</td><td>Pak Reza</td><td>Besok</td><td>Berjalan</td></tr>
+<tr><td>Evaluasi laporan bulanan</td><td>Bu Sari</td><td>Akhir minggu</td><td>Terjadwal</td></tr>
+</table>
+<h2>Keputusan</h2>
+<p>Seluruh dokumen wajib memakai heading standar dan tabel PIC agar mudah diaudit.</p>
+</body></html>`;
+    const blob = new Blob(['\ufeff', docHtml], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${title.toLowerCase().replace(/\s+/g, '_')}.doc`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
   const handleExportJs = (title: string) => {
     sound.playClick();
     const jsContent =
@@ -95,7 +124,7 @@ export const PortfolioView: React.FC = () => {
             className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition shrink-0 cursor-pointer"
           >
             <Download className="w-4 h-4" />
-            <span>Ekspor CSV / XLSX</span>
+            <span>Ekspor CSV</span>
           </button>
         </div>
 
@@ -155,7 +184,7 @@ export const PortfolioView: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => sound.playClick()}
+            onClick={() => handleExportDoc('notulen_rapat_pic')}
             className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition shrink-0 cursor-pointer"
           >
             <Download className="w-4 h-4" />

@@ -125,7 +125,6 @@ export const MentorView: React.FC = () => {
             {currentCase.issuesList.map((iss) => (
               <label
                 key={iss.id}
-                onClick={() => toggleIssue(iss.id)}
                 className={`p-3 rounded-2xl border text-xs flex items-center gap-3 cursor-pointer transition ${
                   selectedIssues.includes(iss.id)
                     ? 'bg-blue-50 border-blue-500 font-semibold text-blue-900'
@@ -135,7 +134,7 @@ export const MentorView: React.FC = () => {
                 <input
                   type="checkbox"
                   checked={selectedIssues.includes(iss.id)}
-                  onChange={() => {}}
+                  onChange={() => toggleIssue(iss.id)}
                   className="h-4 w-4 shrink-0 rounded text-blue-600 focus:ring-0"
                 />
                 <span>{iss.description}</span>
