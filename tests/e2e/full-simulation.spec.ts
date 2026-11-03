@@ -469,4 +469,111 @@ test.describe('KantorKu full feature simulation', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('SIM.20 XP total is visible and updated on desktop, mobile, and in the mobile drawer', async ({ page }) => {
+    const errors = watchErrors(page);
+
+    // Desktop: earn XP through a mission, then check both the header capsule and office chip
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await openView(page, 'mission&level=excel-t1-01');
+    await fillCell(page, 'B2', '55000');
+    await fillCell(page, 'B3', '12000');
+    await fillCell(page, 'B4', '35000');
+    await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+
+    await openView(page, 'office');
+    await expect(page.getByText('(100 XP)').first()).toBeVisible();
+    await expect(page.getByRole('main').getByText('100 XP').first()).toBeVisible();
+
+    // Mobile: office greeting chip shows XP without opening any menu
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openView(page, 'office');
+    await expect(page.getByRole('main').getByText('100 XP').first()).toBeVisible();
+    await expect(page.getByLabel('Total XP: 100')).toBeVisible();
+
+    // Mobile drawer quick stats include XP
+    await page.getByRole('button', { name: 'Toggle navigation menu' }).click();
+    const drawer = page.getByRole('dialog', { name: 'Navigasi utama' });
+    await expect(drawer).toBeVisible();
+    await expect(drawer.getByText('XP', { exact: true })).toBeVisible();
+    await expect(drawer.getByText('100', { exact: true })).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.21 Blank submissions are rejected: no free pass when nothing was edited', async ({ page }) => {
+    const errors = watchErrors(page);
+
+    for (const levelId of ['excel-t1-01', 'web-t1-01', 'code-t1-01', 'word-t1-01']) {
+      await page.goto(`/?autostart=1&level=${levelId}`);
+      await page.waitForLoadState('domcontentloaded');
+      await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+
+      await expect(page.getByRole('heading', { name: 'Masih Ada Kesalahan' })).toBeVisible({ timeout: 15000 });
+      await expect(page.getByText('Kamu belum mengubah apa pun')).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Tugas Berhasil Diselesaikan!' })).toHaveCount(0);
+
+      await page.getByRole('button', { name: 'Coba Perbaiki Lagi' }).click();
+      await expect(page.getByRole('heading', { name: 'Masih Ada Kesalahan' })).toHaveCount(0);
+    }
+
+    // None of the four rejected submissions awarded XP
+    await openView(page, 'office');
+    await expect(page.getByRole('main').getByText('0 XP').first()).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.22 Incomplete drafts are still winnable: authored web, code, and word work passes', async ({ page }) => {
+    const errors = watchErrors(page);
+
+    await page.goto('/?autostart=1&level=web-t1-01');
+    await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
+    await page.locator('.cm-content').click();
+    await page.keyboard.press('Control+A');
+    await page.keyboard.press('Backspace');
+    await page.keyboard.insertText(
+      '<header><h1>PT Maju Sejahtera</h1></header><main><p>Pusat solusi digital, operasional kantor, dan kemitraan UMKM terpercaya sejak 2020.</p></main><footer><p>Hak cipta 2026 PT Maju Sejahtera</p></footer>'
+    );
+    await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+
+    await page.goto('/?autostart=1&level=code-t1-01');
+    await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
+    await page.locator('.cm-content').click();
+    await page.keyboard.press('Control+A');
+    await page.keyboard.press('Backspace');
+    await page.keyboard.insertText('function sapaKaryawan(nama) { return "Halo, " + nama + "! Selamat datang."; }');
+    await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+
+    await page.goto('/?autostart=1&level=word-t1-01');
+    await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
+    const doc = page.locator('.ProseMirror');
+    await doc.click();
+    await page.keyboard.press('Control+A');
+    await page.keyboard.press('Backspace');
+    await page.getByRole('button', { name: 'Judul Heading 1' }).click();
+    await page.keyboard.insertText('UNDANGAN RAPAT KOORDINASI PT MAJU SEJAHTERA');
+    await page.keyboard.press('Enter');
+    await page.keyboard.insertText(
+      'Sehubungan dengan evaluasi kerja kuartal ini, kami mengundang Bapak/Ibu Kepala Divisi untuk hadir pada '
+    );
+    await page.keyboard.press('Control+B');
+    await page.keyboard.insertText('Senin, 2 November 2026 pukul 09.00 WIB di Ruang Meeting Utama Lantai 2');
+    await page.keyboard.press('Control+B');
+    await page.keyboard.insertText(
+      '. Rapat membahas capaian tiap divisi dan rencana kerja bulan depan. Demikian undangan ini kami sampaikan, atas perhatian Bapak/Ibu kami ucapkan terima kasih.'
+    );
+    await expect(doc).toContainText('UNDANGAN RAPAT KOORDINASI PT MAJU SEJAHTERA');
+    await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+
+    // All three missions paid out: 150 XP each
+    await openView(page, 'office');
+    await expect(page.getByRole('main').getByText('450 XP').first()).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
 });

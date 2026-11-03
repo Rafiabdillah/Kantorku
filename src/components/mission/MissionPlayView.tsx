@@ -9,7 +9,7 @@ import { WebPreviewEditor } from '../editor/WebPreviewEditor';
 import { ExcelFormulaEngine } from '../../engine/formula';
 import { validateWordDocument } from '../../engine/wordValidator';
 import { validateWebContent } from '../../engine/webValidator';
-import { runCodeWithTests } from '../../engine/codeSandbox';
+import { runCodeWithTests, extractFunctionName } from '../../engine/codeSandbox';
 import { sound } from '../../services/sound';
 import confetti from 'canvas-confetti';
 import {
@@ -35,6 +35,7 @@ import {
 import { QuickSettingsModal } from '../../features/settings/QuickSettingsModal';
 import { ALL_LESSONS } from '../../content/lessons';
 import { ErrorBoundary } from '../common/ErrorBoundary';
+import { isBlankWorkSubmission, BLANK_SUBMISSION_MESSAGE } from '../../engine/submissionGuard';
 
 export const MissionPlayView: React.FC = () => {
   const {
@@ -120,7 +121,12 @@ export const MissionPlayView: React.FC = () => {
     let rubric = { correctness: 100, efficiency: 90, neatness: 90, maintainability: 90, communication: 90 };
     const newObjectiveStates: Record<string, { status: 'untested' | 'passed' | 'failed'; reason?: string }> = {};
 
-    if (level.module === 'excel') {
+    if (isBlankWorkSubmission(level, { sheet: activeSheet, code: activeCode, word: activeWord, html: activeHtml, css: activeCss })) {
+      feedbackList.push(BLANK_SUBMISSION_MESSAGE);
+      level.objectives.forEach((obj) => {
+        newObjectiveStates[obj.id] = { status: 'failed', reason: 'Belum ada perubahan dari kondisi awal' };
+      });
+    } else if (level.module === 'excel') {
       const engine = new ExcelFormulaEngine(activeSheet);
 
       if (level.id === 'excel-t1-01') {
@@ -409,9 +415,10 @@ export const MissionPlayView: React.FC = () => {
         const d3 = engine.getCellValue('D3');
         const d4 = engine.getCellValue('D4');
 
-        const ok2 = Number(d2) === 1500000;
-        const ok3 = Number(d3) === 0;
-        const ok4 = Number(d4) === 0;
+        const isFilled = (addr: string) => String(activeSheet[addr]?.raw ?? '').trim() !== '';
+        const ok2 = isFilled('D2') && Number(d2) === 1500000;
+        const ok3 = isFilled('D3') && Number(d3) === 0;
+        const ok4 = isFilled('D4') && Number(d4) === 0;
 
         passed = ok2 && ok3 && ok4;
         if (passed) {
@@ -527,10 +534,10 @@ export const MissionPlayView: React.FC = () => {
           };
         });
       } else {
-        passed = true;
-        feedbackList.push('Seluruh kriteria level terpenuhi.');
+        passed = false;
+        feedbackList.push(`Pemeriksa belum mengenali level ${level.id}. Hubungi pengembang — misi ini belum punya kriteria penilaian.`);
         level.objectives.forEach((obj) => {
-          newObjectiveStates[obj.id] = { status: 'passed' };
+          newObjectiveStates[obj.id] = { status: 'failed', reason: 'Level belum punya kriteria penilaian' };
         });
       }
     } else if (level.module === 'web') {
@@ -546,7 +553,7 @@ export const MissionPlayView: React.FC = () => {
         };
       });
     } else if (level.module === 'coding') {
-      const execResult = await runCodeWithTests(activeCode, level.testCases || []);
+      const execResult = await runCodeWithTests(activeCode, level.testCases || [], extractFunctionName(activeCode));
       passed = execResult.success;
       if (passed) {
         feedbackList.push('Semua unit test (visible & hidden) berhasil dieksekusi dengan bersih!');

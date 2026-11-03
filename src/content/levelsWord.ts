@@ -34,7 +34,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Beri format Bold pada waktu atau tempat pertemuan', completed: false },
     ],
     initialData: {
-      word: '<h1>Surat Undangan Rapat Koordinasi</h1><p>Kepada Yth. Seluruh Kepala Divisi PT Maju Sejahtera di Tempat,</p><p>Sehubungan dengan evaluasi kerja kuartal ini, kami mengundang Bapak/Ibu untuk menghadiri rapat yang akan diadakan pada:</p><p>Hari/Tanggal: <strong>Senin, 2 November 2026</strong></p><p>Waktu: <strong>09.00 - 11.30 WIB</strong></p><p>Tempat: <strong>Ruang Rapat Utama Lantai 2</strong></p><p>Demikian undangan ini kami sampaikan. Atas perhatian dan kehadirannya kami ucapkan terima kasih.</p>',
+      word: '<p>Bahan mentah dari Maya (HR), tolong dirapikan:</p><p>Kepada Yth. Seluruh Kepala Divisi di Tempat,</p><p>Sehubungan dengan evaluasi kerja kuartal ini, kami mengundang Bapak/Ibu untuk hadir pada Senin, 2 November 2026, pukul 09.00 - 11.30 WIB, di Ruang Meeting Utama Lantai 2.</p><p>Demikian surat ini kami sampaikan, atas perhatiannya kami ucapkan terima kasih.</p>',
     },
     hints: [
       'Pastikan teks judul surat dibungkus tag <h1>.',
@@ -84,7 +84,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Tebalkan nominal total pembayaran (Bold)', completed: false },
     ],
     initialData: {
-      word: '<h1>NOTA PENJUALAN</h1><p>No: NT-2026-101 | Tanggal: 26 Oktober 2026</p><p>Toko Mitra Sejahtera</p><p>1. Spidol Whiteboard - Rp 12.000<br/>2. Buku Catatan - Rp 25.000</p><p><strong>Total Pembayaran: Rp 37.000</strong></p>',
+      word: '<p>Draf mentah dari Dimas, masih ditulis apa adanya:</p><p>NT-2026-101, tanggal 26 Oktober 2026, Toko Mitra Sejahtera.</p><p>Spidol whiteboard dua belas ribu, buku catatan dua puluh lima ribu.</p><p>Grand total tiga puluh tujuh ribu, pembeli sudah membayar tunai di kasir.</p>',
     },
     hints: [
       'Pastikan dokumen memiliki <h1>NOTA PENJUALAN</h1>.',
@@ -134,7 +134,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Tebalkan tanggal pelaksanaan instruksi', completed: false },
     ],
     initialData: {
-      word: '<h1>MEMO INTERNAL</h1><p>Kepada: Seluruh Karyawan PT Maju Sejahtera<br/>Dari: Bagian Umum dan Operasional<br/>Perihal: Pemeliharaan Server Kantor</p><p>Diberitahukan bahwa pada hari <strong>Sabtu, 31 Oktober 2026</strong> akan dilakukan perawatan berkala. Harap simpan semua pekerjaan sebelum pukul 17.00 WIB.</p>',
+      word: '<p>Catatan lisan Bu Sari yang masih perlu disusun jadi memo resmi:</p><p>Server kantor akan diperbaiki pada hari Sabtu, 31 Oktober 2026 mulai pukul 09.00 sampai 12.00 WIB. Seluruh karyawan diminta menyimpan pekerjaan sebelum Jumat sore supaya tidak ada data yang hilang. Jaringan WiFi lantai dua ikut dimatikan selama proses berlangsung.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul MEMO INTERNAL.',
@@ -184,7 +184,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Cantumkan kata kunci "Libur" dan "Operasional"', completed: false },
     ],
     initialData: {
-      word: '<h1>PENGUMUMAN RESMI</h1><p>Diberitahukan kepada seluruh karyawan jadwal operasional hari raya sebagai berikut:</p><ul><li>Operasional kantor diliburkan pada tanggal 10-11 November 2026.</li><li>Staf layanan pelanggan standby bertugas secara bergantian.</li><li>Aktivitas kantor berjalan normal kembali pada tanggal 12 November 2026.</li></ul><p>Demikian pengumuman ini disampaikan oleh Manajemen PT Maju Sejahtera.</p>',
+      word: '<p>Draf pengumuman yang masih ditulis dalam satu paragraf panjang:</p><p>Diberitahukan kepada seluruh karyawan bahwa kegiatan kantor tutup sementara pada tanggal 10 dan 11 November 2026 seiring perayaan hari raya. Layanan pelanggan tetap dijaga secara bergantian melalui piket darurat. Seluruh aktivitas berjalan normal kembali pada tanggal 12 November 2026 dan tidak perlu mengurus izin tambahan.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul PENGUMUMAN RESMI.',
@@ -234,7 +234,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Cantumkan kata kunci "Makanan", "Minuman", dan nominal Rupiah', completed: false },
     ],
     initialData: {
-      word: '<h1>DAFTAR HARGA KANTIN KARYAWAN</h1><h2>Kategori Makanan Sehat</h2><p>- Nasi Ayam Panggang: Rp 25.000<br/>- Nasi Pecel Sayur Organik: Rp 18.000</p><h2>Kategori Minuman Segar</h2><p>- Jus Jeruk Murni: Rp 8.000<br/>- Teh Melati Hangat: Rp 5.000</p>',
+      word: '<p>Daftar harga kantin yang masih ditulis berdempetan, kategorinya tolong dipisahkan sendiri:</p><p>Nasi ayam panggang Rp 25.000, nasi pecel sayur organik Rp 18.000, jus jeruk murni Rp 8.000, teh melati hangat Rp 5.000.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul dokumen kantin.',
@@ -286,7 +286,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Sertakan daftar butir kesimpulan rapat', completed: false },
     ],
     initialData: {
-      word: '<h2>NOTULEN RAPAT EVALUASI MINGGUAN</h2><p>Tanggal: 26 Oktober 2026 | Pimpinan: Ibu Sari Dewi</p><h3>Poin Keputusan:</h3><ul><li>Pembaruan katalog harga ATK disetujui untuk diterbitkan minggu depan.</li><li>Rekonsiliasi kasir wajib dilakukan setiap hari sebelum jam 18.00 WIB.</li></ul><h3>Matriks Tindak Lanjut:</h3><table><thead><tr><th>No</th><th>Tugas</th><th>PIC</th><th>Tenggat</th></tr></thead><tbody><tr><td>1</td><td>Cetak Katalog</td><td>Dimas</td><td>28 Okt</td></tr><tr><td>2</td><td>Audit Kasir</td><td>Reza</td><td>30 Okt</td></tr></tbody></table>',
+      word: '<p>Notulen rapat evaluasi mingguan tanggal 26 Oktober 2026, pimpinan rapat Ibu Sari Dewi, ditulis cepat oleh notulen.</p><p>Poin pertama, pembaruan katalog harga ATK disetujui untuk terbit minggu depan dan pencetakannya menjadi tanggung jawab Dimas paling lambat 28 Oktober. Poin kedua, rekonsiliasi kasir wajib dilakukan setiap hari sebelum jam 18.00 WIB dengan Reza sebagai pemeriksa akhir pada 30 Oktober.</p>',
     },
     hints: [
       'Gunakan H2 untuk judul notulen rapat.',
@@ -337,7 +337,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Tebalkan nama pimpinan penandatangan di bagian penutup', completed: false },
     ],
     initialData: {
-      word: '<h1>PT MAJU SEJAHTERA</h1><p>Jl. Jenderal Sudirman No. 45, Jakarta Pusat</p><p>Nomor: 018/MS-DIR/XI/2026<br/>Lampiran: 1 (satu) Berkas<br/>Perihal: Permohonan Audiensi Program Kemitraan</p><p>Kepada Yth.<br/>Kepala Dinas Koperasi dan UMKM<br/>di Tempat</p><p>Dengan hormat,</p><p>Sehubungan dengan pelaksanaan program CSR digitalisasi usaha mikro, kami mengajukan permohonan audiensi kerja.</p><p>Hormat kami,<br/><strong>Ibu Sari Dewi</strong><br/>Direktur Operasional</p>',
+      word: '<p>Isi surat untuk Dinas Koperasi dan UMKM yang baru ditulis sebagian:</p><p>Sehubungan dengan pelaksanaan program tanggung jawab sosial perusahaan berupa digitalisasi usaha mikro, kami bermaksud meminta jadwal pertemuan bersama Bapak/Ibu Kepala Dinas. Pertemuan direncanakan pada minggu pertama bulan November dan kami siap menyesuaikan agenda instansi.</p><p>Atas perhatian serta kerja sama yang baik, kami menyampaikan terima kasih.</p>',
     },
     hints: [
       'Gunakan H1 untuk kop nama perusahaan.',
@@ -387,7 +387,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Cantumkan kata kunci "Pengalaman Kerja", "Pendidikan", dan daftar bullet', completed: false },
     ],
     initialData: {
-      word: '<h1>AHMAD FAUZI</h1><p>Jakarta | ahmad@email.com | 0812-9876-5432</p><h2>PENGALAMAN KERJA</h2><p><strong>Staf Operasional - PT Maju Sejahtera</strong> (2024 - Sekarang)</p><ul><li>Merekapitulasi 50 transaksi penjualan mitra UMKM setiap hari.</li><li>Membangun formula Excel otomatis untuk rekonsiliasi kasir.</li></ul><h2>PENDIDIKAN</h2><p><strong>S1 Manajemen Bisnis</strong> - Universitas Indonesia (2020 - 2024)</p><h2>KETERAMPILAN</h2><p>Microsoft Excel, Word Bisnis, Analisis Data, HTML & CSS Dasar.</p>',
+      word: '<p>Data mentah CV Ahmad Fauzi untuk pengajuan promosi internal, masih dicatat berderet:</p><p>Ahmad Fauzi, Jakarta, ahmad@email.com, 0812-9876-5432.</p><p>Semenjak 2024 ia bertugas sebagai Staf Operasional di PT Maju Sejahtera: merekapitulasi 50 transaksi penjualan mitra UMKM setiap hari dan membangun formula Excel otomatis untuk rekonsiliasi kasir.</p><p>lulus S1 Manajemen Bisnis Universitas Indonesia tahun 2024. Terbiasa memakai Microsoft Excel, Word Bisnis, analisis data, serta HTML dan CSS dasar.</p>',
     },
     hints: [
       'Gunakan H1 untuk nama pelamar.',
@@ -438,7 +438,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Tebalkan nama pimpinan pemberi rekomendasi', completed: false },
     ],
     initialData: {
-      word: '<h1>SURAT REKOMENDASI KERJA</h1><p>Saya yang bertanda tangan di bawah ini:<br/>Nama: <strong>Ibu Sari Dewi</strong><br/>Jabatan: Direktur Operasional PT Maju Sejahtera</p><p>Memberikan rekomendasi penuh kepada Sdr. Dimas Prasetyo atas kinerja prima, kedisiplinan tinggi, dan integritas kerja selama bertugas di perusahaan kami.</p><p>Demikian surat rekomendasi ini dibuat untuk dipergunakan sebagaimana mestinya.</p>',
+      word: '<p>Bu Sari butuh surat dukungan untuk Dimas yang akan melamar beasiswa S2; isinya masih perlu ditata:</p><p>Saya yang bertanda tangan di bawah ini, Sari Dewi, Direktur Operasional PT Maju Sejahtera, menyatakan bahwa Dimas Prasetyo selama magang menunjukkan hasil kerja sangat baik, disiplin tinggi, serta kejujuran yang dapat diandalkan dalam menangani kas dan laporan harian.</p><p>Surat ini dibuat untuk dipergunakan seperlunya oleh pihak yang membutuhkan.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul SURAT REKOMENDASI KERJA.',
@@ -488,7 +488,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Gunakan daftar bernomor (<ol>) untuk urutan instruksi kerja', completed: false },
     ],
     initialData: {
-      word: '<h1>STANDAR OPERASIONAL PROSEDUR (SOP)</h1><p>No Dokumen: SOP-FIN-02 | Tanggal: 1 November 2026</p><h2>1.0 TUJUAN</h2><p>Menjamin akurasi saldo awal kas kecil dan kesiapan mesin kasir sebelum jam operasional dimulai.</p><h2>2.0 PROSEDUR KERJA</h2><ol><li>Menyalakan mesin POS dan memeriksa koneksi jaringan printer struk.</li><li>Menghitung fisik uang modal awal bersama supervisor shift.</li><li>Menginput nominal saldo kas awal ke sistem aplikasi kasir.</li></ol>',
+      word: '<p>Catatan lisan Pak Reza soal pembukaan kasir minimarket, tolong disusun sendiri jadi dokumen SOP:</p><p>Kasir dibuka pukul 07.30 WIB. Mesin POS dinyalakan lebih dulu lalu koneksi printer struk diperiksa. Uang modal awal dihitung bersama supervisor shift, kemudian nominal saldo kas dimasukkan ke aplikasi kasir sebelum pelanggan pertama datang. Semua langkah dikerjakan berurutan supaya saldo awal tercatat akurat dan siap diperiksa bagian finance.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul STANDAR OPERASIONAL PROSEDUR.',
@@ -539,7 +539,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Cantumkan kata kunci "Pihak Pertama" dan "Pihak Kedua"', completed: false },
     ],
     initialData: {
-      word: '<h1>BERITA ACARA SERAH TERIMA BARANG</h1><p>Pada hari ini, Senin 26 Oktober 2026, telah dilaksanakan penyerahan inventaris antara:</p><p>PIHAK PERTAMA (Penyerah): Tim IT PT Maju Sejahtera<br/>PIHAK KEDUA (Penerima): Divisi Operasional</p><table><thead><tr><th>No</th><th>Nama Barang</th><th>Nomor Seri</th><th>Kondisi</th></tr></thead><tbody><tr><td>1</td><td>Laptop Lenovo ThinkPad</td><td>SN-2026-901</td><td>Baik / Baru</td></tr><tr><td>2</td><td>Printer Kasir Epson</td><td>SN-2026-902</td><td>Baik / Baru</td></tr></tbody></table><p>Pihak Pertama &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pihak Kedua</p>',
+      word: '<p>Barang yang diserahkan tim IT ke Divisi Operasional pada Senin, 26 Oktober 2026, masih dicatat dalam paragraf:</p><p>Laptop Lenovo ThinkPad nomor seri SN-2026-901 satu unit kondisi baru, lalu printer kasir Epson nomor seri SN-2026-902 satu unit kondisi baru. Yang menyerahkan adalah Tim IT PT Maju Sejahtera dan yang menerima ialah Divisi Operasional.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul dokumen BAST.',
@@ -592,7 +592,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Sertakan nomor sitasi atau rujukan pustaka [1]', completed: false },
     ],
     initialData: {
-      word: '<h1>BAB I PENDAHULUAN</h1><h2>1.1 Latar Belakang Masalah</h2><p>Perkembangan teknologi informasi mendorong transformasi digital pada proses bisnis modern di PT Maju Sejahtera <sup>[1]</sup>. Efisiensi operasional sangat bergantung pada pemanfaatan spreadsheet dan sistem basis data yang terintegrasi.</p><h2>1.2 Rumusan Masalah</h2><ul><li>Bagaimana efektivitas automasi formula dalam mengurangi kesalahan hitung kasir?</li><li>Bagaimana peningkatan kecepatan serah terima laporan mingguan pasca digitalisasi?</li></ul>',
+      word: '<p>Draf mentah laporan PKL mahasiswa magang, belum diberi struktur bab sama sekali:</p><p>Perkembangan teknologi informasi mendorong transformasi digital pada proses bisnis perusahaan. Efisiensi kerja sangat bergantung pada pemakaian spreadsheet dan basis data yang terintegrasi. Banyak transaksi kasir masih dicatat manual sehingga laporan mingguan kerap terlambat dan selisih kecil tidak langsung ketahuan. Perlu dikaji seberapa besar otomatisasi formula mampu mengurangi kesalahan hitung sekaligus mempercepat penyampaian laporan ke pimpinan.</p>',
     },
     hints: [
       'Pastikan terdapat judul bab utama menggunakan <h1>.',
@@ -647,7 +647,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Sertakan tabel performa penjualan minimal 3 baris', completed: false },
     ],
     initialData: {
-      word: '<h1>LAPORAN PENJUALAN TRIWULAN III 2026</h1><h2>Ringkasan Eksekutif</h2><p>PT Maju Sejahtera berhasil membukukan total pendapatan sebesar Rp 1,35 Miliar, melampaui target sebesar 112,5%.</p><table><thead><tr><th>Bulan</th><th>Target</th><th>Realisasi</th><th>Capaian</th></tr></thead><tbody><tr><td>Juli</td><td>Rp 400 Jt</td><td>Rp 420 Jt</td><td>105%</td></tr><tr><td>Agustus</td><td>Rp 400 Jt</td><td>Rp 450 Jt</td><td>112,5%</td></tr><tr><td>September</td><td>Rp 400 Jt</td><td>Rp 480 Jt</td><td>120%</td></tr></tbody></table><p>Pertumbuhan didorong oleh tingginya permintaan paket kemitraan UMKM binaan.</p>',
+      word: '<p>Angka mentah penjualan Juli sampai September 2026 yang dikirim bagian finance, target tiap bulan Rp 400 juta:</p><p>Bulan Juli terealisasi Rp 420 juta atau 105 persen, Agustus Rp 450 juta atau 112,5 persen, dan September Rp 480 juta atau 120 persen. Akumulasi tiga bulan sekitar Rp 1,35 miliar karena permintaan paket kemitraan UMKM binaan sedang tinggi.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul LAPORAN PENJUALAN.',
@@ -699,7 +699,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Sertakan tabel anggaran RAB minimal 3 baris', completed: false },
     ],
     initialData: {
-      word: '<h1>PROPOSAL PROGRAM CSR PEMBERDAYAAN UMKM</h1><h2>1.0 Latar Belakang Kegiatan</h2><p>Meningkatkan literasi pembukuan digital bagi 50 pedagang pasar tradisional sekitar kantor.</p><h2>2.0 Rencana Anggaran Biaya (RAB)</h2><table><thead><tr><th>No</th><th>Kebutuhan</th><th>Biaya Satuan</th><th>Total Biaya</th></tr></thead><tbody><tr><td>1</td><td>Pelatihan Aplikasi Kasir (2 Hari)</td><td>Rp 2.500.000</td><td>Rp 5.000.000</td></tr><tr><td>2</td><td>Bantuan Tablet POS (5 Unit)</td><td>Rp 1.800.000</td><td>Rp 9.000.000</td></tr></tbody></table><p>Total Usulan Anggaran: Rp 14.000.000</p>',
+      word: '<p>Coretan awal program pelatihan pembukuan digital untuk 50 pedagang pasar tradisional di sekitar kantor:</p><p>Kegiatannya berupa pelatihan aplikasi kasir dua hari dengan biaya satuan Rp 2,5 juta sehingga habis Rp 5 juta, ditambah bantuan tablet POS lima unit yang masing-masing berharga Rp 1,8 juta jadi Rp 9 juta. Usulan dana seluruhnya Rp 14 juta dan perlu disusun ulang supaya layak diajukan ke manajemen.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul proposal.',
@@ -751,7 +751,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Cantumkan sitasi rujukan [2] dan tabel studi komparatif', completed: false },
     ],
     initialData: {
-      word: '<h1>BAB II TINJAUAN PUSTAKA</h1><h2>2.1 Teori Efisiensi Operasional Bisnis</h2><p>Menurut Setiawan (2025) <sup>[2]</sup>, otomatisasi alur kerja administrasi kantor terbukti menurunkan waktu siklus laporan mingguan hingga 50%.</p><h2>2.2 Penelitian Terdahulu</h2><table><thead><tr><th>Peneliti</th><th>Fokus Studi</th><th>Temuan</th></tr></thead><tbody><tr><td>Hidayat (2024)</td><td>Sistem POS UMKM</td><td>Peningkatan akurasi kas 98%</td></tr><tr><td>Pratiwi (2025)</td><td>Pelaporan Digital</td><td>Reduksi dokumen kertas 70%</td></tr></tbody></table>',
+      word: '<p>Rujukan sementara yang dibacakan dosen pembimbing, belum ditata jadi bab landasan teori:</p><p>Setiawan tahun 2025 menulis bahwa otomatisasi alur kerja administrasi kantor menurunkan waktu siklus laporan mingguan hingga separuh. Hidayat tahun 2024 meneliti sistem kasir UMKM dan menemukan akurasi kas meningkat menjadi 98 persen. Pratiwi tahun 2025 menelaah pelaporan digital dengan hasil pengurangan dokumen kertas sebesar 70 persen.</p>',
     },
     hints: [
       'Gunakan H1 untuk BAB II TINJAUAN PUSTAKA.',
@@ -805,7 +805,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Sertakan tabel termin pembayaran minimal 3 baris', completed: false },
     ],
     initialData: {
-      word: '<h1>SURAT PERJANJIAN KERJASAMA (MoU)</h1><p>Nomor: 025/MOU-MS/XI/2026</p><h2>PASAL 1: RUANG LINGKUP PEKERJAAN</h2><p>PIHAK PERTAMA menunjuk PIHAK KEDUA untuk menyediakan makan siang sehat karyawan sebanyak 100 porsi per hari kerja.</p><h2>PASAL 2: NILAI KONTRAK DAN TERMIN PEMBAYARAN</h2><table><thead><tr><th>Termin</th><th>Waktu Pembayaran</th><th>Porsi Dana</th></tr></thead><tbody><tr><td>Termin I</td><td>Awal Bulan (DP)</td><td>Rp 10.000.000</td></tr><tr><td>Termin II</td><td>Akhir Bulan (Pelunasan)</td><td>Rp 25.000.000</td></tr></tbody></table><p>Pihak Pertama &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pihak Kedua</p>',
+      word: '<p>Catatan hasil negosiasi kontrak katering kantor dengan vendor, belum masuk format perjanjian:</p><p>Vendor sanggup menyediakan makan siang sehat 100 porsi per hari kerja dengan standar gizi yang ditetapkan perusahaan. Pembayaran direncanakan dua termin, yaitu uang muka Rp 10 juta di awal bulan lalu pelunasan Rp 25 juta di akhir bulan setelah berita acara pemeriksaan makanan ditandatangani kedua belah pihak.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul SURAT PERJANJIAN KERJASAMA.',
@@ -874,7 +874,7 @@ export const WORD_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Sertakan tabel anggaran RAB minimal 3 baris dan daftar butir', completed: false },
     ],
     initialData: {
-      word: '<h1>PROPOSAL PENGADAAN TEKNOLOGI KANTOR</h1><h2>Ringkasan Eksekutif</h2><p>Inisiatif modernisasi infrastruktur komputer dan kasir digital untuk memacu produktivitas operasional PT Maju Sejahtera hingga 45%.</p><h2>Rencana Anggaran Biaya (RAB)</h2><table><thead><tr><th>No</th><th>Pos Pengadaan</th><th>Alokasi Anggaran</th></tr></thead><tbody><tr><td>1</td><td>Pengadaan 10 Unit Laptop Operasional</td><td>Rp 70.000.000</td></tr><tr><td>2</td><td>Instalasi Jaringan Server & Cloud</td><td>Rp 20.000.000</td></tr><tr><td>3</td><td>Pelatihan Software Karyawan</td><td>Rp 10.000.000</td></tr></tbody></table><h2>Jadwal Pelaksanaan Kerja</h2><ul><li>Minggu 1: Pengadaan perangkat fisik.</li><li>Minggu 2: Konfigurasi jaringan dan server.</li><li>Minggu 3: Pelatihan dan go-live sistem.</li></ul><p>Total Nilai Investasi: <strong>Rp 100.000.000</strong></p>',
+      word: '<p>Bahan mentah proposal pengadaan teknologi kantor, belum ditata sama sekali:</p><p>Perusahaan membutuhkan 10 unit laptop operasional senilai Rp 70 juta, instalasi jaringan server dan cloud Rp 20 juta, serta pelatihan software karyawan Rp 10 juta sehingga total investasi Rp 100 juta. Pengadaan perangkat fisik dijadwalkan pada minggu pertama, konfigurasi jaringan dan server pada minggu kedua, lalu pelatihan dan go-live pada minggu ketiga. Modernisasi ini ditargetkan menaikkan produktivitas operasional PT Maju Sejahtera hingga 45 persen.</p>',
     },
     hints: [
       'Gunakan H1 untuk judul PROPOSAL PENGADAAN.',

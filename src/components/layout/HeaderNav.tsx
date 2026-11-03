@@ -23,6 +23,7 @@ import {
   GraduationCap,
   Info,
   MoreHorizontal,
+  Zap,
 } from 'lucide-react';
 import { PWAInstallButton } from '../pwa/PWAInstallButton';
 import { MobileTabBar } from './MobileTabBar';
@@ -152,10 +153,10 @@ export const HeaderNav: React.FC = () => {
         {/* Player Status HUD & Wallet */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* XP Progress Capsule */}
-          <div className="hidden 2xl:flex flex-col items-end text-right">
+          <div className="hidden md:flex flex-col items-end text-right">
             <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
               <span className="text-emerald-700">{tierInfo.badge} {tierInfo.title}</span>
-              <span className="text-slate-400 text-[10px]">({profile.xp} XP)</span>
+              <span className="text-slate-400 text-[10px] whitespace-nowrap">({profile.xp.toLocaleString('id-ID')} XP)</span>
             </div>
             <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden mt-1 border border-slate-200">
               <div
@@ -176,6 +177,16 @@ export const HeaderNav: React.FC = () => {
             <Coins className="w-3.5 h-3.5 text-amber-600" />
             <span className="font-mono text-[11px]">{profile.coins}</span>
           </button>
+
+          {/* XP Badge (mobile compact) */}
+          <div
+            className="flex md:hidden items-center justify-center gap-1 px-2 py-1.5 bg-indigo-50 border border-indigo-200/70 rounded-xl text-indigo-900 min-h-[44px]"
+            title="Total XP"
+            aria-label={`Total XP: ${profile.xp.toLocaleString('id-ID')}`}
+          >
+            <Zap className="w-3.5 h-3.5 text-indigo-500" />
+            <span className="font-mono text-[11px]">{profile.xp.toLocaleString('id-ID')}</span>
+          </div>
 
           {/* Streak Flame */}
           <button
@@ -330,12 +341,12 @@ export const HeaderNav: React.FC = () => {
               </div>
               <PWAInstallButton />
             </div>
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-3 gap-2">
               <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
                   <Flame className="w-4 h-4 text-emerald-400 fill-current" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-[10px] text-slate-400 font-semibold uppercase">Streak</div>
                   <div className="text-sm font-bold text-white">{profile.streakDays} Hari</div>
                 </div>
@@ -347,6 +358,17 @@ export const HeaderNav: React.FC = () => {
                 <div>
                   <div className="text-[10px] text-slate-400 font-semibold uppercase">Koin</div>
                   <div className="text-sm font-bold text-white">{profile.coins}</div>
+                </div>
+              </div>
+              <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-indigo-400" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase">XP</div>
+                  <div className="text-sm font-bold text-white whitespace-nowrap">
+                    {profile.xp.toLocaleString('id-ID')}
+                  </div>
                 </div>
               </div>
             </div>

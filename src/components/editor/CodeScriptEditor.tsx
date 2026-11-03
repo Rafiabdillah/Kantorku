@@ -6,7 +6,7 @@ import { EditorState } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { defaultKeymap, indentWithTab } from '@codemirror/commands';
-import { runCodeWithTests, TestCase, CodeExecutionResult } from '../../engine/codeSandbox';
+import { runCodeWithTests, extractFunctionName, TestCase, CodeExecutionResult } from '../../engine/codeSandbox';
 import { sound } from '../../services/sound';
 import { settingsRepo } from '../../features/settings/settingsRepository';
 
@@ -106,8 +106,7 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
 
     // Extract function name from first test or default
     const currentCode = viewRef.current ? viewRef.current.state.doc.toString() : code;
-    const fnMatch = currentCode.match(/function\s+([a-zA-Z0-9_$]+)\s*\(/);
-    const fnName = fnMatch ? fnMatch[1] : undefined;
+    const fnName = extractFunctionName(currentCode);
 
     const res = await runCodeWithTests(currentCode, testCases, fnName);
     setResult(res);

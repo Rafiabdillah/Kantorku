@@ -85,6 +85,10 @@ export const OfficeHubView: React.FC = () => {
                   <Flame className="w-3.5 h-3.5 text-amber-400 fill-current" />
                   {profile.streakDays} Hari Streak
                 </span>
+                <span className="text-[10px] text-slate-300 flex items-center gap-1 font-mono">
+                  <Zap className="w-3.5 h-3.5 text-indigo-400" />
+                  {profile.xp.toLocaleString('id-ID')} XP
+                </span>
               </div>
               <h1 className="text-xl md:text-2xl font-extrabold tracking-tight mt-1">
                 Selamat Datang, {profile.name}!

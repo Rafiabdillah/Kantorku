@@ -131,18 +131,17 @@ function runSandboxed(payload) {
     var factory = new Function(wrappedCode)();
     var targetFn = factory(capturedConsole, undefined, undefined, undefined, undefined, undefined, undefined);
 
-    if (testCases.length > 0) {
-      if (typeof targetFn !== 'function') {
-        return {
-          success: false,
-          output: logs,
-          testResults: [],
-          error: 'Fungsi "' + functionName + '" tidak ditemukan di kodemu.',
-          friendlyError: 'Pastikan kamu membuat fungsi dengan nama "' + functionName + '" yang mengembalikan (return) nilai jawaban.'
-        };
-      }
+    if (typeof targetFn !== 'function') {
+      return {
+        success: false,
+        output: logs,
+        testResults: [],
+        error: 'Fungsi "' + functionName + '" tidak ditemukan di kodemu.',
+        friendlyError: 'Pastikan kamu membuat fungsi dengan nama "' + functionName + '" yang mengembalikan (return) nilai jawaban.'
+      };
+    }
 
-      var testResults = [];
+    if (testCases.length > 0) {      var testResults = [];
       for (var i = 0; i < testCases.length; i++) {
         var tc = testCases[i];
         try {
@@ -189,9 +188,10 @@ function runSandboxed(payload) {
     }
 
     return {
-      success: true,
+      success: false,
       output: logs,
-      testResults: []
+      testResults: [],
+      friendlyError: 'Level ini belum punya kasus uji, jadi jawabanmu tidak bisa dinilai.'
     };
   } catch (err) {
     var errMsg = err && err.message ? err.message : String(err);
@@ -230,6 +230,11 @@ try {
   });
 }
 `;
+
+export function extractFunctionName(code: string): string | undefined {
+  const match = code.match(/function\s+([a-zA-Z0-9_$]+)\s*\(/);
+  return match ? match[1] : undefined;
+}
 
 export async function runCodeWithTests(
   userCode: string,

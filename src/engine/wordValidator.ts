@@ -73,6 +73,7 @@ export function validateWordDocument(
 ): { passed: boolean; score: RubricScore; feedback: string[] } {
   const doc = parseDocumentStructure(htmlContent);
   const feedback: string[] = [];
+  const unmet: string[] = [];
 
   let correctness = 100;
   let neatness = 90;
@@ -80,10 +81,23 @@ export function validateWordDocument(
   let maintainability = 90;
   let communication = 90;
 
+  if (doc.wordCount === 0) {
+    const emptyScore = {
+      correctness: 0,
+      neatness: 0,
+      efficiency: 0,
+      maintainability: 0,
+      communication: 0,
+      total: 0,
+      feedback: ['Dokumen masih kosong. Tulis naskahnya dulu sebelum mengirim.'],
+    };
+    return { passed: false, score: emptyScore, feedback: emptyScore.feedback };
+  }
+
   // 1. Min words
   if (req.minWords && doc.wordCount < req.minWords) {
     correctness -= 30;
-    feedback.push(`Jumlah kata masih kurang (${doc.wordCount}/${req.minWords} kata). Lengkapi uraian dokumen.`);
+    unmet.push(`Jumlah kata masih kurang (${doc.wordCount}/${req.minWords} kata). Lengkapi uraian dokumen.`);
   }
 
   // 2. Keywords
@@ -91,7 +105,7 @@ export function validateWordDocument(
     const missing = req.requiredKeywords.filter((kw) => !doc.plainText.toLowerCase().includes(kw.toLowerCase()));
     if (missing.length > 0) {
       correctness -= 25 * (missing.length / req.requiredKeywords.length);
-      feedback.push(`Kata kunci wajib belum tercakup: "${missing.join('", "')}".`);
+      unmet.push(`Kata kunci wajib belum tercakup: "${missing.join('", "')}".`);
     }
   }
 
@@ -99,36 +113,36 @@ export function validateWordDocument(
   if (req.requireH1 && !doc.headings.some((h) => h.level === 1)) {
     neatness -= 20;
     communication -= 15;
-    feedback.push('Gunakan Judul Utama (Heading 1) agar hierarki dokumen rapi.');
+    unmet.push('Gunakan Judul Utama (Heading 1) agar hierarki dokumen rapi.');
   }
 
   if (req.requireH2 && !doc.headings.some((h) => h.level === 2)) {
     neatness -= 15;
     maintainability -= 15;
-    feedback.push('Gunakan Sub-Judul (Heading 2) untuk membagi bagian dokumen.');
+    unmet.push('Gunakan Sub-Judul (Heading 2) untuk membagi bagian dokumen.');
   }
 
   // 4. Table
   if (req.requireTable) {
     if (!doc.hasTable) {
       correctness -= 25;
-      feedback.push('Dokumen wajib memiliki tabel ringkasan data.');
+      unmet.push('Dokumen wajib memiliki tabel ringkasan data.');
     } else if (req.minTableRows && doc.tableRows < req.minTableRows) {
       neatness -= 15;
-      feedback.push(`Tabel memerlukan minimal ${req.minTableRows} baris data.`);
+      unmet.push(`Tabel memerlukan minimal ${req.minTableRows} baris data.`);
     }
   }
 
   // 5. Lists
   if (req.requireList && !doc.hasList) {
     neatness -= 15;
-    feedback.push('Gunakan bullet list atau penomoran untuk poin-poin penting.');
+    unmet.push('Gunakan bullet list atau penomoran untuk poin-poin penting.');
   }
 
   // 6. Bold
   if (req.requireBold && !doc.hasBold) {
     neatness -= 10;
-    feedback.push('Beri penekanan (Bold) pada kata kunci penting agar mudah dipindai.');
+    unmet.push('Beri penekanan (Bold) pada kata kunci penting agar mudah dipindai.');
   }
 
   // 7. Academic Preset Requirements
@@ -144,7 +158,7 @@ export function validateWordDocument(
   if (req.requireFootnote && !doc.hasFootnote) {
     neatness -= 15;
     communication -= 15;
-    feedback.push('Sertakan catatan kaki (footnote / sitasi) untuk rujukan dokumen formal.');
+    unmet.push('Sertakan catatan kaki (footnote / sitasi) untuk rujukan dokumen formal.');
   }
 
   correctness = Math.max(0, Math.round(correctness));
@@ -156,7 +170,9 @@ export function validateWordDocument(
   const total = Math.round(
     correctness * 0.35 + neatness * 0.2 + efficiency * 0.15 + maintainability * 0.15 + communication * 0.15
   );
-  const passed = total >= 70 && correctness >= 60;
+  const passed = unmet.length === 0 && total >= 70 && correctness >= 60;
+
+  feedback.push(...unmet);
 
   if (passed && feedback.length === 0) {
     feedback.push('Struktur dokumen sangat profesional, rapi, dan memenuhi standar bisnis & akademik Indonesia.');

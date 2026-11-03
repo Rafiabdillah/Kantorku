@@ -32,7 +32,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Kembalikan format "Halo, [nama]! Selamat datang."', completed: false },
     ],
     initialData: {
-      code: 'function sapaKaryawan(nama) {\n  // Kembalikan sapaan: "Halo, [nama]! Selamat datang."\n  return "Halo, " + nama + "! Selamat datang.";\n}',
+      code: 'function sapaKaryawan(nama) {\n  // TODO: kembalikan sapaan "Halo, [nama]! Selamat datang."\n}',
     },
     hints: [
       'Gunakan penggabungan string dengan tanda + atau template literal.',
@@ -77,7 +77,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-1', text: 'Implementasikan fungsi hitungHargaAkhir(harga, persenDiskon)', completed: false },
     ],
     initialData: {
-      code: 'function hitungHargaAkhir(harga, persenDiskon) {\n  return harga - (harga * (persenDiskon / 100));\n}',
+      code: 'function hitungHargaAkhir(harga, persenDiskon) {\n  // TODO: kurangi harga dengan diskon dalam persen, kembalikan harga akhirnya\n}',
     },
     hints: [
       'Hitung potongan: const potongan = harga * (persenDiskon / 100);',
@@ -123,7 +123,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Tambahkan pajak 11% yang dibulatkan dengan Math.round', completed: false },
     ],
     initialData: {
-      code: 'function hitungTotalDenganPPN(subtotal) {\n  const ppn = Math.round(subtotal * 0.11);\n  return subtotal + ppn;\n}',
+      code: 'function hitungTotalDenganPPN(subtotal) {\n  // TODO: hitung PPN 11% yang dibulatkan, lalu kembalikan subtotal + PPN\n}',
     },
     hints: [
       'Hitung pajak: const ppn = Math.round(subtotal * 0.11);',
@@ -169,7 +169,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Gunakan template literals untuk interpolasi string', completed: false },
     ],
     initialData: {
-      code: 'function cetakKwitansi(noTrx, total) {\n  return `TRX-${noTrx} Senilai Rp ${total}`;\n}',
+      code: 'function cetakKwitansi(noTrx, total) {\n  // TODO: kembalikan teks "TRX-[noTrx] Senilai Rp [total]"\n}',
     },
     hints: [
       'Gunakan backtick (`) di awal dan akhir teks.',
@@ -217,7 +217,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Kembalikan "PERPANJANG" jika skor < 75', completed: false },
     ],
     initialData: {
-      code: 'function cekKelulusanProbation(skor) {\n  if (skor >= 75) {\n    return "LULUS";\n  } else {\n    return "PERPANJANG";\n  }\n}',
+      code: 'function cekKelulusanProbation(skor) {\n  // TODO: kembalikan "LULUS" jika skor >= 75, selain itu "PERPANJANG"\n}',
     },
     hints: [
       'Gunakan if (skor >= 75) { return "LULUS"; }',
@@ -264,7 +264,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Terapkan percabangan else if bertingkat', completed: false },
     ],
     initialData: {
-      code: 'function hitungBonus(targetPersen) {\n  if (targetPersen >= 100) {\n    return 2000000;\n  } else if (targetPersen >= 80) {\n    return 1000000;\n  } else {\n    return 0;\n  }\n}',
+      code: 'function hitungBonus(targetPersen) {\n  // TODO: capai target >= 100 dapat 2000000, >= 80 dapat 1000000, selain itu 0\n}',
     },
     hints: [
       'Cek targetPersen >= 100 terlebih dahulu (kembalikan 2000000).',
@@ -310,7 +310,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Gunakan operator logika && untuk menguji kedua syarat', completed: false },
     ],
     initialData: {
-      code: 'function validasiPromo(totalBelanja, isMember) {\n  return totalBelanja >= 100000 && isMember === true;\n}',
+      code: 'function validasiPromo(totalBelanja, isMember) {\n  // TODO: kembalikan true hanya jika totalBelanja >= 100000 DAN isMember true\n}',
     },
     hints: [
       'Gunakan ekspresi: totalBelanja >= 100000 && isMember === true',
@@ -356,7 +356,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Gunakan for loop dan variabel akumulator', completed: false },
     ],
     initialData: {
-      code: 'function jumlahkanDeret(n) {\n  let total = 0;\n  for (let i = 1; i <= n; i++) {\n    total += i;\n  }\n  return total;\n}',
+      code: 'function jumlahkanDeret(n) {\n  // TODO: jumlahkan angka 1 sampai n dengan loop, kembalikan totalnya\n}',
     },
     hints: [
       'Inisialisasi let total = 0;',
@@ -402,7 +402,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Gunakan metode .push() untuk menambah data', completed: false },
     ],
     initialData: {
-      code: 'function tambahBarang(daftar, itemBaru) {\n  daftar.push(itemBaru);\n  return daftar;\n}',
+      code: 'function tambahBarang(daftar, itemBaru) {\n  // TODO: tambahkan itemBaru ke dalam daftar, lalu kembalikan daftar yang sudah berubah\n}',
     },
     hints: [
       'Panggil daftar.push(itemBaru);',
@@ -449,7 +449,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Gunakan metode .map() untuk transformasi data', completed: false },
     ],
     initialData: {
-      code: 'function formatDaftarHarga(daftarAngka) {\n  return daftarAngka.map(x => "Rp " + x);\n}',
+      code: 'function formatDaftarHarga(daftarAngka) {\n  // TODO: ubah setiap angka menjadi teks "Rp <angka>" memakai .map\n}',
     },
     hints: [
       'Gunakan daftarAngka.map(x => "Rp " + x);',
@@ -494,7 +494,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Gunakan metode .filter() dengan predikat status === "SIAP"', completed: false },
     ],
     initialData: {
-      code: 'function filterSiapKirim(daftarBarang) {\n  return daftarBarang.filter(b => b.status === "SIAP");\n}',
+      code: 'function filterSiapKirim(daftarBarang) {\n  // TODO: kembalikan hanya barang dengan status "SIAP" memakai .filter\n}',
     },
     hints: [
       'Panggil daftarBarang.filter(...)',
@@ -542,7 +542,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-2', text: 'Gunakan .reduce() dengan nilai awal akumulator 0', completed: false },
     ],
     initialData: {
-      code: 'function totalInventaris(daftarNilai) {\n  return daftarNilai.reduce((acc, curr) => acc + curr, 0);\n}',
+      code: 'function totalInventaris(daftarNilai) {\n  // TODO: jumlahkan seluruh nilai memakai .reduce dengan nilai awal 0\n}',
     },
     hints: [
       'Panggil daftarNilai.reduce((acc, curr) => acc + curr, 0);',
@@ -605,7 +605,7 @@ export const CODING_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Kembalikan objek { subtotal, diskon, ppn, total }', completed: false },
     ],
     initialData: {
-      code: 'function auditTransaksi(items, diskon) {\n  const subtotal = items.reduce((sum, item) => sum + (item.harga * item.qty), 0);\n  const dpp = Math.max(0, subtotal - diskon);\n  const ppn = Math.round(dpp * 0.11);\n  const total = dpp + ppn;\n  return { subtotal, diskon, ppn, total };\n}',
+      code: 'function auditTransaksi(items, diskon) {\n  // TODO: subtotal = jumlah (item.harga * item.qty) seluruh items\n  // TODO: dpp = subtotal - diskon, tidak boleh di bawah 0\n  // TODO: ppn = 11% dari dpp, dibulatkan\n  // TODO: kembalikan objek { subtotal, diskon, ppn, total } dengan total = dpp + ppn\n}',
     },
     hints: [
       'Gunakan items.reduce((s, item) => s + item.harga * item.qty, 0) untuk subtotal.',

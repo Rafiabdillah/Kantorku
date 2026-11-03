@@ -65,7 +65,8 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
 
   // Keep editor content in sync when external content prop changes meaningfully
   useEffect(() => {
-    if (editor && content !== editor.getHTML() && !editor.isFocused) {
+    if (!editor || editor.isDestroyed) return;
+    if (content !== editor.getHTML() && !editor.isFocused) {
       editor.commands.setContent(content, { emitUpdate: false });
     }
   }, [content, editor]);

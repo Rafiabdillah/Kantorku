@@ -17,6 +17,7 @@ export function validateWebContent(
   req: WebValidationRequirements
 ): { passed: boolean; score: RubricScore; feedback: string[] } {
   const feedback: string[] = [];
+  const unmet: string[] = [];
 
   let correctness = 100;
   let neatness = 90;
@@ -27,13 +28,27 @@ export function validateWebContent(
   const lowerHtml = html.toLowerCase();
   const lowerCss = css.toLowerCase();
 
+  const hasMarkup = /<[a-z][^>]*>/i.test(html.replace(/<!--[\s\S]*?-->/g, ''));
+  if (!hasMarkup) {
+    const emptyScore = {
+      correctness: 0,
+      neatness: 0,
+      efficiency: 0,
+      maintainability: 0,
+      communication: 0,
+      total: 0,
+      feedback: ['Panel HTML masih kosong. Bangun struktur halamanmu lebih dulu sebelum mengirim.'],
+    };
+    return { passed: false, score: emptyScore, feedback: emptyScore.feedback };
+  }
+
   // 1. Required tags
   if (req.requiredTags) {
     for (const tag of req.requiredTags) {
       const regex = new RegExp(`<${tag}[\\s>]`, 'i');
       if (!regex.test(html)) {
         correctness -= 25;
-        feedback.push(`Tag wajib <${tag}> belum ditemukan di dalam HTML.`);
+        unmet.push(`Tag wajib <${tag}> belum ditemukan di dalam HTML.`);
       }
     }
   }
@@ -43,7 +58,7 @@ export function validateWebContent(
     if (!/<img[^>]+alt=["'][^"']+["']/i.test(html)) {
       neatness -= 20;
       communication -= 20;
-      feedback.push('Tag <img> wajib memiliki atribut "alt" untuk aksesibilitas dan SEO.');
+      unmet.push('Tag <img> wajib memiliki atribut "alt" untuk aksesibilitas dan SEO.');
     }
   }
 
@@ -54,22 +69,23 @@ export function validateWebContent(
     const hasFooter = /<footer[\s>]/i.test(html);
 
     if (!hasHeader || !hasMain || !hasFooter) {
+      correctness -= 15;
       neatness -= 20;
       maintainability -= 20;
-      feedback.push('Gunakan elemen semantik HTML5 modern (<header>, <main>, <footer>) untuk struktur yang rapi.');
+      unmet.push('Gunakan elemen semantik HTML5 modern (<header>, <main>, <footer>) untuk struktur yang rapi.');
     }
   }
 
   // 4. Flexbox check
   if (req.requireFlexbox && !lowerCss.includes('display: flex') && !lowerCss.includes('display:flex')) {
     correctness -= 30;
-    feedback.push('Gunakan CSS Flexbox ("display: flex") untuk tata letak elemen.');
+    unmet.push('Gunakan CSS Flexbox ("display: flex") untuk tata letak elemen.');
   }
 
   // 5. CSS Grid check
   if (req.requireGrid && !lowerCss.includes('display: grid') && !lowerCss.includes('display:grid')) {
     correctness -= 30;
-    feedback.push('Gunakan CSS Grid ("display: grid") untuk menyusun kolom layout.');
+    unmet.push('Gunakan CSS Grid ("display: grid") untuk menyusun kolom layout.');
   }
 
   // 6. Media queries (Responsive)
@@ -78,7 +94,18 @@ export function validateWebContent(
     if (mqMatches.length < req.minMediaQueries) {
       maintainability -= 25;
       efficiency -= 15;
-      feedback.push(`Wajib menyertakan minimal ${req.minMediaQueries} breakpoint responsif (@media query).`);
+      unmet.push(`Wajib menyertakan minimal ${req.minMediaQueries} breakpoint responsif (@media query).`);
+    }
+  }
+
+  // 7. Required class names (must appear in markup or stylesheet)
+  if (req.requiredClasses) {
+    for (const cls of req.requiredClasses) {
+      const token = cls.toLowerCase();
+      if (!lowerHtml.includes(token) && !lowerCss.includes(`.${token}`)) {
+        correctness -= 25;
+        unmet.push(`Class wajib ".${cls}" belum dipakai di HTML maupun CSS.`);
+      }
     }
   }
 
@@ -92,7 +119,9 @@ export function validateWebContent(
     correctness * 0.35 + neatness * 0.2 + efficiency * 0.15 + maintainability * 0.15 + communication * 0.15
   );
 
-  const passed = total >= 70 && correctness >= 60;
+  const passed = unmet.length === 0 && total >= 70 && correctness >= 60;
+
+  feedback.push(...unmet);
 
   if (passed && feedback.length === 0) {
     feedback.push('Kode web HTML & CSS sangat bersih, semantik, responsif, dan siap dideploy!');

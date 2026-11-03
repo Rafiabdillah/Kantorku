@@ -49,8 +49,8 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Sertakan paragraf pengantar <p>', completed: false },
     ],
     initialData: {
-      html: '<header>\n  <h1>PT Maju Sejahtera</h1>\n</header>\n<main>\n  <p>Pusat solusi digital, operasional kantor, dan kemitraan UMKM terpercaya sejak 2020.</p>\n</main>\n<footer>\n  <p>&copy; 2026 PT Maju Sejahtera</p>\n</footer>',
-      css: 'header { background: #1e293b; color: white; padding: 16px; text-align: center; }\nmain { padding: 24px; font-family: sans-serif; }\nfooter { background: #f1f5f9; text-align: center; padding: 12px; font-size: 13px; color: #64748b; }',
+      html: '<div class="halaman">\n  <div class="judul">PT Maju Sejahtera</div>\n  <div class="isi">Pusat solusi digital, operasional kantor, dan kemitraan UMKM terpercaya sejak 2020.</div>\n  <div class="kaki">&copy; 2026 PT Maju Sejahtera</div>\n</div>',
+      css: '.halaman { font-family: sans-serif; }\n.judul { background: #1e293b; color: white; padding: 16px; text-align: center; font-size: 20px; }\n.isi { padding: 24px; }\n.kaki { background: #f1f5f9; text-align: center; padding: 12px; font-size: 13px; color: #64748b; }',
     },
     hints: [
       'Pastikan dokumen memiliki tag <header>, <main>, dan <footer>.',
@@ -96,8 +96,8 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Terapkan kelas CSS kartu (card) dengan batas pembatas (border)', completed: false },
     ],
     initialData: {
-      html: '<div class="product-card">\n  <img src="/assets/atk.png" alt="Paket ATK Kantor Hemat" />\n  <h3>Paket Hemat Kertas & Spidol</h3>\n  <p>Rp 75.000 / paket</p>\n  <button class="btn-buy">Beli Sekarang</button>\n</div>',
-      css: '.product-card { border: 1px solid #cbd5e1; border-radius: 8px; padding: 16px; max-width: 280px; text-align: center; }\n.btn-buy { background: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; }',
+      html: '<div class="product-card">\n  <img src="/assets/atk.png" />\n  <h3>Paket Hemat Kertas & Spidol</h3>\n  <p>Rp 75.000 / paket</p>\n  <span class="tombol-lama">Beli Sekarang</span>\n</div>',
+      css: '.product-card { border: 1px solid #cbd5e1; border-radius: 8px; padding: 16px; max-width: 280px; text-align: center; }\n.tombol-lama { color: #2563eb; cursor: pointer; }',
     },
     hints: [
       'Pastikan tag <img> memiliki atribut alt="..." untuk aksesibilitas.',
@@ -193,7 +193,7 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Sediakan tombol pengiriman bertipe submit', completed: false },
     ],
     initialData: {
-      html: '<form action="/order" method="POST" class="order-form">\n  <div class="form-group">\n    <label for="nama_barang">Nama Barang:</label>\n    <input type="text" id="nama_barang" name="nama_barang" placeholder="Misal: Kertas HVS" required />\n  </div>\n  <button type="submit" class="btn-submit">Ajukan Permohonan</button>\n</form>',
+      html: '<div class="order-form">\n  <div class="form-group">\n    <span>Nama Barang:</span>\n    <input type="text" placeholder="Misal: Kertas HVS" />\n  </div>\n  <div class="form-group">\n    <span>Jumlah:</span>\n    <input type="number" placeholder="Misal: 5" />\n  </div>\n  <span class="btn-submit">Ajukan Permohonan</span>\n</div>',
       css: '.order-form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }\n.form-group label { display: block; font-weight: 600; margin-bottom: 4px; }\n.form-group input { width: 100%; padding: 8px; border: 1px solid #94a3b8; border-radius: 4px; }\n.btn-submit { background: #059669; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; }',
     },
     hints: [
@@ -239,7 +239,7 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Terapkan border-collapse pada CSS tabel', completed: false },
     ],
     initialData: {
-      html: '<table class="price-table">\n  <thead>\n    <tr>\n      <th>Paket Layanan</th>\n      <th>Biaya Satuan</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Pemeliharaan PC & Jaringan</td>\n      <td>Rp 150.000</td>\n    </tr>\n    <tr>\n      <td>Instalasi Software Kantor</td>\n      <td>Rp 75.000</td>\n    </tr>\n  </tbody>\n</table>',
+      html: '<div class="price-table">\n  <div class="row head"><div>Paket Layanan</div><div>Biaya Satuan</div></div>\n  <div class="row"><div>Pemeliharaan PC & Jaringan</div><div>Rp 150.000</div></div>\n  <div class="row"><div>Instalasi Software Kantor</div><div>Rp 75.000</div></div>\n</div>',
       css: '.price-table { width: 100%; border-collapse: collapse; }\n.price-table th, .price-table td { border: 1px solid #cbd5e1; padding: 10px 14px; text-align: left; }\n.price-table th { background: #f8fafc; font-weight: 600; }',
     },
     hints: [
@@ -285,8 +285,8 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Terapkan border-radius untuk sudut membulat', completed: false },
     ],
     initialData: {
-      html: '<div class="action-box">\n  <button class="btn-action">Konfirmasi Reservasi Ruang</button>\n</div>',
-      css: '.action-box { padding: 20px; background: #f8fafc; border: 1px dashed #cbd5e1; }\n.btn-action {\n  padding: 12px 24px;\n  margin: 10px 0;\n  border: none;\n  border-radius: 8px;\n  background: #2563eb;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n}',
+      html: '<div class="action-box">\n  <a href="#" class="link-action">Konfirmasi Reservasi Ruang</a>\n</div>',
+      css: '.action-box { padding: 20px; background: #f8fafc; border: 1px dashed #cbd5e1; }\n.link-action {\n  color: #2563eb;\n  font-weight: 600;\n  text-decoration: none;\n}',
     },
     hints: [
       'Gunakan properti padding (misal: 12px 24px) untuk ruang dalam tombol.',
@@ -332,8 +332,8 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Pastikan hanya ada satu elemen <main> per dokumen', completed: false },
     ],
     initialData: {
-      html: '<header class="site-header">\n  <h1>PT Maju Sejahtera</h1>\n  <nav>\n    <ul>\n      <li><a href="#proyek">Proyek</a></li>\n      <li><a href="#laporan">Laporan</a></li>\n    </ul>\n  </nav>\n</header>\n<main class="site-main">\n  <h2>Portal Kerja Internal</h2>\n  <p>Selamat datang di sistem manajemen terpadu karyawan.</p>\n</main>\n<footer class="site-footer">\n  <p>&copy; 2026 Hak Cipta Terpelihara - PT Maju Sejahtera</p>\n</footer>',
-      css: '.site-header { background: #0f172a; color: white; padding: 16px 24px; }\n.site-header nav ul { display: flex; gap: 16px; list-style: none; padding: 0; }\n.site-header a { color: #38bdf8; text-decoration: none; }\n.site-main { padding: 24px; }\n.site-footer { background: #f1f5f9; padding: 16px; text-align: center; }',
+      html: '<div class="site-header">\n  <div class="judul">PT Maju Sejahtera</div>\n  <div class="menu">Proyek &middot; Laporan</div>\n</div>\n<div class="site-main">\n  <div class="subjudul">Portal Kerja Internal</div>\n  <div>Selamat datang di sistem manajemen terpadu karyawan.</div>\n</div>\n<div class="site-footer">\n  <div>&copy; 2026 Hak Cipta Terpelihara - PT Maju Sejahtera</div>\n</div>',
+      css: '.site-header { background: #0f172a; color: white; padding: 16px 24px; }\n.judul { font-size: 20px; font-weight: 700; }\n.menu { font-size: 13px; color: #94a3b8; }\n.site-main { padding: 24px; }\n.subjudul { font-weight: 600; margin-bottom: 8px; }\n.site-footer { background: #f1f5f9; padding: 16px; text-align: center; }',
     },
     hints: [
       'Gunakan tag <header>, <nav>, <main>, dan <footer>.',
@@ -381,8 +381,8 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Terapkan align-items: center untuk keselarasan vertikal', completed: false },
     ],
     initialData: {
-      html: '<nav class="flex-navbar">\n  <div class="brand-logo"><strong>KantorKu Pro</strong></div>\n  <ul class="nav-links">\n    <li><a href="#fitur">Fitur</a></li>\n    <li><a href="#harga">Harga</a></li>\n  </ul>\n  <div class="user-action"><button class="btn-login">Masuk</button></div>\n</nav>',
-      css: '.flex-navbar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 14px 28px;\n  background: #ffffff;\n  border-bottom: 1px solid #e2e8f0;\n}\n.nav-links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }\n.nav-links a { text-decoration: none; color: #334155; font-weight: 500; }\n.btn-login { background: #2563eb; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }',
+      html: '<nav class="top-navbar">\n  <div class="brand-logo"><strong>KantorKu Pro</strong></div>\n  <ul class="nav-links">\n    <li><a href="#fitur">Fitur</a></li>\n    <li><a href="#harga">Harga</a></li>\n  </ul>\n  <div class="user-action"><button class="btn-login">Masuk</button></div>\n</nav>',
+      css: '.top-navbar {\n  padding: 14px 28px;\n  background: #ffffff;\n  border-bottom: 1px solid #e2e8f0;\n}\n.brand-logo { float: left; }\n.nav-links { float: right; list-style: none; margin: 0; padding: 0; }\n.nav-links li { display: inline-block; margin-left: 20px; }\n.nav-links a { text-decoration: none; color: #334155; font-weight: 500; }\n.user-action { clear: both; }\n.btn-login { background: #2563eb; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }',
     },
     hints: [
       'Setel display: flex pada kelas .flex-navbar.',
@@ -428,8 +428,8 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Gunakan properti gap untuk jarak antar kartu', completed: false },
     ],
     initialData: {
-      html: '<div class="product-gallery">\n  <div class="item-card"><h4>Kertas HVS A4</h4><p>Rp 55.000</p></div>\n  <div class="item-card"><h4>Ordner Folio</h4><p>Rp 35.000</p></div>\n  <div class="item-card"><h4>Spidol Whiteboard</h4><p>Rp 12.000</p></div>\n</div>',
-      css: '.product-gallery {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 16px;\n}\n.item-card {\n  flex: 1 1 200px;\n  background: #f8fafc;\n  padding: 16px;\n  border: 1px solid #cbd5e1;\n  border-radius: 8px;\n}',
+      html: '<div class="gallery-list">\n  <div class="item-card"><h4>Kertas HVS A4</h4><p>Rp 55.000</p></div>\n  <div class="item-card"><h4>Ordner Folio</h4><p>Rp 35.000</p></div>\n  <div class="item-card"><h4>Spidol Whiteboard</h4><p>Rp 12.000</p></div>\n</div>',
+      css: '.gallery-list { padding: 8px; }\n.item-card {\n  float: left;\n  width: 30%;\n  background: #f8fafc;\n  padding: 16px;\n  margin: 8px;\n  border: 1px solid #cbd5e1;\n  border-radius: 8px;\n}',
     },
     hints: [
       'Setel display: flex pada kelas .product-gallery.',
@@ -476,7 +476,7 @@ export const WEB_LEVELS: LevelItem[] = [
     ],
     initialData: {
       html: '<div class="split-view">\n  <div class="main-content"><h2>Laporan Kinerja</h2><p>Data grafik performa bisnis bulanan.</p></div>\n  <div class="sidebar"><h3>Pintasan</h3><p>Unduh PDF / Bagikan</p></div>\n</div>',
-      css: '.split-view { display: flex; gap: 20px; max-width: 100%; }\n.main-content { flex: 2; background: #f8fafc; padding: 20px; border-radius: 8px; }\n.sidebar { flex: 1; background: #f1f5f9; padding: 20px; border-radius: 8px; }\n\n/* Aturan Responsif Mobile */\n@media (max-width: 768px) {\n  .split-view {\n    flex-direction: column;\n  }\n}',
+      css: '.split-view { max-width: 100%; }\n.main-content { float: left; width: 60%; background: #f8fafc; padding: 20px; border-radius: 8px; }\n.sidebar { float: left; width: 32%; background: #f1f5f9; padding: 20px; border-radius: 8px; }\n\n/* TODO: tata ulang dengan Flexbox dan tambahkan breakpoint mobile */',
     },
     hints: [
       'Gunakan sintaks @media (max-width: 768px).',
@@ -539,8 +539,8 @@ export const WEB_LEVELS: LevelItem[] = [
       { id: 'obj-3', text: 'Terapkan tata letak Flexbox dan form kontak interaktif', completed: false },
     ],
     initialData: {
-      html: '<header class="main-header">\n  <div class="logo"><strong>UMKM Berkah Binaan</strong></div>\n  <nav><ul><li><a href="#produk">Produk</a></li><li><a href="#kontak">Kontak</a></li></ul></nav>\n</header>\n\n<main>\n  <section class="hero-section">\n    <h1>Produk Organik Berkualitas Mitra Maju Sejahtera</h1>\n    <p>Dukungan nyata bagi kemandirian pangan dan usaha lokal nusantara.</p>\n    <button class="cta-button">Pesan Sekarang</button>\n  </section>\n\n  <section id="produk" class="catalog-grid">\n    <div class="card"><h3>Beras Pulen</h3><p>Rp 65.000</p></div>\n    <div class="card"><h3>Madu Hutan</h3><p>Rp 90.000</p></div>\n  </section>\n\n  <section id="kontak">\n    <form class="contact-form">\n      <label for="nama">Nama Pemesan:</label>\n      <input id="nama" type="text" placeholder="Nama Anda" />\n      <button type="submit">Kirim Pesanan</button>\n    </form>\n  </section>\n</main>\n\n<footer>\n  <p>&copy; 2026 CSR PT Maju Sejahtera</p>\n</footer>',
-      css: '.main-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: #1e293b; color: white; }\n.main-header ul { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0; }\n.main-header a { color: #38bdf8; text-decoration: none; }\n\n.hero-section { background: #0f172a; color: white; padding: 48px 24px; text-align: center; }\n.hero-section h1 { font-size: 28px; margin-bottom: 12px; }\n.cta-button { background: #10b981; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }\n\n.catalog-grid { display: flex; flex-wrap: wrap; gap: 16px; padding: 24px; }\n.card { flex: 1 1 200px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 16px; }\n\n.contact-form { max-width: 360px; margin: 24px auto; display: flex; flex-direction: column; gap: 10px; }\n.contact-form input { padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; }\n.contact-form button { background: #2563eb; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; }\n\nfooter { background: #f1f5f9; text-align: center; padding: 16px; }\n\n@media (max-width: 768px) {\n  .main-header { flex-direction: column; gap: 12px; }\n  .hero-section { padding: 32px 16px; }\n}',
+      html: '<header class="main-header">\n  <div class="logo"><strong>UMKM Berkah Binaan</strong></div>\n  <nav><ul><li><a href="#produk">Produk</a></li><li><a href="#kontak">Kontak</a></li></ul></nav>\n</header>\n\n<main>\n  <section class="hero-section">\n    <h1>Produk Organik Berkualitas Mitra Maju Sejahtera</h1>\n    <p>Dukungan nyata bagi kemandirian pangan dan usaha lokal nusantara.</p>\n  </section>\n\n  <section id="produk" class="catalog-grid">\n    <div class="card"><h3>Beras Pulen</h3><p>Rp 65.000</p></div>\n    <div class="card"><h3>Madu Hutan</h3><p>Rp 90.000</p></div>\n  </section>\n</main>\n\n<footer>\n  <p>&copy; 2026 CSR PT Maju Sejahtera</p>\n</footer>',
+      css: '.main-header { padding: 16px 24px; background: #1e293b; color: white; }\n.main-header ul { list-style: none; margin: 0; padding: 0; }\n.main-header li { display: inline-block; margin-right: 16px; }\n.main-header a { color: #38bdf8; text-decoration: none; }\n\n.hero-section { background: #0f172a; color: white; padding: 48px 24px; text-align: center; }\n.hero-section h1 { font-size: 28px; margin-bottom: 12px; }\n\n.catalog-grid { padding: 24px; }\n.card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 16px; margin-bottom: 12px; }\n\nfooter { background: #f1f5f9; text-align: center; padding: 16px; }',
     },
     hints: [
       'Pastikan dokumen memiliki <header>, <main>, dan <footer>.',

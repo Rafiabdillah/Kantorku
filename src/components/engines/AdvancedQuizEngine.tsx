@@ -168,16 +168,18 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
     let tip = '';
 
     if (currentQ.type === 'urutan') {
-      const isMatch = currentQ.correctOrder.every((id, idx) => id === currentOrder[idx]);
+      const isMatch = currentQ.correctOrder.length > 0 &&
+        currentQ.correctOrder.every((id, idx) => id === currentOrder[idx]);
       passed = isMatch;
       tip = isMatch ? 'Urutan tepat dan logis!' : currentQ.explanation;
     } else if (currentQ.type === 'cocokkan') {
-      const allCorrect = currentQ.pairs.every((p) => currentMatches[p.id] === p.right);
+      const allCorrect = currentQ.pairs.length > 0 &&
+        currentQ.pairs.every((p) => currentMatches[p.id] === p.right);
       passed = allCorrect;
       tip = allCorrect ? 'Semua pasangan cocok sempurna!' : currentQ.explanation;
     } else if (currentQ.type === 'temukan-kesalahan') {
       const correctErrorIds = currentQ.contextSnippet.lines.filter((l) => l.isError).map((l) => l.id);
-      const isIdentical =
+      const isIdentical = correctErrorIds.length > 0 &&
         correctErrorIds.length === currentSelectedErrors.length &&
         correctErrorIds.every((id) => currentSelectedErrors.includes(id));
       passed = isIdentical;
