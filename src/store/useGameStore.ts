@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { PlayerProfile, CharacterId, ModuleType, TierLevel, ErrorLogItem, SheetGrid, CellData } from '../types';
+import { PlayerProfile, CharacterId, ModuleType, TierLevel, ErrorLogItem, SheetGrid, CellData, TIERS } from '../types';
 import { LEVELS } from '../content/levels';
 import { sound } from '../services/sound';
 import { parseSaveFileJson, buildSaveFileJson } from '../services/saveFile';
@@ -94,6 +94,22 @@ interface GameState {
   resetProgress: () => void;
   exportProgressJson: () => string;
   importProgressJson: (json: string) => boolean;
+}
+
+/**
+ * Total XP required to reach each career tier, derived from TIERS so the
+ * XP progress bar and tier advancement can never diverge.
+ */
+export const TIER_XP_THRESHOLDS: Record<number, number> = Object.fromEntries(
+  ([2, 3, 4, 5, 6, 7] as TierLevel[]).map((t) => [t, TIERS[t].minXp])
+);
+
+export function getTierForXp(xp: number): TierLevel {
+  let tier: TierLevel = 1;
+  for (const t of [2, 3, 4, 5, 6, 7] as TierLevel[]) {
+    if (xp >= TIER_XP_THRESHOLDS[t]) tier = t;
+  }
+  return tier;
 }
 
 export const initialProfile: PlayerProfile = {
@@ -288,14 +304,9 @@ export const useGameStore = create<GameState>()(
       addXp: (amount) =>
         set((state) => {
           const newXp = state.profile.xp + amount;
-          // Check tier advancement
-          let newTier = state.profile.currentTier;
-          if (newXp >= 20000) newTier = 7;
-          else if (newXp >= 12000) newTier = 6;
-          else if (newXp >= 7000) newTier = 5;
-          else if (newXp >= 3500) newTier = 4;
-          else if (newXp >= 1500) newTier = 3;
-          else if (newXp >= 500) newTier = 2;
+          // Tier is a career achievement: XP can promote but never demote
+          // (placement-started or imported profiles may hold a tier above their XP).
+          const newTier = Math.max(state.profile.currentTier, getTierForXp(newXp)) as TierLevel;
 
           if (newTier > state.profile.currentTier) {
             sound.playLevelUp();
@@ -342,7 +353,7 @@ export const useGameStore = create<GameState>()(
             avatar,
             currentTier: startTier,
             hasCompletedOnboarding: true,
-            xp: (startTier - 1) * 600,
+            xp: TIERS[startTier].minXp,
           },
         }));
       },

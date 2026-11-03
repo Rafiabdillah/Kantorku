@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGameStore } from '../../store/useGameStore';
+import { useGameStore, TIER_XP_THRESHOLDS } from '../../store/useGameStore';
 import { LEVELS } from '../../content/levels';
 import { ModuleType, TierLevel, TIERS } from '../../types';
 import { CharacterAvatar } from '../character/CharacterAvatar';
@@ -22,7 +22,8 @@ export const CareerMapView: React.FC = () => {
   const [activeModule, setActiveModule] = useState<ModuleType>('excel');
   const [selectedTier, setSelectedTier] = useState<TierLevel>(profile.currentTier);
 
-  const filteredLevels = LEVELS.filter((l) => l.module === activeModule);
+  const filteredLevels = LEVELS.filter((l) => l.module === activeModule && l.tier === selectedTier);
+  const firstModuleLevelId = LEVELS.find((l) => l.module === activeModule)?.id;
 
   const masteryPercent = profile.moduleMastery[activeModule] || 0;
 
@@ -117,6 +118,7 @@ export const CareerMapView: React.FC = () => {
           const tInfo = TIERS[t];
           const isSelected = selectedTier === t;
           const isPlayerTier = profile.currentTier === t;
+          const isTierLocked = t > profile.currentTier;
 
           return (
             <button
@@ -136,6 +138,7 @@ export const CareerMapView: React.FC = () => {
               <span>
                 Tier {t}: {tInfo.title}
               </span>
+              {isTierLocked && <Lock className="w-3 h-3 text-slate-400" />}
               {isPlayerTier && (
                 <span className="text-[10px] bg-emerald-500 text-white px-1.5 py-0.2 rounded-full font-bold">
                   Kariermu
@@ -148,10 +151,12 @@ export const CareerMapView: React.FC = () => {
 
       {/* Levels Pathway Nodes */}
       <div className="flex flex-col gap-4">
-        {filteredLevels.map((lvl, index) => {
+        {filteredLevels.map((lvl) => {
           const isCompleted = profile.completedLevelIds.includes(lvl.id);
           const stars = profile.levelStars[lvl.id] || 0;
-          const isUnlocked = lvl.tier <= profile.currentTier || isCompleted || index === 0;
+          const isUnlocked = lvl.tier <= profile.currentTier || isCompleted || lvl.id === firstModuleLevelId;
+          const tierThreshold = TIER_XP_THRESHOLDS[lvl.tier];
+          const xpNeeded = tierThreshold ? Math.max(0, tierThreshold - profile.xp) : 0;
 
           return (
             <div
@@ -249,9 +254,17 @@ export const CareerMapView: React.FC = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 px-4 py-2 bg-slate-200 text-slate-500 rounded-xl text-xs font-semibold">
-                    <Lock className="w-3.5 h-3.5" />
-                    <span>Terkunci</span>
+                  <div className="flex flex-col items-end gap-1.5">
+                    <div className="flex items-center gap-1.5 px-4 py-2 bg-slate-200 text-slate-500 rounded-xl text-xs font-semibold">
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>Terkunci</span>
+                    </div>
+                    {tierThreshold !== undefined && (
+                      <span className="text-[10px] text-slate-400 font-medium text-right leading-snug max-w-[220px]">
+                        Terbuka di Tier {lvl.tier} (butuh {tierThreshold.toLocaleString('id-ID')} XP total
+                        {xpNeeded > 0 && <> — kurang <b className="text-slate-500">{xpNeeded.toLocaleString('id-ID')} XP</b></>})
+                      </span>
+                    )}
                   </div>
                 )}
               </div>

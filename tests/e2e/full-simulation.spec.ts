@@ -439,4 +439,34 @@ test.describe('KantorKu full feature simulation', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('SIM.19 Career map: tier ribbon filters, locked cards show XP requirement, no unlock leak', async ({
+    page,
+  }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'career-map');
+
+    // Default view: player tier 1, Excel track — tier-1 levels visible and startable
+    await expect(page.getByText('Menghitung Jumlah Transaksi dengan COUNT & COUNTA')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByRole('button', { name: /Mulai Tugas/ }).first()).toBeVisible();
+
+    // Switch to Tier 2 via the ribbon: list filters and everything is locked with an XP hint
+    await page.getByRole('button', { name: /Tier 2: Staf Junior/ }).click();
+    await expect(page.getByText('Referensi Mutlak').first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Mulai Tugas/ })).toHaveCount(0);
+    await expect(page.getByText('Terkunci').first()).toBeVisible();
+    await expect(page.getByText(/kurang/).first()).toContainText('500 XP');
+
+    // Back to Tier 1: levels are startable again
+    await page.getByRole('button', { name: /Tier 1: Magang/ }).click();
+    await expect(page.getByText('Menghitung Jumlah Transaksi dengan COUNT & COUNTA')).toBeVisible();
+    await expect(page.getByRole('button', { name: /Mulai Tugas/ }).first()).toBeVisible();
+
+    // Other modules respect the same rule: Web tier 1 first level is startable
+    await page.getByRole('button', { name: 'Track Web', exact: true }).click();
+    await expect(page.getByText('Struktur Dasar HTML5 & Profil Usaha')).toBeVisible();
+    await expect(page.getByRole('button', { name: /Mulai Tugas/ }).first()).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
 });
