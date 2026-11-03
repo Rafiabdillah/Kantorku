@@ -420,7 +420,7 @@ class SettingsRepository {
   public resetModuleProgress() {
     if (typeof window === 'undefined') return;
     try {
-      localStorage.removeItem('kantorku-game-storage');
+      localStorage.removeItem('kantorku_game_storage_v1');
       this.notifyListeners();
     } catch (e) {
       console.error(e);

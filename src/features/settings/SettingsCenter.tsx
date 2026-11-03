@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useSettings } from './useSettings';
 import { SETTING_SECTIONS, SETTINGS_REGISTRY, SETTING_PRESETS } from './registry';
 import { SettingDef, SettingSectionId, PresetId, UserProfileMeta } from './types';
 import { useGameStore } from '../../store/useGameStore';
 import { sound } from '../../services/sound';
+import { parseSaveFileJson, suggestSaveFileName } from '../../services/saveFile';
 import { BrandLogoIcon } from '../../components/brand/BrandLogo';
 import {
   ArrowLeft,
@@ -60,7 +61,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
 };
 
 export const SettingsCenter: React.FC = () => {
-  const { setView } = useGameStore();
+  const { setView, profile, exportProgressJson, importProgressJson } = useGameStore();
   const {
     settings,
     undoEntry,
@@ -107,6 +108,9 @@ export const SettingsCenter: React.FC = () => {
   // Import/Export modals
   const [showImportModal, setShowImportModal] = useState<boolean>(false);
   const [importJsonText, setImportJsonText] = useState<string>('');
+
+  // Progress save file
+  const progressFileInputRef = useRef<HTMLInputElement>(null);
 
   // Developer tap test mode
   const [versionTapCount, setVersionTapCount] = useState<number>(0);
@@ -168,6 +172,50 @@ export const SettingsCenter: React.FC = () => {
       setImportJsonText('');
     } else {
       showNotification(res.message, 'error');
+    }
+  };
+
+  const handleExportProgress = () => {
+    sound.playClick();
+    try {
+      const json = exportProgressJson();
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = suggestSaveFileName(profile.name);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showNotification('Progres game berhasil diekspor. Simpan berkas .json tersebut untuk pindah perangkat!');
+    } catch {
+      showNotification('Gagal mengekspor progres game.', 'error');
+    }
+  };
+
+  const handleProgressFilePicked = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    sound.playClick();
+    const text = await file.text();
+    const parsed = parseSaveFileJson(text);
+    if (!parsed.ok || !parsed.summary) {
+      showNotification(parsed.message, 'error');
+      return;
+    }
+    const s = parsed.summary;
+    const okToRestore = window.confirm(
+      `Pulihkan progres "${s.name}"?\n\nTier ${s.tier} • ${s.coins} koin • ${s.xp} XP\n\nProgres saat ini akan digantikan. Lanjutkan?`
+    );
+    if (!okToRestore) return;
+    const applied = importProgressJson(text);
+    if (applied) {
+      sound.playSuccess();
+      showNotification(`Progres "${s.name}" berhasil dipulihkan!`);
+    } else {
+      showNotification('Gagal memulihkan progres: format berkas tidak dikenali.', 'error');
     }
   };
 
@@ -549,6 +597,43 @@ export const SettingsCenter: React.FC = () => {
           {/* Tiered Data & Reset Widget (if in data section) */}
           {activeSectionId === 'data' && !searchQuery && (
             <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+              <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div className="max-w-md">
+                  <div className="font-bold text-sm text-emerald-900 dark:text-emerald-200 flex items-center gap-2">
+                    <Download className="w-4 h-4 text-emerald-600" />
+                    <span>Cadangkan &amp; Pulihkan Progres</span>
+                  </div>
+                  <p className="text-[11px] text-emerald-800/80 dark:text-emerald-300/80 mt-1 leading-snug">
+                    Ekspor seluruh progres (tier karier, koin, pencapaian, misi) ke berkas .json, lalu impor di
+                    perangkat lain untuk melanjutkan permainan tanpa mulai dari nol.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={handleExportProgress}
+                    className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-xs"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Ekspor Progres</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => progressFileInputRef.current?.click()}
+                    className="flex items-center gap-1.5 px-3 py-2 bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold text-xs rounded-xl transition cursor-pointer"
+                  >
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>Impor Progres</span>
+                  </button>
+                  <input
+                    ref={progressFileInputRef}
+                    type="file"
+                    accept="application/json,.json"
+                    className="hidden"
+                    onChange={handleProgressFilePicked}
+                  />
+                </div>
+              </div>
               <div className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 <span>Reset Bertingkat (Tiered Reset)</span>

@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { PlayerProfile, CharacterId, ModuleType, TierLevel, ErrorLogItem, SheetGrid, CellData } from '../types';
 import { LEVELS } from '../content/levels';
 import { sound } from '../services/sound';
+import { parseSaveFileJson, buildSaveFileJson } from '../services/saveFile';
 import { ALL_SKILLS } from '../content/skills';
 
 export type AppView =
@@ -641,21 +642,15 @@ export const useGameStore = create<GameState>()(
       },
 
       exportProgressJson: () => {
-        return JSON.stringify(get().profile, null, 2);
+        return buildSaveFileJson(get().profile as unknown as Record<string, unknown>);
       },
 
       importProgressJson: (json) => {
-        try {
-          const parsed = JSON.parse(json);
-          if (parsed && typeof parsed.name === 'string') {
-            set({ profile: parsed });
-            sound.playSuccess();
-            return true;
-          }
-        } catch {
-          // ignore
-        }
-        return false;
+        const res = parseSaveFileJson(json);
+        if (!res.ok || !res.profile) return false;
+        set({ profile: migrateLegacyProfile(res.profile) });
+        sound.playSuccess();
+        return true;
       },
     }),
     {

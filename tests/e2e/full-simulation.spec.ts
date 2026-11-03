@@ -1,4 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
+import fs from 'fs';
 
 const IGNORED_CONSOLE = ['WebSocket', 'favicon', 'Download the React DevTools'];
 
@@ -375,6 +376,66 @@ test.describe('KantorKu full feature simulation', () => {
       () => document.documentElement.scrollWidth <= document.documentElement.clientWidth
     );
     expect(overflow).toBe(true);
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.18 Save file: export downloads JSON, invalid import rejected, valid import restores progress', async ({
+    page,
+  }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'settings');
+
+    await page.getByRole('button', { name: 'Data & Privasi' }).click();
+    await expect(page.getByText('Cadangkan & Pulihkan Progres')).toBeVisible();
+
+    // Export current (default) progress and verify the JSON payload
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.getByRole('button', { name: 'Ekspor Progres', exact: true }).click(),
+    ]);
+    expect(download.suggestedFilename()).toMatch(/^kantorku_progres_.*\.json$/);
+    const downloadPath = await download.path();
+    const exported = JSON.parse(fs.readFileSync(downloadPath!, 'utf-8'));
+    expect(exported.kind).toBe('save-game-progress');
+    expect(exported.profile.name).toBe('Budi Pratama');
+
+    // Invalid import is rejected with a friendly toast
+    await page.locator('input[type="file"]').setInputFiles({
+      name: 'rusak.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from('bukan json'),
+    });
+    await expect(page.getByText('Berkas bukan JSON yang valid.')).toBeVisible();
+
+    // Valid import restores profile after confirmation dialog
+    page.on('dialog', (d) => d.accept());
+    const savePayload = {
+      app: 'kantorku',
+      kind: 'save-game-progress',
+      storageVersion: 2,
+      exportedAt: '2026-11-03T00:00:00.000Z',
+      profile: {
+        ...exported.profile,
+        name: 'Toni Uji Simulasi',
+        coins: 777,
+        xp: 4321,
+        currentTier: 4,
+        hasCompletedOnboarding: true,
+      },
+    };
+    await page.locator('input[type="file"]').setInputFiles({
+      name: 'kantorku_progres_toni.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(savePayload)),
+    });
+    await expect(page.getByText('Progres "Toni Uji Simulasi" berhasil dipulihkan!')).toBeVisible();
+
+    await openView(page, 'office');
+    await expect(page.getByRole('heading', { name: 'Selamat Datang, Toni Uji Simulasi' })).toBeVisible();
+
+    await openView(page, 'shop');
+    await expect(page.getByText('777 Koin')).toBeVisible();
 
     expect(errors).toEqual([]);
   });
