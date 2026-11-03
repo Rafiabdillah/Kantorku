@@ -2,10 +2,7 @@ import React, { useEffect } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { TIERS } from '../../types';
 
-/**
- * Pemberitahuan hadiah XP/koin dan kenaikan tier. Hanya tampil untuk kenaikan tier
- * dan hadiah sekali-klaim dari mode lain; misi menampilkan hadiahnya sendiri di modal hasil.
- */
+/** Toast untuk kenaikan tier dan hadiah sekali-klaim. Hadiah misi tampil di modal hasilnya. */
 export const RewardToast: React.FC = () => {
   const lastReward = useGameStore((s) => s.lastReward);
   const clearReward = useGameStore((s) => s.clearReward);

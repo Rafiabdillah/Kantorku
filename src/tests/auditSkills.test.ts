@@ -29,9 +29,7 @@ import { ROLES, calculateRoleReadiness } from '../content/roles';
 import { useGameStore } from '../store/useGameStore';
 import { D12_LEVELS } from '../content/skills/d12-komunikasi/levels';
 
-// =========================================================================
 // 1. Audit Rules Rejecting Intentionally Flawed Test Data
-// =========================================================================
 
 test('Audit Quality Gate: Rejects skill without lessons, levels, or roleRelevance', () => {
   const flawedSkill: any = {
@@ -192,9 +190,7 @@ test('Audit Quality Gate: Rejects roleRelevance exceeding domain weight (Bagian 
   assert.ok(issues[0].includes('melebihi bobot domain D12 (4)'));
 });
 
-// =========================================================================
 // 2. Deterministic Seed-Based Quiz Generator (BUTIR 2)
-// =========================================================================
 
 test('Seeded Quiz Generator: Same seed produces identical questions and shuffled order', () => {
   const setA1 = generateSeededD12Quizzes(42);
@@ -260,9 +256,7 @@ test('Seeded Quiz Generator (D12): Reference solutions pass across 20 random see
   }
 });
 
-// =========================================================================
 // 3. Character Reputation in Simulation & Store (BUTIR 3)
-// =========================================================================
 
 test('Character Reputation: Empathetic choice increases reputation and harsh choice decreases it', () => {
   const store = useGameStore.getState();
@@ -286,9 +280,7 @@ test('Character Reputation: Empathetic choice increases reputation and harsh cho
   assert.equal(useGameStore.getState().profile.reputation['klien'], 0);
 });
 
-// =========================================================================
 // 4. Email Editor Spelling & Punctuation Validation (BUTIR 5)
-// =========================================================================
 
 test('EmailEditor Engine: Validates basic spelling and punctuation rules', () => {
   const spellingReq = DEFAULT_EMAIL_REQUIREMENTS.find((r) => r.id === 'req-spelling-punctuation');
@@ -342,9 +334,7 @@ test('EmailEditor Engine: Validates basic spelling and punctuation rules', () =>
   assert.ok(lowerRes.tip?.includes('huruf kapital'));
 });
 
-// =========================================================================
 // 5. ModuleType <-> DomainId Mapping (BUTIR 7)
-// =========================================================================
 
 test('ModuleType <-> DomainId: Bidirectional mapping is consistent and accurate', () => {
   assert.equal(moduleTypeToDomainId('excel'), 'D1');
@@ -358,9 +348,7 @@ test('ModuleType <-> DomainId: Bidirectional mapping is consistent and accurate'
   assert.equal(domainIdToLegacyModule('D12'), null);
 });
 
-// =========================================================================
 // 6. Job Readiness F1 & Legacy Level Bridge F3 (PATCH v9.2)
-// =========================================================================
 
 test('F1 Job Readiness: bobotBelumTersedia for all 16 roles matches manual calculation', () => {
   const EXPECTED_BELUM_TERSEDIA: Record<string, number> = {
@@ -454,9 +442,7 @@ test('F3 Legacy Level Bridge: Completing Excel level t1-01 with 3 stars updates 
   assert.equal(updatedProfile.domainMastery?.['D1'], 100);
 });
 
-// =========================================================================
 // 7. F2 Engine Integrity Unit Tests
-// =========================================================================
 
 test('F2.1 Email Editor: Sending unchanged flawed initial draft fails with score 0', () => {
   const level1 = D12_LEVELS[0];

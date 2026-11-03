@@ -102,9 +102,7 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
 
   const currentQ = questions[currentIndex];
 
-  // =========================================================================
   // Question Specific State & Handlers
-  // =========================================================================
 
   // 1. Reorder Handler
   const initialReorderOrder = currentQ.type === 'urutan'

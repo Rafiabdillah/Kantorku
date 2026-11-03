@@ -17,9 +17,7 @@ import path from 'path';
 
 console.log('Writing KantorKu Content Patch files...');
 
-// -------------------------------------------------------------
 // 1. Web Lessons Patch
-// -------------------------------------------------------------
 const webLessonsPatchContent = `/**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -853,9 +851,7 @@ export const WEB_LESSONS_PATCH: Lesson[] = [
 fs.writeFileSync(path.join(process.cwd(), 'src/content/lessons/webLessonsPatch.ts'), webLessonsPatchContent, 'utf-8');
 console.log('✅ Created src/content/lessons/webLessonsPatch.ts');
 
-// -------------------------------------------------------------
 // 2. Coding Lessons Patch
-// -------------------------------------------------------------
 const codingLessonsPatchContent = `/**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -1761,9 +1757,7 @@ export const CODING_LESSONS_PATCH: Lesson[] = [
 fs.writeFileSync(path.join(process.cwd(), 'src/content/lessons/codingLessonsPatch.ts'), codingLessonsPatchContent, 'utf-8');
 console.log('✅ Created src/content/lessons/codingLessonsPatch.ts');
 
-// -------------------------------------------------------------
 // 3. Word Lessons Patch
-// -------------------------------------------------------------
 const wordLessonsPatchContent = `/**
  * @license
  * SPDX-License-Identifier: Apache-2.0

@@ -13,9 +13,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('KantorKu Wave S0: Pilot Engines & Semesta Keterampilan Suite', () => {
-  // =========================================================================
   // 1. Peta Keterampilan & Goal Wizard (Desktop & Mobile 360px)
-  // =========================================================================
   test('Peta Keterampilan: 17 domains Aktif, 0 Segera Hadir, Goal Wizard updates target role', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (err) => errors.push(`[PageError]: ${err.message}`));
@@ -131,9 +129,7 @@ test.describe('KantorKu Wave S0: Pilot Engines & Semesta Keterampilan Suite', ()
     }
   });
 
-  // =========================================================================
   // 2. Email Editor Engine (D12-LEVEL-01)
-  // =========================================================================
   test('Email Editor: Reference solution passes all 3C & spelling rules, flawed draft fails with tip', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/?autostart=1&view=skills-map');
@@ -192,9 +188,7 @@ test.describe('KantorKu Wave S0: Pilot Engines & Semesta Keterampilan Suite', ()
     await expect(page.locator('text=9 / 9 Lolos')).toBeVisible();
   });
 
-  // =========================================================================
   // 3. Simulation Engine (D12-LEVEL-02)
-  // =========================================================================
   test('Simulation Engine: Empathic choices increase character reputation and sentence assembly completes scenario', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/?autostart=1&view=skills-map');
@@ -250,9 +244,7 @@ test.describe('KantorKu Wave S0: Pilot Engines & Semesta Keterampilan Suite', ()
     expect(stored?.state?.profile?.reputation?.klien).toBeGreaterThanOrEqual(53);
   });
 
-  // =========================================================================
   // 4. Advanced Quiz Engine (D12-LEVEL-03)
-  // =========================================================================
   test('Advanced Quiz Engine: Renders analytical formats (reordering, matching, spot error, hotspot)', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/?autostart=1&view=skills-map');
@@ -285,9 +277,7 @@ test.describe('KantorKu Wave S0: Pilot Engines & Semesta Keterampilan Suite', ()
     await expect(page.getByRole('button', { name: 'Soal Berikutnya →' })).toBeVisible();
   });
 
-  // =========================================================================
   // 5. Store Migration (Legacy Profile Fixture)
-  // =========================================================================
   test('Store Migration: Upgrades legacy profile v1 to v2 while preserving progress and populating domainMastery', async ({ page }) => {
     // Inject legacy v1 localStorage state before navigating
     await page.addInitScript(() => {

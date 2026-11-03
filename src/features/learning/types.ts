@@ -8,9 +8,7 @@
 import { z } from 'zod';
 import { ModuleType, TierLevel, CharacterId } from '../../types';
 
-// ============================================================================
 // 1. Step Schemas
-// ============================================================================
 
 export const QuizQuestionTypeSchema = z.enum([
   'pilihan-ganda',
@@ -101,9 +99,7 @@ export const StepSchema = z.discriminatedUnion('type', [
 ]);
 export type LessonStep = z.infer<typeof StepSchema>;
 
-// ============================================================================
 // 2. Lesson Schema
-// ============================================================================
 
 export const LessonTrackSchema = z.enum(['excel', 'word', 'web', 'coding']);
 export type LessonTrack = z.infer<typeof LessonTrackSchema>;
@@ -142,9 +138,7 @@ export const LessonSchema = z.object({
 });
 export type Lesson = z.infer<typeof LessonSchema>;
 
-// ============================================================================
 // 3. Learning Path Schema
-// ============================================================================
 
 export const LearningPathSchema = z.object({
   id: z.string().min(3),
@@ -162,9 +156,7 @@ export const LearningPathSchema = z.object({
 });
 export type LearningPath = z.infer<typeof LearningPathSchema>;
 
-// ============================================================================
 // 4. Glossary & Cheat Sheet Schemas
-// ============================================================================
 
 export const GlossaryTermSchema = z.object({
   id: z.string(),
@@ -215,9 +207,7 @@ function stringOrUndefined() {
 }
 export type CheatSheet = z.infer<typeof CheatSheetSchema>;
 
-// ============================================================================
 // 5. Case Study (Bedah Kasus) Schema
-// ============================================================================
 
 export const CaseStudyAnnotationSchema = z.object({
   id: z.string(),
@@ -248,9 +238,7 @@ export const CaseStudyComparisonSchema = z.object({
 });
 export type CaseStudyComparison = z.infer<typeof CaseStudyComparisonSchema>;
 
-// ============================================================================
 // 6. User Learning Progress & Notes Schema
-// ============================================================================
 
 export type LearningMode = 'cepat' | 'lengkap' | 'mandiri';
 export type FontSizeSetting = 'sm' | 'base' | 'lg' | 'xl';

@@ -235,9 +235,7 @@ export const LearningCenterView: React.FC = () => {
         })}
       </div>
 
-      {/* ==================================================================== */}
-      {/* TAB 1: BERANDA BELAJAR */}
-      {/* ==================================================================== */}
+      {/* Tab 1: beranda belajar */}
       {activeTab === 'beranda' && (
         <div className="flex flex-col gap-6">
           {/* Lanjutkan Belajar (Resume Last Reading Position) */}
@@ -396,9 +394,7 @@ export const LearningCenterView: React.FC = () => {
         </div>
       )}
 
-      {/* ==================================================================== */}
-      {/* TAB 2: JALUR BELAJAR (LEARNING PATHS) */}
-      {/* ==================================================================== */}
+      {/* Tab 2: jalur belajar (learning paths) */}
       {activeTab === 'jalur' && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
@@ -506,9 +502,7 @@ export const LearningCenterView: React.FC = () => {
         </div>
       )}
 
-      {/* ==================================================================== */}
-      {/* TAB 3: KATALOG PELAJARAN */}
-      {/* ==================================================================== */}
+      {/* Tab 3: katalog pelajaran */}
       {activeTab === 'pelajaran' && (
         <div className="space-y-6">
           {/* Filter Bar */}
@@ -583,9 +577,7 @@ export const LearningCenterView: React.FC = () => {
         </div>
       )}
 
-      {/* ==================================================================== */}
-      {/* TAB 4: KAMUS & GLOSARIUM */}
-      {/* ==================================================================== */}
+      {/* Tab 4: kamus & glosarium */}
       {activeTab === 'kamus' && (
         <div className="space-y-6">
           {/* Search & Filter Header */}
@@ -667,9 +659,7 @@ export const LearningCenterView: React.FC = () => {
         </div>
       )}
 
-      {/* ==================================================================== */}
-      {/* TAB 5: LEMBAR CONTEKAN (CHEAT SHEETS) */}
-      {/* ==================================================================== */}
+      {/* Tab 5: lembar contekan (cheat sheets) */}
       {activeTab === 'contekan' && (
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
@@ -756,14 +746,10 @@ export const LearningCenterView: React.FC = () => {
         </div>
       )}
 
-      {/* ==================================================================== */}
-      {/* TAB 6: BEDAH KASUS */}
-      {/* ==================================================================== */}
+      {/* Tab 6: bedah kasus */}
       {activeTab === 'bedah-kasus' && <CaseStudyViewer onOpenLesson={openLesson} />}
 
-      {/* ==================================================================== */}
-      {/* TAB 7: CATATAN SAYA */}
-      {/* ==================================================================== */}
+      {/* Tab 7: catatan saya */}
       {activeTab === 'catatan' && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
@@ -848,9 +834,7 @@ export const LearningCenterView: React.FC = () => {
         </div>
       )}
 
-      {/* ==================================================================== */}
-      {/* TAB 8: PETA PENGETAHUAN (SKILL STATUS) */}
-      {/* ==================================================================== */}
+      {/* Tab 8: peta pengetahuan (skill status) */}
       {activeTab === 'peta' && (
         <div className="space-y-6">
           <div>

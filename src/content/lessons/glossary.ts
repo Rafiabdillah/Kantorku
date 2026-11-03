@@ -8,9 +8,7 @@
 import { GlossaryTerm } from '../../features/learning/types';
 
 export const GLOSSARY_TERMS: GlossaryTerm[] = [
-  // ==========================================
-  // --- FUNGSI EXCEL ---
-  // ==========================================
+  // --- Fungsi excel ---
   {
     id: 'fn-sum',
     term: 'SUM',
@@ -104,9 +102,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     relatedSkills: ['Tax Calculation', 'Business Math'],
   },
 
-  // ==========================================
-  // --- HTML & CSS ---
-  // ==========================================
+  // --- Html & css ---
   {
     id: 'tag-html-semantic',
     term: 'Tag Semantik (header, nav, main, footer)',
@@ -141,9 +137,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     relatedSkills: ['Card Layout', 'CSS Flexbox'],
   },
 
-  // ==========================================
-  // --- JAVASCRIPT ---
-  // ==========================================
+  // --- Javascript ---
   {
     id: 'js-function',
     term: 'Function (Fungsi)',
@@ -167,9 +161,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     relatedSkills: ['String Concatenation', 'Clean Code'],
   },
 
-  // ==========================================
-  // --- DOKUMEN & BISNIS ---
-  // ==========================================
+  // --- Dokumen & bisnis ---
   {
     id: 'word-margin-academic',
     term: 'Margin Standar Akademik 4-3-3-3',

@@ -106,7 +106,6 @@ export const MissionPlayView: React.FC = () => {
     };
   }, [editorExpanded]);
 
-  // Modal hasil bisa ditutup dengan Escape (aksesibilitas keyboard).
   React.useEffect(() => {
     if (!showResultModal) return;
     const onKey = (e: KeyboardEvent) => {

@@ -61,9 +61,7 @@ import { D8_LESSONS } from '../content/skills/d8-operasional/lessons';
 import { D8_LEVELS } from '../content/skills/d8-operasional/levels';
 import { generateSeededD8Quizzes } from '../content/skills/d8-operasional/quizzes';
 
-// =========================================================================
 // 1. D6 Bank Reconciliation & Accounting Arithmetic
-// =========================================================================
 
 test('D6 Arithmetic: Bank reconciliation balances perfectly on both sides', () => {
   const lvl2 = D6_LEVELS.find((l) => l.id === 'D6-LEVEL-02')!;
@@ -186,9 +184,7 @@ test('D6 Arithmetic: Accounting fundamental equation and double-entry balance in
   }
 });
 
-// =========================================================================
 // 2. D7 Financial & Break-Even Point (BEP) Arithmetic
-// =========================================================================
 
 test('D7 Arithmetic: BEP formula recalculation matches lesson worked example', () => {
   const les03 = D7_LESSONS.find((l) => l.id === 'D7-LES-03')!;
@@ -267,9 +263,7 @@ test('D7 Arithmetic: Level 2 down payment and Level 4 capital allocation sum to 
   assert.equal(70 + 30, 100, 'Capital allocation must sum to 100%');
 });
 
-// =========================================================================
 // 3. D11 Critical Path, Float & WBS Arithmetic
-// =========================================================================
 
 test('D11 Arithmetic: Critical Path zero float and resource leveling shift <= float', () => {
   const lvl4 = D11_LEVELS.find((l) => l.id === 'D11-LEVEL-04')!;
@@ -299,9 +293,7 @@ test('D11 Arithmetic: Critical Path zero float and resource leveling shift <= fl
   assert.ok(q8.instruction.includes('WBS') || q8.title.includes('WBS'));
 });
 
-// =========================================================================
 // 4. D3 Visual Ratio & Time Allocation Arithmetic
-// =========================================================================
 
 test('D3 Arithmetic: WCAG AA contrast thresholds and timeboxing consistency', () => {
   const quizzes = generateSeededD3Quizzes(3333);
@@ -329,9 +321,7 @@ test('D3 Arithmetic: WCAG AA contrast thresholds and timeboxing consistency', ()
   assert.ok(d3Lvl4, 'D3-SKILL-02 exists');
 });
 
-// =========================================================================
 // 5. Cross-Domain Source Sanitation Audit
-// =========================================================================
 
 test('Source Sanitation: No "Color Contrast Contrast" duplicate in any skill', () => {
   for (const skill of D3_SKILLS) {
@@ -382,9 +372,7 @@ test('Source Sanitation: SAK EMKM citation year is uniformly 2016 in D6 and D7',
   }
 });
 
-// =========================================================================
 // 6. D9 Digital Marketing & Unit Economics Arithmetic
-// =========================================================================
 
 test('D9 Arithmetic: Marketing constants recalculate CAC, LTV, ROAS, and ROI deterministically', () => {
   const c = D9_MARKETING_CONSTANTS;
@@ -459,9 +447,7 @@ test('D9 Arithmetic: Lesson worked example, Level simulation, and Quizzes reflec
   assert.ok(targetZone.label.includes('Rp25.000.000'), 'Target zone must specify ad revenue Rp25.000.000');
 });
 
-// =========================================================================
 // 7. D10 Payroll & Overtime PP 35/2021 Arithmetic
-// =========================================================================
 
 test('D10 Arithmetic: Payroll constants recalculate overtime, THR, and BPJS deterministically', () => {
   const p = D10_PAYROLL_CONSTANTS;
@@ -527,9 +513,7 @@ test('D10 Arithmetic: Lesson worked example, Level simulation, and Quizzes refle
   assert.ok(targetZone.label.includes('8 bulan') || targetZone.label.includes('8/12'), 'Target zone must specify 8 months tenure');
 });
 
-// =========================================================================
 // 8. D8 Operations, EOQ & Inventory Management Arithmetic
-// =========================================================================
 
 test('D8 Arithmetic: Inventory constants recalculate EOQ, Safety Stock, and ROP deterministically', () => {
   const inv = D8_INVENTORY_CONSTANTS;

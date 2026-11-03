@@ -1,9 +1,7 @@
 import { LevelItem } from "../types";
 
 export const EXCEL_LEVELS: LevelItem[] = [
-  // ==========================================
-  // --- EXCEL TRACK ---
-  // ==========================================
+  // --- Excel track ---
   {
     id: 'excel-t1-01',
     module: 'excel',
