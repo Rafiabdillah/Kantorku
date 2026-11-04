@@ -353,7 +353,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
       // Copy
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c' && !isEditing) {
         const val = grid[selectedCell]?.raw || '';
-        navigator.clipboard?.writeText(val);
+        navigator.clipboard?.writeText(val).catch(() => {});
         return;
       }
 
@@ -527,7 +527,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
 
         {/* Formula Bar: full width and mirrors the in-cell editor while typing */}
         <div className="flex items-center gap-2 bg-white px-2.5 py-1 border border-slate-300 rounded focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500">
-          <span className="font-serif italic font-bold text-slate-400 select-none text-xs">fx</span>
+          <span className="font-serif italic font-bold text-slate-500 select-none text-xs">fx</span>
           <input
             type="text"
             data-formula-bar="true"
@@ -551,7 +551,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
               }
             }}
           />
-          <span className="hidden lg:inline text-[10px] text-slate-400 shrink-0">Enter simpan</span>
+          <span className="hidden lg:inline text-[11px] text-slate-500 shrink-0">Enter simpan</span>
         </div>
       </div>
 
@@ -559,7 +559,10 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-auto bg-slate-100 relative"
+        tabIndex={0}
+        role="region"
+        aria-label="Lembar kerja spreadsheet"
+        className="flex-1 overflow-auto bg-slate-100 relative focus-visible:outline-2 focus-visible:outline-emerald-600"
       >
         <table
           className="border-collapse table-fixed text-xs"
@@ -611,7 +614,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
               return (
                 <tr key={rowNum} style={{ height: ROW_HEIGHT }}>
                   {/* Sticky Row Number Index */}
-                  <td className="w-10 h-7 border-r border-b border-slate-300 text-center bg-slate-100 font-mono text-slate-500 font-semibold sticky left-0 z-20 select-none">
+                  <td className="w-10 h-7 border-r border-b border-slate-300 text-center bg-slate-100 font-mono text-slate-600 font-semibold sticky left-0 z-20 select-none">
                     {rowNum}
                   </td>
 
@@ -700,7 +703,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
                             onMouseDown={handleFillHandleMouseDown}
                             onDoubleClick={handleFillHandleDoubleClick}
                             title="Tarik untuk salin formula / isi deret, klik ganda untuk auto-fill"
-                            className="absolute right-0 bottom-0 w-2 h-2 bg-emerald-600 border border-white cursor-crosshair z-30"
+                            className="absolute right-0 bottom-0 w-2 h-2 bg-emerald-700 border border-white cursor-crosshair z-30"
                           />
                         )}
                       </td>
@@ -726,11 +729,11 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
           <div className="px-3 py-1 bg-white font-semibold text-emerald-700 border-t-2 border-emerald-600 rounded-t shadow-sm">
             Sheet1 (Aktif)
           </div>
-          <span className="text-slate-400">|</span>
+          <span className="text-slate-500">|</span>
           <span className="text-[11px] text-slate-500 font-mono">
             Grid: 26 Kolom (A-Z) × 200 Baris
           </span>
-          <span className="text-slate-400 hidden sm:inline">|</span>
+          <span className="text-slate-500 hidden sm:inline">|</span>
           <span className="text-[11px] text-slate-500 font-mono hidden sm:inline">
             Pemisah: {settingsRepo.get('excel_separator', 'semicolon') === 'semicolon' ? 'Titik Koma (;)' : 'Koma (,)'}
           </span>
@@ -804,13 +807,13 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
 
               {/* Live Preview */}
               <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-white border border-slate-200">
-                <span className="font-serif italic font-bold text-slate-400 text-xs mt-0.5 shrink-0">fx</span>
+                <span className="font-serif italic font-bold text-slate-500 text-xs mt-0.5 shrink-0">fx</span>
                 <p className={`text-xs sm:text-sm break-words ${formulaPreviewClass}`}>
                   {formulaDraftPreview.text}
                 </p>
               </div>
 
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-500">
                 Ctrl+Enter menerapkan · Esc menutup · Perubahan hanya tersimpan setelah menekan Terapkan.
               </p>
             </div>
@@ -828,7 +831,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
                 type="button"
                 onClick={applyFormulaDraft}
                 disabled={readOnly}
-                className="min-h-[44px] flex items-center gap-1.5 px-4 rounded-lg bg-emerald-600 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                className="min-h-[44px] flex items-center gap-1.5 px-4 rounded-lg bg-emerald-700 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
               >
                 <Check className="w-4 h-4" />
                 Terapkan Rumus

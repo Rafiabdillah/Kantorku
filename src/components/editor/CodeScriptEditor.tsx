@@ -128,7 +128,7 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
         <div className="flex items-center gap-2 min-w-0">
           <Code2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span className="font-semibold text-slate-300 truncate">script.js</span>
-          <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-sans hidden sm:inline shrink-0">
+          <span className="text-[11px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-sans hidden sm:inline shrink-0">
             CodeMirror 6 • Web Worker Sandbox
           </span>
         </div>
@@ -136,7 +136,7 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
           type="button"
           onClick={handleRun}
           disabled={isRunning}
-          className="flex items-center gap-1.5 px-3 py-1.5 min-h-[44px] sm:min-h-[36px] bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-sans font-semibold text-xs shadow-md transition active:scale-95 disabled:opacity-50 cursor-pointer touch-manipulation shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 min-h-[44px] sm:min-h-[36px] bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-sans font-semibold text-xs shadow-md transition active:scale-95 disabled:opacity-50 cursor-pointer touch-manipulation shrink-0"
         >
           <Play className="w-3.5 h-3.5 fill-current" />
           <span>{isRunning ? 'Mengeksekusi...' : 'Jalankan & Tes'}</span>
@@ -184,10 +184,10 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
                           <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
                         )}
                         <span className="min-w-0">{tc.description}</span>
-                        {tc.hidden && <span className="text-[9px] bg-slate-800 px-1 rounded text-slate-400 shrink-0">Hidden</span>}
+                        {tc.hidden && <span className="text-[11px] bg-slate-800 px-1 rounded text-slate-400 shrink-0">Hidden</span>}
                       </div>
                       {!tc.passed && !tc.hidden && (
-                        <div className="text-[10px] text-slate-400 font-mono break-all sm:text-right">
+                        <div className="text-[11px] text-slate-400 font-mono break-all sm:text-right">
                           Harapan: {JSON.stringify(tc.expected)} | Hasil: {JSON.stringify(tc.actual)}
                         </div>
                       )}

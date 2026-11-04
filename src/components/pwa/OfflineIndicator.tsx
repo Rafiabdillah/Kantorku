@@ -18,7 +18,7 @@ export const OfflineIndicator: React.FC = () => {
       </div>
       <div>
         <div>Mode Offline Aktif</div>
-        <div className="text-[10px] font-normal text-amber-100">
+        <div className="text-[11px] font-normal text-amber-100">
           Semua materi, editor, dan data tersimpan lokal tetap dapat diakses tanpa koneksi internet.
         </div>
       </div>

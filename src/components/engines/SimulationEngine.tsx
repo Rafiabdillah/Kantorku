@@ -282,11 +282,11 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
                 key={idx}
                 className={`p-3.5 rounded-2xl text-xs leading-relaxed max-w-[85%] ${
                   item.isUser
-                    ? 'ml-auto bg-emerald-600 text-white rounded-br-none'
+                    ? 'ml-auto bg-emerald-700 text-white rounded-br-none'
                     : 'mr-auto bg-slate-100 text-slate-800 rounded-bl-none border border-slate-200/60'
                 }`}
               >
-                <div className="text-[10px] font-bold opacity-75 mb-1 flex items-center justify-between gap-4">
+                <div className="text-[11px] font-bold opacity-75 mb-1 flex items-center justify-between gap-4">
                   <span>{item.speaker}</span>
                   <span>{item.role}</span>
                 </div>
@@ -330,7 +330,7 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
                   className="w-full text-left p-3.5 rounded-2xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/40 text-xs font-medium text-slate-800 transition-all group flex items-start justify-between gap-3"
                 >
                   <span className="leading-relaxed">{choice.text}</span>
-                  <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-600 shrink-0 mt-0.5 transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-600 shrink-0 mt-0.5 transition-transform group-hover:translate-x-0.5" />
                 </button>
               ))}
             </div>
@@ -340,16 +340,16 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
             <div className="mt-auto pt-4 border-t border-slate-100 space-y-3">
               <div className="flex items-center justify-between">
                 <p className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                  <Layers className="w-4 h-4 text-emerald-600" />
+                  <Layers className="w-4 h-4 text-emerald-700" />
                   Susun Jawaban dari Blok Kalimat
                 </p>
-                <span className="text-[11px] text-slate-400">Klik blok untuk memindahkan</span>
+                <span className="text-[11px] text-slate-500">Klik blok untuk memindahkan</span>
               </div>
 
               {/* Selected Blocks Area */}
               <div className="min-h-[70px] p-2.5 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex flex-wrap gap-2 items-center">
                 {selectedBlocks.length === 0 ? (
-                  <span className="text-xs text-slate-400 italic px-2">
+                  <span className="text-xs text-slate-500 italic px-2">
                     Belum ada blok dipilih. Klik blok di bawah sesuai urutan logika.
                   </span>
                 ) : (
@@ -358,11 +358,11 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
                       key={block.id + idx}
                       type="button"
                       onClick={() => handleRemoveBlock(idx)}
-                      className="px-2.5 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-medium shadow-sm hover:bg-rose-600 transition-colors flex items-center gap-1.5"
+                      className="px-2.5 py-1.5 rounded-xl bg-emerald-700 text-white text-xs font-medium shadow-sm hover:bg-rose-600 transition-colors flex items-center gap-1.5"
                       title="Klik untuk menghapus blok"
                     >
                       <span>{block.text}</span>
-                      <span className="text-[10px] opacity-75">✕</span>
+                      <span className="text-[11px] opacity-75">✕</span>
                     </button>
                   ))
                 )}
@@ -407,7 +407,7 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
                 <div className="mt-auto pt-4 border-t border-slate-100 space-y-3 animate-in fade-in">
                   <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950">
                     <div className="flex items-center gap-2 font-bold text-sm mb-1 text-emerald-900">
-                      <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                      <ShieldCheck className="w-5 h-5 text-emerald-700" />
                       Simulasi Selesai & Terevaluasi
                     </div>
                     <p className="text-xs text-emerald-800 leading-relaxed mb-3">
@@ -425,7 +425,7 @@ export const SimulationEngine: React.FC<SimulationEngineProps> = ({ scenario, on
                         <Heart className="w-4 h-4 fill-rose-500" />
                       </div>
                       <div>
-                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                           Dampak Reputasi Relasi
                         </div>
                         <div className="text-xs font-bold text-slate-800">

@@ -1506,7 +1506,7 @@ export const EXCEL_LESSONS: Lesson[] = [
       {
         type: 'penjelasan',
         title: 'Apa Itu Integritas Data?',
-        content: 'Integritas data (Data Integrity) adalah jaminan bahwa informasi dalam spreadsheet akurat, konsisten, dan dapat dipertanggungjawabkan dari waktu ke waktu. Musuh terbesar integritas adalah Hardcoding—yaitu tindakan mengetik langsung angka hasil hitungan kalkulator ke dalam sel. Jika ada revisi data barang masuk, sel yang di-hardcode tidak akan terupdate dan menyebabkan laporan palsu/fiktif.',
+        content: 'Integritas data (Data Integrity) adalah jaminan bahwa informasi dalam spreadsheet akurat, konsisten, dan dapat dipertanggungjawabkan dari waktu ke waktu. Musuh terbesar integritas adalah Hardcoding, yaitu tindakan mengetik langsung angka hasil hitungan kalkulator ke dalam sel. Jika ada revisi data barang masuk, sel yang di-hardcode tidak akan terupdate dan menyebabkan laporan palsu/fiktif.',
         analogy: 'Seperti speedometer mobil: harus terhubung langsung ke roda putar mesin, bukan stiker angka yang ditempel di kaca.',
         officeContext: 'Pemeriksaan laporan tutup buku akhir tahun oleh auditor eksternal Pak Hendra.',
         keyTerms: ['Integritas Data', 'Hardcoding', 'Mutation Test', 'Audit Trail'],

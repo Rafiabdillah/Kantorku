@@ -78,14 +78,14 @@ export const OfficeHubView: React.FC = () => {
             <CharacterAvatar id="player" size="xl" className="border-2 border-emerald-400 shadow-md shrink-0" />
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                   {tierInfo.badge} {tierInfo.title}
                 </span>
-                <span className="text-[10px] text-slate-300 flex items-center gap-1 font-mono">
+                <span className="text-[11px] text-slate-300 flex items-center gap-1 font-mono">
                   <Flame className="w-3.5 h-3.5 text-amber-400 fill-current" />
                   {profile.streakDays} Hari Streak
                 </span>
-                <span className="text-[10px] text-slate-300 flex items-center gap-1 font-mono">
+                <span className="text-[11px] text-slate-300 flex items-center gap-1 font-mono">
                   <Zap className="w-3.5 h-3.5 text-indigo-400" />
                   {profile.xp.toLocaleString('id-ID')} XP
                 </span>
@@ -104,7 +104,7 @@ export const OfficeHubView: React.FC = () => {
             <button
               type="button"
               onClick={() => setView('skills-map')}
-              className="flex items-center gap-2 px-3.5 py-2.5 bg-emerald-500/30 hover:bg-emerald-500/40 border border-emerald-400/40 rounded-2xl text-[10px] md:text-xs font-bold text-white transition cursor-pointer min-h-[44px]"
+              className="flex items-center gap-2 px-3.5 py-2.5 bg-emerald-500/30 hover:bg-emerald-500/40 border border-emerald-400/40 rounded-2xl text-[11px] md:text-xs font-bold text-white transition cursor-pointer min-h-[44px]"
             >
               <Sparkles className="w-4 h-4 text-emerald-300" />
               <span className="hidden sm:inline">Peta Keterampilan</span>
@@ -113,7 +113,7 @@ export const OfficeHubView: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowInboxModal(true)}
-              className="flex items-center gap-2 px-3.5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/15 rounded-2xl text-[10px] md:text-xs font-semibold backdrop-blur-md transition cursor-pointer min-h-[44px]"
+              className="flex items-center gap-2 px-3.5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/15 rounded-2xl text-[11px] md:text-xs font-semibold backdrop-blur-md transition cursor-pointer min-h-[44px]"
             >
               <Mail className="w-4 h-4 text-emerald-300" />
               <span className="hidden sm:inline">Inbox Kantor</span>
@@ -123,7 +123,7 @@ export const OfficeHubView: React.FC = () => {
             <button
               type="button"
               onClick={() => setView('daily')}
-              className="flex items-center gap-2 px-3.5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-2xl text-[10px] md:text-xs shadow-lg transition cursor-pointer min-h-[44px]"
+              className="flex items-center gap-2 px-3.5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-2xl text-[11px] md:text-xs shadow-lg transition cursor-pointer min-h-[44px]"
             >
               <Zap className="w-4 h-4 fill-current" />
               <span className="hidden sm:inline">Tantangan Harian</span>
@@ -141,10 +141,10 @@ export const OfficeHubView: React.FC = () => {
         >
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 min-w-0">
-              <Compass className="w-5 h-5 text-emerald-600 shrink-0" />
+              <Compass className="w-5 h-5 text-emerald-700 shrink-0" />
               <h2 className="text-sm md:text-base font-bold text-slate-800 min-w-0">Denah Interaktif Kantor PT Maju Sejahtera</h2>
             </div>
-            <span className="text-[10px] text-slate-400 shrink-0">Klik ruangan untuk memulai aktivitas</span>
+            <span className="text-[11px] text-slate-500 shrink-0">Klik ruangan untuk memulai aktivitas</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-200/70">
@@ -161,7 +161,7 @@ export const OfficeHubView: React.FC = () => {
                 <div className="p-2 rounded-xl bg-emerald-100 text-emerald-700">
                   <Briefcase className="w-5 h-5" />
                 </div>
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
                   Meja Utama
                 </span>
               </div>
@@ -169,7 +169,7 @@ export const OfficeHubView: React.FC = () => {
                 <h3 className="font-bold text-sm text-slate-800 group-hover:text-emerald-700 transition">
                   Meja Kerjamu
                 </h3>
-                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">
+                <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
                   Lanjutkan jalur karier utama ({LEVELS.length} level misi) & cek tugas aktif.
                 </p>
               </div>
@@ -186,7 +186,7 @@ export const OfficeHubView: React.FC = () => {
             >
               <div className="flex items-start justify-between">
                 <CharacterAvatar id="reza" size="sm" />
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
                   Finance
                 </span>
               </div>
@@ -194,7 +194,7 @@ export const OfficeHubView: React.FC = () => {
                 <h3 className="font-bold text-sm text-slate-800 group-hover:text-blue-700 transition">
                   Meja Pak Reza (Finance)
                 </h3>
-                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">
+                <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
                   Praktik rumus Excel: SUM, VLOOKUP, hingga model audit laporan.
                 </p>
               </div>
@@ -211,7 +211,7 @@ export const OfficeHubView: React.FC = () => {
             >
               <div className="flex items-start justify-between">
                 <CharacterAvatar id="intan" size="sm" />
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
                   Lab IT
                 </span>
               </div>
@@ -219,7 +219,7 @@ export const OfficeHubView: React.FC = () => {
                 <h3 className="font-bold text-sm text-slate-800 group-hover:text-indigo-700 transition">
                   Ruang IT Kak Intan
                 </h3>
-                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">
+                <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
                   Tantangan coding JavaScript: variabel, filter, dan algoritma.
                 </p>
               </div>
@@ -236,7 +236,7 @@ export const OfficeHubView: React.FC = () => {
             >
               <div className="flex items-start justify-between">
                 <CharacterAvatar id="maya" size="sm" />
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800">
                   HR & Arsip
                 </span>
               </div>
@@ -244,7 +244,7 @@ export const OfficeHubView: React.FC = () => {
                 <h3 className="font-bold text-sm text-slate-800 group-hover:text-rose-700 transition">
                   Ruang Maya (HR & Word)
                 </h3>
-                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">
+                <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
                   Penyusunan surat resmi, notulen rapat, dan dokumen standar.
                 </p>
               </div>
@@ -261,7 +261,7 @@ export const OfficeHubView: React.FC = () => {
             >
               <div className="flex items-start justify-between">
                 <CharacterAvatar id="sari" size="sm" />
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
                   Kasus Nyata
                 </span>
               </div>
@@ -269,7 +269,7 @@ export const OfficeHubView: React.FC = () => {
                 <h3 className="font-bold text-sm text-slate-800 group-hover:text-amber-700 transition">
                   Ruang Briefing Kasus
                 </h3>
-                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">
+                <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
                   Kerjakan {CASE_FILES.length} studi kasus nyata: UMKM, klinik, kargo, & perhotelan.
                 </p>
               </div>
@@ -286,7 +286,7 @@ export const OfficeHubView: React.FC = () => {
             >
               <div className="flex items-start justify-between">
                 <CharacterAvatar id="dimas" size="sm" />
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800">
                   Pantry
                 </span>
               </div>
@@ -294,7 +294,7 @@ export const OfficeHubView: React.FC = () => {
                 <h3 className="font-bold text-sm text-slate-800 group-hover:text-orange-700 transition">
                   Pantry & Zona Santai
                 </h3>
-                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">
+                <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
                   Ngopi bareng Dimas, latihan Zen tanpa timer, atau duel asinkron!
                 </p>
               </div>
@@ -313,7 +313,7 @@ export const OfficeHubView: React.FC = () => {
                 <div className="p-2 rounded-xl bg-teal-100 text-teal-800">
                   <GraduationCap className="w-5 h-5" />
                 </div>
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800">
                   Ruang Pelatihan
                 </span>
               </div>
@@ -321,7 +321,7 @@ export const OfficeHubView: React.FC = () => {
                 <h3 className="font-bold text-sm text-slate-800 group-hover:text-teal-700 transition">
                   Akademi & Pusat Belajar
                 </h3>
-                <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2">
+                <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
                   Pelajari {ALL_LESSONS.length} modul terstruktur dari nol, latihan bebas, & lembar contekan.
                 </p>
               </div>
@@ -335,24 +335,24 @@ export const OfficeHubView: React.FC = () => {
           <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-200/80 shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2 text-slate-800 font-bold text-sm">
-                <Calendar className="w-4 h-4 text-emerald-600" />
+                <Calendar className="w-4 h-4 text-emerald-700" />
                 <span>Jadwal Kantor Hari Ini</span>
               </div>
-              <span className="text-[10px] text-slate-500 font-medium">Senin, Standup Mingguan</span>
+              <span className="text-[11px] text-slate-500 font-medium">Senin, Standup Mingguan</span>
             </div>
             <div className="mt-3 space-y-2 text-xs">
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1 shrink-0" />
                 <div>
                   <div className="font-semibold text-slate-800 text-xs">09.00 - Standup Divisi Operasional</div>
-                  <div className="text-[10px] text-slate-500">Laporan mingguan inventaris barang bersama Bu Sari.</div>
+                  <div className="text-[11px] text-slate-500">Laporan mingguan inventaris barang bersama Bu Sari.</div>
                 </div>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-blue-500 mt-1 shrink-0" />
                 <div>
                   <div className="font-semibold text-slate-800 text-xs">14.00 - Audit Berkas Keuangan</div>
-                  <div className="text-[10px] text-slate-500">Pemeriksaan selisih rumus Excel dengan Pak Reza.</div>
+                  <div className="text-[11px] text-slate-500">Pemeriksaan selisih rumus Excel dengan Pak Reza.</div>
                 </div>
               </div>
             </div>
@@ -360,7 +360,7 @@ export const OfficeHubView: React.FC = () => {
 
           {/* Quick Modes Dock */}
           <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-200/80 shadow-sm flex flex-col gap-3">
-            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mode Game Lainnya</h3>
+            <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Mode Game Lainnya</h3>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <button
                 type="button"
@@ -391,7 +391,7 @@ export const OfficeHubView: React.FC = () => {
                 onClick={() => setView('exam')}
                 className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-left border border-slate-200/60 flex items-center gap-2 cursor-pointer transition min-h-[44px]"
               >
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <ShieldCheck className="w-4 h-4 text-emerald-700" />
                 <span className="font-semibold text-slate-800">Ujian & Sertif</span>
               </button>
               <button
@@ -407,7 +407,7 @@ export const OfficeHubView: React.FC = () => {
                 onClick={() => setView('creator')}
                 className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-left border border-slate-200/60 flex items-center gap-2 cursor-pointer transition min-h-[44px]"
               >
-                <Sparkles className="w-4 h-4 text-indigo-500" />
+                <Sparkles className="w-4 h-4 text-indigo-600" />
                 <span className="font-semibold text-slate-800">Kreator Level</span>
               </button>
             </div>
@@ -426,7 +426,7 @@ export const OfficeHubView: React.FC = () => {
           >
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2 text-slate-900 font-bold">
-                <Mail className="w-5 h-5 text-emerald-600" />
+                <Mail className="w-5 h-5 text-emerald-700" />
                 <span id="inbox-dialog-title">Kotak Masuk Email Kantor</span>
               </div>
               <button
@@ -434,7 +434,7 @@ export const OfficeHubView: React.FC = () => {
                 id="close-inbox-modal"
                 aria-label="Tutup kotak masuk"
                 onClick={() => setShowInboxModal(false)}
-                className="text-slate-400 hover:text-slate-600 text-lg font-bold p-1.5 cursor-pointer min-h-[44px] min-w-[44px]"
+                className="text-slate-500 hover:text-slate-600 text-lg font-bold p-1.5 cursor-pointer min-h-[44px] min-w-[44px]"
               >
                 ✕
               </button>
@@ -446,7 +446,7 @@ export const OfficeHubView: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-xs text-slate-900">Bu Sari (Direktur Operasional)</span>
-                    <span className="text-[10px] text-slate-400">08.15 WIB</span>
+                    <span className="text-[11px] text-slate-500">08.15 WIB</span>
                   </div>
                   <div className="text-xs font-semibold text-slate-800 mt-0.5">Tugas Evaluasi Laporan Bulanan</div>
                   <p className="text-xs text-slate-600 mt-1">
@@ -460,7 +460,7 @@ export const OfficeHubView: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-xs text-slate-900">Dimas (Rekan Kerja)</span>
-                    <span className="text-[10px] text-slate-400">08.40 WIB</span>
+                    <span className="text-[11px] text-slate-500">08.40 WIB</span>
                   </div>
                   <div className="text-xs font-semibold text-slate-800 mt-0.5">Ngopi di Pantry?</div>
                   <p className="text-xs text-slate-600 mt-1">
@@ -473,7 +473,7 @@ export const OfficeHubView: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowInboxModal(false)}
-              className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px]"
+              className="w-full py-3 bg-emerald-700 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px]"
             >
               Tutup Kotak Masuk
             </button>

@@ -199,7 +199,7 @@ export const SkillsMapView: React.FC = () => {
       }
     } else {
       sound.playError();
-      setPracticeSuccessMessage(`Belum lulus — coba lagi (skor ${score}%)`);
+      setPracticeSuccessMessage(`Belum lulus, coba lagi (skor ${score}%)`);
     }
   };
 
@@ -240,15 +240,15 @@ export const SkillsMapView: React.FC = () => {
           <div className="flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-2xl shrink-0 backdrop-blur-xs">
             <div className="text-center px-3 border-r border-white/10">
               <div data-testid="active-domain-count" className="text-xl font-black text-emerald-400 font-mono">{activeDomainsCount}</div>
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Domain Aktif</div>
+              <div className="text-[11px] text-slate-500 uppercase font-semibold">Domain Aktif</div>
             </div>
             <div className="text-center px-3 border-r border-white/10">
               <div data-testid="upcoming-domain-count" className="text-xl font-black text-slate-300 font-mono">{upcomingDomainsCount}</div>
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Segera Hadir</div>
+              <div className="text-[11px] text-slate-500 uppercase font-semibold">Segera Hadir</div>
             </div>
             <div className="text-center px-3">
               <div className="text-xl font-black text-indigo-400 font-mono">16</div>
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Jalur Peran</div>
+              <div className="text-[11px] text-slate-500 uppercase font-semibold">Jalur Peran</div>
             </div>
           </div>
         </div>
@@ -316,7 +316,7 @@ export const SkillsMapView: React.FC = () => {
                       <span>{role.icon}</span>
                       <span className="truncate">{role.name}</span>
                     </div>
-                    <div className="flex items-center justify-between text-[9px] text-slate-400">
+                    <div className="flex items-center justify-between text-[11px] text-slate-500">
                       <span>Min Tier {minTier}</span>
                       <span className="text-amber-300/90 font-mono">{roleReadiness.bobotBelumTersedia}% belum ada</span>
                     </div>
@@ -338,7 +338,7 @@ export const SkillsMapView: React.FC = () => {
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-bold text-slate-900">{currentRole.name}</h2>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 uppercase tracking-wide">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 uppercase tracking-wide">
                   {currentRole.reviewStatus}
                 </span>
               </div>
@@ -351,11 +351,11 @@ export const SkillsMapView: React.FC = () => {
             {/* Gauge 1: Kesiapan Kerja Total */}
             <div className="flex items-center gap-3 bg-slate-50 px-4 py-2.5 rounded-2xl border border-slate-200/80">
               <div>
-                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Kesiapan Kerja Total</div>
-                <div className="text-xl font-black text-emerald-600 font-mono">
+                <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Kesiapan Kerja Total</div>
+                <div className="text-xl font-black text-emerald-700 font-mono">
                   {readinessData.kesiapanTotal}%
                 </div>
-                <div className="text-[9px] text-slate-400">Maksimal S0: {readinessData.bobotTersedia}%</div>
+                <div className="text-[11px] text-slate-500">Maksimal S0: {readinessData.bobotTersedia}%</div>
               </div>
               <div className="w-12 h-12 rounded-full border-4 border-slate-200 border-t-emerald-500 flex items-center justify-center font-black text-[11px] text-slate-700">
                 {readinessData.kesiapanTotal}%
@@ -365,11 +365,11 @@ export const SkillsMapView: React.FC = () => {
             {/* Gauge 2: Kesiapan Domain Tersedia */}
             <div className="flex items-center gap-3 bg-indigo-50/60 px-4 py-2.5 rounded-2xl border border-indigo-100">
               <div>
-                <div className="text-[10px] font-bold text-indigo-700 uppercase tracking-wider">Domain Tersedia</div>
+                <div className="text-[11px] font-bold text-indigo-700 uppercase tracking-wider">Domain Tersedia</div>
                 <div className="text-xl font-black text-indigo-700 font-mono">
                   {readinessData.kesiapanBagianTersedia}%
                 </div>
-                <div className="text-[9px] text-indigo-500">Dari domain aktif</div>
+                <div className="text-[11px] text-indigo-600">Dari domain aktif</div>
               </div>
               <div className="w-12 h-12 rounded-full border-4 border-indigo-200 border-t-indigo-600 flex items-center justify-center font-black text-[11px] text-indigo-700">
                 {readinessData.kesiapanBagianTersedia}%
@@ -380,7 +380,7 @@ export const SkillsMapView: React.FC = () => {
 
         {/* Transparent Note on Unavailable Skills (F1.2) - Selalu Ditampilkan */}
         <div className="p-3 bg-amber-50/80 border border-amber-200/80 rounded-2xl text-xs text-amber-900 flex items-start gap-2.5">
-          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
           <div className="leading-relaxed">
             <strong>Keterbukaan Informasi:</strong> {readinessData.bobotBelumTersedia}% bobot peran ini ada di domain yang belum tersedia (rilis Gelombang S1–S3). Skor kesiapan total ({readinessData.kesiapanTotal}%) dihitung dari seluruh kompetensi peran, di mana domain belum rilis dinilai 0. Skor domain aktif adalah {readinessData.kesiapanBagianTersedia}%.
           </div>
@@ -401,7 +401,7 @@ export const SkillsMapView: React.FC = () => {
                 >
                   <div>
                     <div className="text-xs font-bold text-slate-800">{gap.skillName}</div>
-                    <div className="text-[10px] text-slate-500">
+                    <div className="text-[11px] text-slate-500">
                       Domain {gap.domainId} • Target Tier {gap.targetTier} • Bobot {gap.weight}/5
                     </div>
                   </div>
@@ -419,7 +419,7 @@ export const SkillsMapView: React.FC = () => {
         )}
 
         {/* Mandatory Disclaimer */}
-        <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400 italic">
+        <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-500 italic">
           ⚠️ {MANDATORY_ROLE_DISCLAIMER}
         </div>
       </div>
@@ -458,7 +458,7 @@ export const SkillsMapView: React.FC = () => {
             </div>
 
             <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
               <input
                 type="text"
                 value={searchQuery}
@@ -494,7 +494,7 @@ export const SkillsMapView: React.FC = () => {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-2xl">{meta.icon}</span>
                     <span
-                      className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${
+                      className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
                         isActive
                           ? 'bg-emerald-100 text-emerald-800'
                           : 'bg-slate-200 text-slate-600'
@@ -503,28 +503,28 @@ export const SkillsMapView: React.FC = () => {
                       {isActive ? `Aktif (${meta.wave})` : `Segera Hadir (${meta.wave})`}
                     </span>
                   </div>
-                  <div className="text-[10px] font-bold text-slate-400 font-mono">{meta.code}</div>
+                  <div className="text-[11px] font-bold text-slate-500 font-mono">{meta.code}</div>
                   <h3 className="text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
                     {meta.name}
                   </h3>
-                  <p className="text-[10px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">{meta.description}</p>
+                  <p className="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">{meta.description}</p>
                   <div className="mt-3 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                     <div
                       className="h-full bg-emerald-500 rounded-full transition-all duration-500"
                       style={{ width: `${domainMastery}%` }}
                     />
                   </div>
-                  <div className="flex items-center justify-between text-[9px] mt-1">
+                  <div className="flex items-center justify-between text-[11px] mt-1">
                     <span className="text-slate-500">Penguasaan</span>
                     <span className="font-bold text-emerald-700">{domainMastery}%</span>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[9px]">
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
                   {isActive ? (
                     <>
                       <span className="font-semibold text-slate-600 flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                        <CheckCircle2 className="w-3 h-3 text-emerald-700" />
                         {domainId === 'D12' ? 'Pilot: 3 dari 12 sub-topik' : `${skills.length} Keterampilan`}
                       </span>
                       <span className="font-bold text-emerald-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform min-h-[36px]">
@@ -533,8 +533,8 @@ export const SkillsMapView: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <span className="text-slate-400 text-[9px]">Rilis: Gelombang {meta.wave}</span>
-                      <span className="text-slate-400 text-[9px] font-medium">Dalam Pengembangan</span>
+                      <span className="text-slate-500 text-[11px]">Rilis: Gelombang {meta.wave}</span>
+                      <span className="text-slate-500 text-[11px] font-medium">Dalam Pengembangan</span>
                     </>
                   )}
                 </div>
@@ -564,9 +564,9 @@ export const SkillsMapView: React.FC = () => {
                 </span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold text-slate-400">{activeModalDomain}</span>
+                    <span className="text-xs font-mono font-bold text-slate-500">{activeModalDomain}</span>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                      className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
                         DOMAIN_CATALOG[activeModalDomain].status === 'aktif'
                           ? 'bg-emerald-100 text-emerald-800'
                           : 'bg-slate-200 text-slate-600'
@@ -589,7 +589,7 @@ export const SkillsMapView: React.FC = () => {
                   setActiveModalDomain(null);
                   setActivePracticeLevel(null);
                 }}
-                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                className="p-2 rounded-xl text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -610,7 +610,7 @@ export const SkillsMapView: React.FC = () => {
                 )}
                 <div className="flex items-center justify-between bg-slate-100 px-4 py-2 rounded-2xl">
                   <div className="text-xs font-bold text-slate-700 flex items-center gap-2">
-                    <Play className="w-3.5 h-3.5 text-emerald-600" />
+                    <Play className="w-3.5 h-3.5 text-emerald-700" />
                     <span>Latihan Berjalan: {activePracticeLevel.title}</span>
                   </div>
                   <button
@@ -632,7 +632,7 @@ export const SkillsMapView: React.FC = () => {
                   >
                     <div className="flex items-center gap-2">
                       {practiceSuccessMessage.startsWith('Selamat') ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
                       ) : (
                         <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
                       )}
@@ -773,7 +773,7 @@ export const SkillsMapView: React.FC = () => {
                       {/* Practice Exercises */}
                       <div>
                         <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 mb-2.5 flex items-center gap-1.5">
-                          <Play className="w-4 h-4 text-emerald-600" />
+                          <Play className="w-4 h-4 text-emerald-700" />
                           Ruang Latihan Interaktif ({pack.levels.length} Level Siap Latihan)
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -784,7 +784,7 @@ export const SkillsMapView: React.FC = () => {
                               className="p-4 rounded-2xl border border-slate-200/90 bg-white hover:border-emerald-500 transition-all flex flex-col justify-between gap-3 shadow-2xs"
                             >
                               <div>
-                                <div className="text-[10px] font-bold text-emerald-700 uppercase tracking-wide">
+                                <div className="text-[11px] font-bold text-emerald-700 uppercase tracking-wide">
                                   Tier {lvl.tier} • {lvl.engine}
                                 </div>
                                 <h4 className="text-xs font-bold text-slate-900 mt-1">{lvl.title}</h4>
@@ -822,11 +822,11 @@ export const SkillsMapView: React.FC = () => {
                               <div>
                                 <div className="text-xs font-bold text-slate-900">{lesson.title}</div>
                                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">{lesson.summary}</p>
-                                <div className="text-[10px] text-slate-400 mt-2">
+                                <div className="text-[11px] text-slate-500 mt-2">
                                   Estimasi: {lesson.estimatedMinutes} menit • Ditinjau: {lesson.lastReviewed}
                                 </div>
                               </div>
-                              <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold shrink-0">
+                              <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold shrink-0">
                                 Materi Siap
                               </span>
                             </div>
@@ -914,7 +914,7 @@ export const SkillsMapView: React.FC = () => {
                           setView('career-map');
                           setActiveModalDomain(null);
                         }}
-                        className="px-4 py-2.5 rounded-2xl bg-emerald-600 text-white font-bold text-xs"
+                        className="px-4 py-2.5 rounded-2xl bg-emerald-700 text-white font-bold text-xs"
                       >
                         Buka Peta Karier
                       </button>

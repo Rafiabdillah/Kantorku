@@ -59,7 +59,7 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({ onOpenMenu, menuOpen
             >
               <span
                 className={`absolute top-0 h-0.5 w-8 rounded-full transition-opacity ${
-                  isActive ? 'bg-emerald-600 opacity-100' : 'opacity-0'
+                  isActive ? 'bg-emerald-700 opacity-100' : 'opacity-0'
                 }`}
               />
               <span
@@ -69,7 +69,7 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({ onOpenMenu, menuOpen
               >
                 {item.icon}
               </span>
-              <span className="text-[10px] font-bold leading-none">{item.label}</span>
+              <span className="text-[11px] font-bold leading-none">{item.label}</span>
             </button>
           );
         })}
@@ -93,7 +93,7 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({ onOpenMenu, menuOpen
           >
             <Menu className="w-5 h-5" />
           </span>
-          <span className="text-[10px] font-bold leading-none">Menu</span>
+          <span className="text-[11px] font-bold leading-none">Menu</span>
         </button>
       </div>
     </nav>

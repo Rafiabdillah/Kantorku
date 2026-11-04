@@ -52,7 +52,7 @@ export const D3_LESSONS: D3Lesson[] = [
       {
         title: '1. Struktur Piramida Minto & Logika MECE',
         content:
-          'Piramida Minto mengatur ide dari atas ke bawah: mulailah dari kesimpulan utama (puncak piramida), lalu dukung dengan 3-4 pilar argumen utama, baru kemudian sertakan data faktual sebagai fondasi pendukung. Setiap pilar argumen wajib memenuhi prinsip MECE (Mutually Exclusive, Collectively Exhaustive)—tidak saling tumpang tindih dan secara kolektif menjawab masalah secara tuntas.',
+          'Piramida Minto mengatur ide dari atas ke bawah: mulailah dari kesimpulan utama (puncak piramida), lalu dukung dengan 3-4 pilar argumen utama, baru kemudian sertakan data faktual sebagai fondasi pendukung. Setiap pilar argumen wajib memenuhi prinsip MECE (Mutually Exclusive, Collectively Exhaustive), tidak saling tumpang tindih dan secara kolektif menjawab masalah secara tuntas.',
         keyPoints: [
           'Bottom Line Up Front (BLUF): Jangan simpan rekomendasi di slide ke-25 paling belakang.',
           'Pimpinan eksekutif menghargai presentasi yang langsung menjawab dampak bisnis.',

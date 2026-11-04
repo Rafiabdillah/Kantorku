@@ -52,10 +52,10 @@ export const DetectiveView: React.FC = () => {
           </button>
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700 uppercase whitespace-nowrap">
+              <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700 uppercase whitespace-nowrap">
                 Mode Detektif & Audit
               </span>
-              <span className="hidden sm:inline text-xs text-slate-400">|</span>
+              <span className="hidden sm:inline text-xs text-slate-500">|</span>
               <span className="text-[11px] sm:text-xs font-semibold text-slate-600">
                 Selesai: {solvedCases.length}/{DETECTIVE_CASES.length} Kasus
               </span>
@@ -185,7 +185,7 @@ export const DetectiveView: React.FC = () => {
       {showExplanation && (
         <div className="p-5 bg-emerald-50 border border-emerald-200 rounded-3xl space-y-2 animate-in fade-in zoom-in-95">
           <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+            <CheckCircle2 className="w-5 h-5 text-emerald-700" />
             <span>Audit Berhasil! Sel {currentCase.culpritCell} Terbukti Bermasalah</span>
           </div>
           <p className="text-xs text-emerald-900 leading-relaxed">{currentCase.explanation}</p>

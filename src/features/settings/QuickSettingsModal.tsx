@@ -41,7 +41,7 @@ export const QuickSettingsModal: React.FC<QuickSettingsModalProps> = ({ isOpen, 
         {/* Header */}
         <div className="flex items-center justify-between p-4 px-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-700 flex items-center justify-center">
               <Sliders className="w-4 h-4" />
             </div>
             <div>
@@ -83,7 +83,7 @@ export const QuickSettingsModal: React.FC<QuickSettingsModalProps> = ({ isOpen, 
                   <div className="font-bold text-slate-900 dark:text-white text-xs group-hover:text-emerald-600 flex items-center justify-between">
                     <span>{p.title}</span>
                   </div>
-                  <div className="text-[10px] text-slate-500 line-clamp-1 mt-0.5">{p.description}</div>
+                  <div className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">{p.description}</div>
                 </button>
               ))}
             </div>
@@ -95,7 +95,7 @@ export const QuickSettingsModal: React.FC<QuickSettingsModalProps> = ({ isOpen, 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <div className="font-bold flex items-center gap-1.5 text-slate-900 dark:text-white">
-                <Table className="w-3.5 h-3.5 text-emerald-600" />
+                <Table className="w-3.5 h-3.5 text-emerald-700" />
                 <span>Pemisah Rumus Excel</span>
               </div>
               <div className="text-[11px] text-slate-500">Karakter pemisah argumen fungsi</div>
@@ -106,7 +106,7 @@ export const QuickSettingsModal: React.FC<QuickSettingsModalProps> = ({ isOpen, 
                 onClick={() => set('excel_separator', 'semicolon')}
                 className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
                   currentSeparator === 'semicolon'
-                    ? 'bg-emerald-600 text-white shadow-xs'
+                    ? 'bg-emerald-700 text-white shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
@@ -117,7 +117,7 @@ export const QuickSettingsModal: React.FC<QuickSettingsModalProps> = ({ isOpen, 
                 onClick={() => set('excel_separator', 'comma')}
                 className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
                   currentSeparator === 'comma'
-                    ? 'bg-emerald-600 text-white shadow-xs'
+                    ? 'bg-emerald-700 text-white shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
@@ -133,7 +133,7 @@ export const QuickSettingsModal: React.FC<QuickSettingsModalProps> = ({ isOpen, 
                 <Type className="w-3.5 h-3.5 text-blue-600" />
                 <span>Ukuran Font Sel Spreadsheet</span>
               </div>
-              <span className="font-mono text-emerald-600">{currentCellFont} pt</span>
+              <span className="font-mono text-emerald-700">{currentCellFont} pt</span>
             </div>
             <input
               type="range"
@@ -185,7 +185,7 @@ export const QuickSettingsModal: React.FC<QuickSettingsModalProps> = ({ isOpen, 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <div className="font-bold flex items-center gap-1.5 text-slate-900 dark:text-white">
-                <Clock className="w-3.5 h-3.5 text-amber-600" />
+                <Clock className="w-3.5 h-3.5 text-amber-700" />
                 <span>Batas Waktu Tantangan</span>
               </div>
               <div className="text-[11px] text-slate-500">Pengali jam pengerjaan</div>

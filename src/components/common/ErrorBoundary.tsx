@@ -99,14 +99,14 @@ export class ErrorBoundary extends Component<Props, State> {
 
             <div className="space-y-1">
               <h2 className="text-lg font-bold text-slate-100">{title}</h2>
-              <p className="text-xs text-slate-400 leading-relaxed">{message}</p>
+              <p className="text-xs text-slate-500 leading-relaxed">{message}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
               <button
                 type="button"
                 onClick={this.handleRetry}
-                className="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-emerald-900/30"
+                className="flex-1 py-2.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-emerald-900/30"
               >
                 <RefreshCw className="w-4 h-4" />
                 <span>Coba Lagi</span>
@@ -132,7 +132,7 @@ export class ErrorBoundary extends Component<Props, State> {
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform ${this.state.showDetails ? 'rotate-180' : ''}`} />
                 </button>
                 {this.state.showDetails && (
-                  <pre className="mt-2 p-2.5 bg-slate-950 rounded-lg border border-slate-800 text-[10px] text-red-300/80 overflow-x-auto max-h-36 font-mono whitespace-pre-wrap">
+                  <pre className="mt-2 p-2.5 bg-slate-950 rounded-lg border border-slate-800 text-[11px] text-red-300/80 overflow-x-auto max-h-36 font-mono whitespace-pre-wrap">
                     {this.state.error.message}
                     {this.state.error.stack ? `\n\n${this.state.error.stack.split('\n').slice(0, 4).join('\n')}` : ''}
                   </pre>

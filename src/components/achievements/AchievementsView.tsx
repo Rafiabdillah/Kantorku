@@ -35,16 +35,16 @@ export const AchievementsView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
               Pencapaian & Medali
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Daftar Rekor Kinerja Kantor</h1>
           </div>
         </div>
 
-        <div className="text-right">
-          <span className="text-xs text-slate-400 font-medium">Terbuka</span>
-          <div className="text-base font-extrabold text-slate-800 font-mono">
+        <div className="text-right shrink-0">
+          <span className="text-xs text-slate-600 font-medium">Terbuka</span>
+          <div className="text-base font-extrabold text-slate-800 font-mono whitespace-nowrap">
             {unlockedCount} / {ACHIEVEMENTS.length}
           </div>
         </div>
@@ -92,12 +92,12 @@ export const AchievementsView: React.FC = () => {
             <div
               key={ach.id}
               className={`p-4 rounded-3xl border transition flex items-start gap-3.5 ${
-                isUnlocked ? 'bg-white border-amber-200 shadow-xs' : 'bg-slate-50 border-slate-200/60 opacity-60'
+                isUnlocked ? 'bg-white border-amber-200 shadow-xs' : 'bg-slate-50 border-slate-300'
               }`}
             >
               <div
                 className={`text-3xl p-3 rounded-2xl flex items-center justify-center shrink-0 ${
-                  isUnlocked ? 'bg-amber-50 border border-amber-100 shadow-inner' : 'bg-slate-100 grayscale'
+                  isUnlocked ? 'bg-amber-50 border border-amber-100 shadow-inner' : 'bg-slate-100 grayscale opacity-60'
                 }`}
               >
                 {ach.icon}
@@ -105,17 +105,17 @@ export const AchievementsView: React.FC = () => {
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-extrabold text-xs text-slate-900 truncate">{ach.title}</h3>
+                  <h3 className="font-extrabold text-sm text-slate-900 truncate">{ach.title}</h3>
                   {isUnlocked ? (
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
                   ) : (
-                    <Lock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <Lock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                   )}
                 </div>
-                <p className="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-slate-600 mt-1 line-clamp-2 leading-relaxed">
                   {ach.description}
                 </p>
-                <div className="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-wide">
+                <div className="mt-2 text-[11px] font-bold text-slate-500 uppercase tracking-wide">
                   {ach.category}
                 </div>
               </div>

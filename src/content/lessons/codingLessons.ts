@@ -598,7 +598,7 @@ export const CODING_LESSONS: Lesson[] = [
       {
         type: 'penjelasan',
         title: 'Prinsip Clean Code untuk Tim Profesional',
-        content: 'Clean code adalah kode yang ringkas, mudah dibaca, dan mudah dipelihara. Prinsip utamanya: (1) Penamaan variabel camelCase yang deskriptif (misal totalBelanja, statusPembayaran), (2) Satu fungsi hanya bertanggung jawab atas SATU tugas (Single Responsibility Principle), (3) Hindari Magic Numbers—ganti angka misterius dengan konstanta bermakna (misal const JAM_LEMBUR_MAKSIMAL = 4).',
+        content: 'Clean code adalah kode yang ringkas, mudah dibaca, dan mudah dipelihara. Prinsip utamanya: (1) Penamaan variabel camelCase yang deskriptif (misal totalBelanja, statusPembayaran), (2) Satu fungsi hanya bertanggung jawab atas SATU tugas (Single Responsibility Principle), (3) Hindari Magic Numbers, ganti angka misterius dengan konstanta bermakna (misal const JAM_LEMBUR_MAKSIMAL = 4).',
         analogy: 'Seperti tulisan tangan di resep obat apotek: jika tulisannya jelas, apoteker tidak akan salah mengambilkan obat untuk pasien.',
         officeContext: 'Standar audit repository kode IT PT Maju Sejahtera sebelum rilis ke production.',
         keyTerms: ['Clean Code', 'camelCase', 'Magic Numbers', 'Self-Documenting'],

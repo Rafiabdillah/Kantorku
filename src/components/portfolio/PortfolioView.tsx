@@ -79,7 +79,7 @@ export const PortfolioView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">
               Portofolio Hasil Kerja Nyata
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Bukti Kompetensi & Ekspor CV</h1>
@@ -87,7 +87,7 @@ export const PortfolioView: React.FC = () => {
         </div>
 
         <div className="text-right">
-          <span className="text-xs text-slate-400">Tingkat Karier Saat Ini</span>
+          <span className="text-xs text-slate-500">Tingkat Karier Saat Ini</span>
           <div className="text-sm font-bold text-slate-900">
             {TIERS[profile.currentTier]?.badge} {TIERS[profile.currentTier]?.title}
           </div>
@@ -104,10 +104,10 @@ export const PortfolioView: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">
                   Spreadsheet Model
                 </span>
-                <span className="text-xs text-slate-400">Verifikasi PT Maju Sejahtera</span>
+                <span className="text-xs text-slate-500">Verifikasi PT Maju Sejahtera</span>
               </div>
               <h3 className="font-extrabold text-base text-slate-900 mt-1">
                 Rekapitulasi Anggaran ATK & Uji Mutasi Formula
@@ -136,10 +136,10 @@ export const PortfolioView: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700">
                   JavaScript Code
                 </span>
-                <span className="text-xs text-slate-400">Clean Code & 100% Tests Passed</span>
+                <span className="text-xs text-slate-500">Clean Code & 100% Tests Passed</span>
               </div>
               <h3 className="font-extrabold text-base text-slate-900 mt-1">
                 Engine Perhitungan Diskon & Filter Transaksi
@@ -168,10 +168,10 @@ export const PortfolioView: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-50 text-rose-700">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-rose-50 text-rose-700">
                   Word Document
                 </span>
-                <span className="text-xs text-slate-400">Standar ISO 9001</span>
+                <span className="text-xs text-slate-500">Standar ISO 9001</span>
               </div>
               <h3 className="font-extrabold text-base text-slate-900 mt-1">
                 Notulen Rapat Koordinasi & Matriks PIC
@@ -234,7 +234,7 @@ export const PortfolioView: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div className="font-bold text-xs text-slate-800">{meta.name}</div>
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
                       isHigh
                         ? 'bg-emerald-100 text-emerald-800'
                         : isLow

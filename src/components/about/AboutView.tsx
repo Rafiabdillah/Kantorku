@@ -43,7 +43,7 @@ export const AboutView: React.FC = () => {
           return (
             <article key={domainId} className="rounded-3xl border border-slate-200 bg-white p-5">
               <h2 className="text-base font-black text-slate-900">
-                {domain.code} — {domain.name}
+                {domain.code}: {domain.name}
               </h2>
               <div className="mt-3 space-y-3">
                 {skills.map((skill) => (
@@ -61,7 +61,7 @@ export const AboutView: React.FC = () => {
                                   href={match[2]}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="inline-flex w-fit items-center gap-1 min-h-[44px] font-semibold text-blue-700 underline sm:min-h-0"
+                                  className="inline-flex w-fit items-center gap-1 min-h-[44px] font-semibold text-blue-700 underline sm:min-h-[28px]"
                                 >
                                   Buka rujukan <ExternalLink className="h-3 w-3" />
                                 </a>

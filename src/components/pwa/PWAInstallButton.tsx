@@ -85,7 +85,7 @@ export const PWAInstallButton: React.FC = () => {
 
               <button
                 onClick={() => setShowIOSGuide(false)}
-                className="mt-5 w-full rounded-xl bg-emerald-600 hover:bg-emerald-500 py-2.5 text-xs font-semibold text-white transition active:scale-95"
+                className="mt-5 w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 py-2.5 text-xs font-semibold text-white transition active:scale-95"
               >
                 Mengerti
               </button>
@@ -150,7 +150,7 @@ export const PWAInstallButton: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowBrowserGuide(false)}
-              className="mt-5 w-full rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white"
+              className="mt-5 w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 text-xs font-semibold text-white"
             >
               Mengerti
             </button>

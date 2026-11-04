@@ -502,7 +502,7 @@ export const WEB_LESSONS: Lesson[] = [
     prerequisites: ['les-web-flexbox-cards'],
     characterIntro: {
       characterId: 'intan',
-      dialogue: 'Pola kartu (Card UI) adalah standar tampilan paling populer di dunia modern—mulai dari e-commerce, media sosial, hingga dashboard kantor.',
+      dialogue: 'Pola kartu (Card UI) adalah standar tampilan paling populer di dunia modern, mulai dari e-commerce, media sosial, hingga dashboard kantor.',
       tip: 'Beri latar belakang putih, border tipis, dan bayangan lembut agar kartu tampak mengambang elegan.',
     },
     steps: [

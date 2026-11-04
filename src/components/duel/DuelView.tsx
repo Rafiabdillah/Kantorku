@@ -58,7 +58,7 @@ export const DuelView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 uppercase">
               Duel Asinkron
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Adu Kecepatan dengan Rekan Kantor</h1>
@@ -91,7 +91,7 @@ export const DuelView: React.FC = () => {
                   </div>
                 </div>
                 <div className="text-right text-xs">
-                  <span className="text-slate-400">Target Waktu:</span>
+                  <span className="text-slate-500">Target Waktu:</span>
                   <div className="font-mono font-bold text-slate-800">~{opp.avgTimeSec}s</div>
                 </div>
               </div>
@@ -125,7 +125,7 @@ export const DuelView: React.FC = () => {
         <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center space-y-4 animate-in fade-in zoom-in-95">
           <div
             className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto ${
-              winner === 'player' ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'
+              winner === 'player' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-600'
             }`}
           >
             <Trophy className="w-8 h-8" />

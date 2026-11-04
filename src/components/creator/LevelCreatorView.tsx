@@ -56,9 +56,13 @@ export const LevelCreatorView: React.FC = () => {
 
   const handleCopyJson = () => {
     sound.playClick();
-    navigator.clipboard.writeText(exportJson);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+    navigator.clipboard?.writeText(exportJson).then(
+      () => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      },
+      () => setIsCopied(false),
+    );
   };
 
   return (
@@ -78,7 +82,7 @@ export const LevelCreatorView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 uppercase">
               Kreator Level
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Rancang Tugas Kantor Sendiri</h1>

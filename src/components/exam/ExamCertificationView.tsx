@@ -80,7 +80,7 @@ export const ExamCertificationView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">
               Ujian Sertifikasi Resmi
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Sertifikasi Kompetensi PT Maju Sejahtera</h1>
@@ -139,17 +139,17 @@ export const ExamCertificationView: React.FC = () => {
                 </div>
 
                 <div className="pt-4 flex items-center justify-between border-t border-slate-100 mt-3">
-                  <span className="text-[11px] text-slate-400">5 Soal Bebas Hint • Nilai Min 80%</span>
+                  <span className="text-[11px] text-slate-500">5 Soal Bebas Hint • Nilai Min 80%</span>
                   {isEligible ? (
                     <button
                       type="button"
                       onClick={() => handleStartExam(t)}
-                      className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer"
+                      className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer"
                     >
                       Mulai Ujian
                     </button>
                   ) : (
-                    <span className="text-xs text-slate-400 font-medium">Belum Memenuhi Syarat</span>
+                    <span className="text-xs text-slate-500 font-medium">Belum Memenuhi Syarat</span>
                   )}
                 </div>
               </div>
@@ -235,7 +235,7 @@ export const ExamCertificationView: React.FC = () => {
                 <div className="grid grid-cols-3 gap-4 items-end mt-10 pt-4 border-t border-slate-200">
                   <div className="text-center">
                     <div className="font-serif italic text-sm text-slate-800">Maya Indah, S.Psi.</div>
-                    <div className="text-[10px] text-slate-500 uppercase font-semibold mt-0.5">Head of People & HR</div>
+                    <div className="text-[11px] text-slate-500 uppercase font-semibold mt-0.5">Head of People & HR</div>
                   </div>
 
                   {/* Gold Official Stamp */}
@@ -243,14 +243,14 @@ export const ExamCertificationView: React.FC = () => {
                     <div className="w-16 h-16 rounded-full border-4 border-amber-600 bg-amber-100 flex items-center justify-center text-amber-800 shadow-inner">
                       <Award className="w-8 h-8" />
                     </div>
-                    <span className="text-[9px] font-bold text-amber-800 mt-1 uppercase tracking-wider">
+                    <span className="text-[11px] font-bold text-amber-800 mt-1 uppercase tracking-wider">
                       VERIFIED OFFICIAL
                     </span>
                   </div>
 
                   <div className="text-center">
                     <div className="font-serif italic text-sm text-slate-800">Sari Rahmawati, M.M.</div>
-                    <div className="text-[10px] text-slate-500 uppercase font-semibold mt-0.5">
+                    <div className="text-[11px] text-slate-500 uppercase font-semibold mt-0.5">
                       Operational Director
                     </div>
                   </div>
@@ -288,7 +288,7 @@ export const ExamCertificationView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsExamActive(false)}
-                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition cursor-pointer"
+                className="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl transition cursor-pointer"
               >
                 Latih Kemampuan Lagi
               </button>

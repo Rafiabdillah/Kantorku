@@ -58,7 +58,7 @@ export const MentorView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="min-w-0">
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase">
               Mode Mentor (Peran Terbalik)
             </span>
             <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-1 leading-tight">

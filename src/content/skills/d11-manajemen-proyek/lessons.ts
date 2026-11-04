@@ -63,7 +63,7 @@ export const D11_LESSONS: D11Lesson[] = [
       {
         title: '2. Metode Timeboxing: Melindungi Jam Emas Fokus Kerja',
         content:
-          'Timeboxing adalah teknik menetapkan batas durasi pasti (misalnya 90 menit) untuk menyelesaikan suatu paket pekerjaan tanpa membuka notifikasi atau menerima panggilan non-darurat. Bila waktu habis, evaluasi progres sebelum memulai blok berikutnya. Ini mencegah fenomena Parkinson’s Law—di mana pekerjaan cenderung molor memenuhi seluruh waktu yang tersedia.',
+          'Timeboxing adalah teknik menetapkan batas durasi pasti (misalnya 90 menit) untuk menyelesaikan suatu paket pekerjaan tanpa membuka notifikasi atau menerima panggilan non-darurat. Bila waktu habis, evaluasi progres sebelum memulai blok berikutnya. Ini mencegah fenomena Parkinson’s Law, di mana pekerjaan cenderung molor memenuhi seluruh waktu yang tersedia.',
         keyPoints: [
           'Bagi hari kerja menjadi 3-4 blok fokus terstruktur.',
           'Matikan notifikasi email dan obrolan instan selama sesi timebox berlangsung.',
@@ -96,7 +96,7 @@ export const D11_LESSONS: D11Lesson[] = [
       {
         title: '1. Aturan 100% (The 100% Rule) dalam WBS',
         content:
-          'Work Breakdown Structure (WBS) wajib mencakup 100% seluruh pekerjaan yang disepakati dalam ruang lingkup proyek—tidak kurang dan tidak lebih. Anak elemen dari setiap paket kerja jika dijumlahkan harus tepat sama dengan induknya. Bila suatu tugas tidak ada di WBS, maka tugas itu berada di luar lingkup (out of scope) dan tidak boleh menyedot anggaran tanpa persetujuan perubahan resmi (change request).',
+          'Work Breakdown Structure (WBS) wajib mencakup 100% seluruh pekerjaan yang disepakati dalam ruang lingkup proyek, tidak kurang dan tidak lebih. Anak elemen dari setiap paket kerja jika dijumlahkan harus tepat sama dengan induknya. Bila suatu tugas tidak ada di WBS, maka tugas itu berada di luar lingkup (out of scope) dan tidak boleh menyedot anggaran tanpa persetujuan perubahan resmi (change request).',
         keyPoints: [
           'Tingkat terbawah WBS disebut "Work Package" yang memiliki pemilik tugas dan estimasi durasi terukur.',
           'Gunakan kata benda (deliverable) atau frase hasil kerja pada WBS, bukan sekadar kata kerja kabur.',

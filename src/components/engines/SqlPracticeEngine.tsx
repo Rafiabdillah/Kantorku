@@ -107,7 +107,7 @@ export const SqlPracticeEngine: React.FC<SqlPracticeEngineProps> = ({ onComplete
       </div>
       <label className="block text-xs font-bold text-slate-700" htmlFor="sql-query-editor">Kueri SQL</label>
       <textarea id="sql-query-editor" value={sql} onChange={(event) => setSql(event.target.value)} rows={7} className="w-full rounded-xl border border-slate-300 bg-slate-950 text-slate-100 p-3 font-mono text-xs" spellCheck={false} />
-      <button type="button" onClick={runCheck} className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black">Jalankan dan Bandingkan</button>
+      <button type="button" onClick={runCheck} className="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-700 text-white text-xs font-black">Jalankan dan Bandingkan</button>
       {!feedback && <div className="text-[11px] text-slate-500">Belum ada hasil kueri.</div>}
       {feedback && <div className="p-3 rounded-xl border border-slate-200 bg-white text-xs text-slate-700">{feedback}</div>}
     </div>

@@ -356,7 +356,7 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
               <button
                 type="button"
                 onClick={() => setShowCc(true)}
-                className="text-xs text-slate-400 hover:text-slate-600 font-semibold"
+                className="text-xs text-slate-500 hover:text-slate-600 font-semibold"
               >
                 + Cc
               </button>
@@ -394,14 +394,14 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
                 type="checkbox"
                 checked={hasAttachment}
                 onChange={(e) => setHasAttachment(e.target.checked)}
-                className="rounded text-emerald-600 focus:ring-emerald-500"
+                className="rounded text-emerald-700 focus:ring-emerald-500"
               />
               <span className="text-xs font-medium text-slate-700 flex items-center gap-1.5">
-                <Paperclip className="w-3.5 h-3.5 text-slate-400" />
+                <Paperclip className="w-3.5 h-3.5 text-slate-500" />
                 Sertakan Lampiran Dokumen (Nota / Laporan / File)
               </span>
             </label>
-            <span className="text-[11px] text-slate-400 font-mono">
+            <span className="text-[11px] text-slate-500 font-mono">
               {body.trim().split(/\s+/).filter(Boolean).length} kata
             </span>
           </div>
@@ -420,7 +420,7 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
           {submitted && isDraftUnchanged && (
             <div className="p-3 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-800 font-bold flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-              <span>Ubah draf dulu — ada yang perlu diperbaiki.</span>
+              <span>Ubah draf dulu, ada yang perlu diperbaiki.</span>
             </div>
           )}
 
@@ -438,7 +438,7 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
               onClick={handleSend}
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm shadow-sm transition-all ${
                 allPassed
-                  ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/25 hover:scale-[1.02]'
+                  ? 'bg-emerald-700 hover:bg-emerald-700 text-white shadow-emerald-500/25 hover:scale-[1.02]'
                   : 'bg-slate-900 hover:bg-slate-800 text-white'
               }`}
             >
@@ -452,7 +452,7 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
         <div className="lg:col-span-4 p-5 bg-slate-50/60 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-              <Mail className="w-4 h-4 text-emerald-600" />
+              <Mail className="w-4 h-4 text-emerald-700" />
               Checklist Aturan 3C
             </h3>
             <span
@@ -476,9 +476,9 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
               >
                 <div className="flex items-start gap-2.5">
                   {item.passed ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
                   ) : (
-                    <AlertCircle className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                    <AlertCircle className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
                   )}
                   <div className="flex-1">
                     <div className="text-xs font-bold leading-tight flex items-center justify-between">
@@ -507,7 +507,7 @@ export const EmailEditor: React.FC<EmailEditorProps> = ({
               <strong>Concise:</strong> Padat & tanpa basa-basi berlebih.{' '}
               <strong>Courteous:</strong> Sopan & berempati.
             </p>
-            <div className="mt-2 text-[10px] text-slate-400 border-t border-slate-100 pt-2 leading-relaxed">
+            <div className="mt-2 text-[11px] text-slate-500 border-t border-slate-100 pt-2 leading-relaxed">
               ℹ️ <strong>Catatan Edukasi:</strong> Pemeriksaan ejaan di atas berbasis aturan objektif (rule-based PUEBI) tanpa AI/jaringan eksternal, bukan klaim penilaian gaya bahasa menyeluruh.
             </div>
           </div>

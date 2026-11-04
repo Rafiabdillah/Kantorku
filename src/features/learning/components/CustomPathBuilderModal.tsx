@@ -95,7 +95,7 @@ export const CustomPathBuilderModal: React.FC<CustomPathBuilderModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 hover:bg-slate-100 text-slate-400 hover:text-slate-700 rounded-xl transition cursor-pointer"
+            className="p-1.5 hover:bg-slate-100 text-slate-500 hover:text-slate-700 rounded-xl transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -170,7 +170,7 @@ export const CustomPathBuilderModal: React.FC<CustomPathBuilderModalProps> = ({
                       >
                         {isSelected && <Check className="w-3 h-3" />}
                       </div>
-                      <span className="text-[11px] uppercase font-bold text-slate-400">
+                      <span className="text-[11px] uppercase font-bold text-slate-500">
                         [{lesson.track}]
                       </span>
                       <span className="text-xs">{lesson.title}</span>
@@ -180,7 +180,7 @@ export const CustomPathBuilderModal: React.FC<CustomPathBuilderModalProps> = ({
                       <button
                         type="button"
                         onClick={() => toggleMandatory(lesson.id)}
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full transition cursor-pointer ${
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-full transition cursor-pointer ${
                           isMandatory
                             ? 'bg-rose-500 text-white'
                             : 'bg-slate-200 text-slate-700 hover:bg-slate-300'

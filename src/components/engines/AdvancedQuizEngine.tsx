@@ -244,7 +244,7 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
           <p className="text-xs text-slate-300 mt-0.5">{currentQ.instruction}</p>
         </div>
         <div className="text-right">
-          <span className="text-xs font-bold text-slate-400">Soal</span>
+          <span className="text-xs font-bold text-slate-500">Soal</span>
           <div className="text-2xl font-black text-white font-mono">
             {currentIndex + 1} <span className="text-sm text-slate-500 font-normal">/ {questions.length}</span>
           </div>
@@ -257,7 +257,7 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
         {currentQ.type === 'urutan' && (
           <div className="space-y-2.5">
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-              <ArrowUpDown className="w-4 h-4 text-emerald-600" />
+              <ArrowUpDown className="w-4 h-4 text-emerald-700" />
               Susun urutan dengan tombol panah:
             </p>
             {currentOrder.map((itemId, idx) => {
@@ -347,7 +347,7 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-900 text-slate-100 font-sans text-xs space-y-2 border border-slate-800">
-              <div className="text-slate-400 font-mono text-[11px] pb-1 border-b border-slate-800">
+              <div className="text-slate-500 font-mono text-[11px] pb-1 border-b border-slate-800">
                 📄 {currentQ.contextSnippet.title}
               </div>
               {currentQ.contextSnippet.lines.map((line) => {
@@ -394,7 +394,7 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
                   >
                     <div className="text-xs font-bold mb-1 flex items-center justify-between">
                       <span>{zone.label}</span>
-                      {isSelected && <span className="text-[10px] text-purple-600">✓ Terpilih</span>}
+                      {isSelected && <span className="text-[11px] text-purple-600">✓ Terpilih</span>}
                     </div>
                   </button>
                 );
@@ -414,7 +414,7 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
           >
             <div className="flex items-center gap-2 font-bold mb-1">
               {evaluated[currentQ.id].passed ? (
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-700" />
               ) : (
                 <AlertTriangle className="w-4 h-4 text-rose-600" />
               )}
@@ -426,7 +426,7 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
 
         {/* Footer controls */}
         <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-          <div className="text-[11px] text-slate-400">
+          <div className="text-[11px] text-slate-500">
             {currentQ.conceptReference && <span>Referensi: {currentQ.conceptReference}</span>}
           </div>
           <div className="flex items-center gap-2">
@@ -434,7 +434,7 @@ export const AdvancedQuizEngine: React.FC<AdvancedQuizEngineProps> = ({
               <button
                 type="button"
                 onClick={handleEvaluateCurrent}
-                className="px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all shadow-emerald-600/20"
+                className="px-5 py-2.5 rounded-2xl bg-emerald-700 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all shadow-emerald-600/20"
               >
                 Cek Jawaban
               </button>

@@ -193,7 +193,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               setViewport('mobile');
             }}
             className={`p-2 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
-              viewport === 'mobile' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
+              viewport === 'mobile' ? 'bg-emerald-700 text-white' : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Tampilan Mobile (360px)"
           >
@@ -206,7 +206,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               setViewport('tablet');
             }}
             className={`p-2 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
-              viewport === 'tablet' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
+              viewport === 'tablet' ? 'bg-emerald-700 text-white' : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Tampilan Tablet (768px)"
           >
@@ -219,7 +219,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               setViewport('desktop');
             }}
             className={`p-2 min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center rounded-lg transition cursor-pointer touch-manipulation ${
-              viewport === 'desktop' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
+              viewport === 'desktop' ? 'bg-emerald-700 text-white' : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Tampilan Desktop (100%)"
           >
@@ -241,7 +241,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
         {/* Code Editor Area with CodeMirror 6 */}
         <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-slate-800 bg-slate-900 overflow-hidden min-h-[220px]">
           <div className="flex-1 overflow-hidden relative bg-[#090d16]" ref={containerRef} />
-          <div className="px-3 py-1 bg-slate-950 text-[10px] text-slate-500 border-t border-slate-800 flex justify-between">
+          <div className="px-3 py-1 bg-slate-950 text-[11px] text-slate-500 border-t border-slate-800 flex justify-between">
             <span>CodeMirror 6 • {activeTab.toUpperCase()} Mode</span>
             <span>Live Sync Preview</span>
           </div>
@@ -251,16 +251,16 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
         <div className="flex-1 bg-slate-950 flex flex-col items-center justify-center p-3 overflow-auto min-h-[220px]">
           <div className={`w-full h-full ${viewportWidthMap[viewport]} bg-white rounded-xl shadow-2xl overflow-hidden border border-slate-700 flex flex-col transition-all duration-300`}>
             {/* Browser Header Bar */}
-            <div className="px-3 py-1.5 bg-slate-100 border-b border-slate-200 flex items-center justify-between text-[10px] text-slate-500 select-none">
+            <div className="px-3 py-1.5 bg-slate-100 border-b border-slate-200 flex items-center justify-between text-[11px] text-slate-500 select-none">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-rose-400" />
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
               </div>
-              <div className="bg-white border border-slate-200 px-3 py-0.5 rounded-full text-[10px] text-slate-400 font-sans truncate max-w-[180px]">
+              <div className="bg-white border border-slate-200 px-3 py-0.5 rounded-full text-[11px] text-slate-400 font-sans truncate max-w-[180px]">
                 https://majustore.local/{viewport}
               </div>
-              <span className="font-sans font-semibold text-[10px] text-slate-600 uppercase">
+              <span className="font-sans font-semibold text-[11px] text-slate-600 uppercase">
                 {viewport}
               </span>
             </div>

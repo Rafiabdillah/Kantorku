@@ -401,7 +401,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2 bg-slate-50 border-t border-slate-200 text-xs text-slate-600">
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-1.5">
-            <FileText className="w-3.5 h-3.5 text-slate-400" />
+            <FileText className="w-3.5 h-3.5 text-slate-500" />
             <span className="font-semibold text-slate-700">{docMeta.wordCount} Kata</span>
           </div>
           <span>•</span>

@@ -21,9 +21,13 @@ export const DictionaryView: React.FC = () => {
 
   const handleCopy = (text: string, name: string) => {
     sound.playClick();
-    navigator.clipboard.writeText(text);
-    setCopiedName(name);
-    setTimeout(() => setCopiedName(null), 2000);
+    navigator.clipboard?.writeText(text).then(
+      () => {
+        setCopiedName(name);
+        setTimeout(() => setCopiedName(null), 2000);
+      },
+      () => setCopiedName(null),
+    );
   };
 
   return (
@@ -43,7 +47,7 @@ export const DictionaryView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase">
               Kamus & Cheat Sheet
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Referensi Cepat KantorKu</h1>
@@ -54,7 +58,7 @@ export const DictionaryView: React.FC = () => {
       {/* Search & Category Tabs */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1 relative">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
           <input
             type="text"
             value={searchQuery}
@@ -92,12 +96,12 @@ export const DictionaryView: React.FC = () => {
           >
             <div className="space-y-1.5 flex-1">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 uppercase">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 uppercase">
                   {item.category}
                 </span>
                 <h3 className="font-extrabold text-sm text-slate-900">{item.name}</h3>
                 {item.shortcut && (
-                  <span className="text-[10px] font-mono bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md font-bold">
+                  <span className="text-[11px] font-mono bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md font-bold">
                     {item.shortcut}
                   </span>
                 )}
@@ -106,7 +110,7 @@ export const DictionaryView: React.FC = () => {
               <p className="text-xs text-slate-600 leading-relaxed">{item.description}</p>
 
               <div className="pt-2 space-y-1">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Sintaks:</div>
+                <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Sintaks:</div>
                 <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60 font-mono text-xs text-slate-800">
                   {item.syntax}
                 </div>
@@ -115,7 +119,7 @@ export const DictionaryView: React.FC = () => {
 
             <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200/60 flex flex-col justify-between shrink-0 md:w-64 gap-2">
               <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Contoh Praktik:</span>
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Contoh Praktik:</span>
                 <div className="font-mono text-xs text-emerald-700 mt-1 break-all">{item.example}</div>
               </div>
               <button
@@ -125,7 +129,7 @@ export const DictionaryView: React.FC = () => {
               >
                 {copiedName === item.name ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <Check className="w-3.5 h-3.5 text-emerald-700" />
                     <span>Disalin!</span>
                   </>
                 ) : (

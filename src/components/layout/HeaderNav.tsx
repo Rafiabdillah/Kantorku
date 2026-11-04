@@ -133,7 +133,7 @@ export const HeaderNav: React.FC = () => {
               <div className="font-black text-sm tracking-tight text-slate-900 leading-none">
                 KantorKu
               </div>
-              <div className="hidden min-[360px]:block text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">
+              <div className="hidden min-[360px]:block text-[11px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">
                 PT Maju Sejahtera
               </div>
             </div>
@@ -172,7 +172,7 @@ export const HeaderNav: React.FC = () => {
           <div className="hidden md:flex flex-col items-end text-right">
             <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
               <span className="text-emerald-700">{tierInfo.badge} {tierInfo.title}</span>
-              <span className="text-slate-400 text-[10px] whitespace-nowrap">({profile.xp.toLocaleString('id-ID')} XP)</span>
+              <span className="text-slate-400 text-[11px] whitespace-nowrap">({profile.xp.toLocaleString('id-ID')} XP)</span>
             </div>
             <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden mt-1 border border-slate-200">
               <div
@@ -190,7 +190,7 @@ export const HeaderNav: React.FC = () => {
             title="Koin Kantor"
             aria-label={`Koin Kantor: ${profile.coins}`}
           >
-            <Coins className="w-3.5 h-3.5 text-amber-600" />
+            <Coins className="w-3.5 h-3.5 text-amber-700" />
             <span className="font-mono text-[11px]">{profile.coins}</span>
           </button>
 
@@ -200,7 +200,7 @@ export const HeaderNav: React.FC = () => {
             title="Total XP"
             aria-label={`Total XP: ${profile.xp.toLocaleString('id-ID')}`}
           >
-            <Zap className="w-3.5 h-3.5 text-indigo-500" />
+            <Zap className="w-3.5 h-3.5 text-indigo-600" />
             <span className="font-mono text-[11px]">{profile.xp.toLocaleString('id-ID')}</span>
           </div>
 
@@ -272,7 +272,7 @@ export const HeaderNav: React.FC = () => {
             aria-label={isMuted ? 'Nyalakan Suara' : 'Matikan Suara'}
             aria-pressed={isMuted}
           >
-            {isMuted ? <VolumeX className="w-4 h-4 text-slate-400" /> : <Volume2 className="w-4 h-4 text-emerald-600" />}
+            {isMuted ? <VolumeX className="w-4 h-4 text-slate-400" /> : <Volume2 className="w-4 h-4 text-emerald-700" />}
           </button>
 
           {/* Settings Button (Desktop/Tablet) */}
@@ -363,7 +363,7 @@ export const HeaderNav: React.FC = () => {
                   <Flame className="w-4 h-4 text-emerald-400 fill-current" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase">Streak</div>
+                  <div className="text-[11px] text-slate-400 font-semibold uppercase">Streak</div>
                   <div className="text-sm font-bold text-white">{profile.streakDays} Hari</div>
                 </div>
               </div>
@@ -372,7 +372,7 @@ export const HeaderNav: React.FC = () => {
                   <Coins className="w-4 h-4 text-amber-400 fill-current" />
                 </div>
                 <div>
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase">Koin</div>
+                  <div className="text-[11px] text-slate-400 font-semibold uppercase">Koin</div>
                   <div className="text-sm font-bold text-white">{profile.coins}</div>
                 </div>
               </div>
@@ -381,7 +381,7 @@ export const HeaderNav: React.FC = () => {
                   <Zap className="w-4 h-4 text-indigo-400" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase">XP</div>
+                  <div className="text-[11px] text-slate-400 font-semibold uppercase">XP</div>
                   <div className="text-sm font-bold text-white whitespace-nowrap">
                     {profile.xp.toLocaleString('id-ID')}
                   </div>
@@ -403,7 +403,7 @@ export const HeaderNav: React.FC = () => {
                     aria-current={currentView === item.view ? 'page' : undefined}
                     className={`flex flex-col items-center gap-1 p-3 rounded-2xl text-xs font-semibold transition min-h-[72px] ${
                       currentView === item.view
-                        ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/25'
+                        ? 'bg-emerald-700 text-white shadow-lg shadow-emerald-500/25'
                         : 'bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300'
                     }`}
                   >
@@ -424,7 +424,7 @@ export const HeaderNav: React.FC = () => {
                   aria-current={currentView === item.view ? 'page' : undefined}
                   className={`flex flex-col items-center gap-1 p-3 rounded-2xl text-xs font-semibold transition min-h-[64px] cursor-pointer focus-visible:outline-2 focus-visible:outline-emerald-400 ${
                     currentView === item.view
-                      ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/25'
+                      ? 'bg-emerald-700 text-white shadow-lg shadow-emerald-500/25'
                       : 'bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300'
                   }`}
                 >
@@ -443,7 +443,7 @@ export const HeaderNav: React.FC = () => {
                 aria-pressed={isMuted}
               >
                 {isMuted ? <VolumeX className="w-5 h-5 text-slate-400" /> : <Volume2 className="w-5 h-5 text-emerald-400" />}
-                <span className="text-[10px] font-semibold">{isMuted ? 'Nyalakan' : 'Matikan'}</span>
+                <span className="text-[11px] font-semibold">{isMuted ? 'Nyalakan' : 'Matikan'}</span>
               </button>
             </div>
           </div>

@@ -157,7 +157,7 @@ export const InteractiveMiniEditor: React.FC<InteractiveMiniEditorProps> = ({
       {/* Top Action Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase tracking-wide">
+          <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase tracking-wide">
             Mini-Editor {editorType.toUpperCase()}
           </span>
           {instruction && <span className="text-xs text-slate-300 font-medium">{instruction}</span>}
@@ -178,7 +178,7 @@ export const InteractiveMiniEditor: React.FC<InteractiveMiniEditorProps> = ({
           <button
             type="button"
             onClick={handleReset}
-            className="p-1 hover:bg-slate-800 text-slate-400 hover:text-slate-200 rounded-lg transition cursor-pointer"
+            className="p-1 hover:bg-slate-800 text-slate-500 hover:text-slate-200 rounded-lg transition cursor-pointer"
             title="Reset Editor"
           >
             <RotateCcw className="w-4 h-4" />
@@ -209,7 +209,7 @@ export const InteractiveMiniEditor: React.FC<InteractiveMiniEditorProps> = ({
       {/* 1. EXCEL EDITOR */}
       {editorType === 'excel' && (
         <div className="overflow-x-auto bg-slate-950 p-2 rounded-xl border border-slate-800 font-mono text-xs">
-          <div className="flex items-center gap-2 mb-2 px-1 text-[11px] text-slate-400">
+          <div className="flex items-center gap-2 mb-2 px-1 text-[11px] text-slate-500">
             <span className="font-bold text-emerald-400">{activeCell}</span>
             <input
               type="text"
@@ -222,7 +222,7 @@ export const InteractiveMiniEditor: React.FC<InteractiveMiniEditorProps> = ({
 
           <table className="border-collapse w-full text-slate-200">
             <thead>
-              <tr className="bg-slate-900 text-slate-500 text-[10px]">
+              <tr className="bg-slate-900 text-slate-500 text-[11px]">
                 <th className="p-1 border border-slate-800 w-8">#</th>
                 <th className="p-1 border border-slate-800 min-w-[80px]">A</th>
                 <th className="p-1 border border-slate-800 min-w-[100px]">B</th>
@@ -232,7 +232,7 @@ export const InteractiveMiniEditor: React.FC<InteractiveMiniEditorProps> = ({
             <tbody>
               {['1', '2', '3', '4', '5', '6'].map((row) => (
                 <tr key={row}>
-                  <td className="p-1 border border-slate-800 text-center bg-slate-900 text-slate-500 text-[10px]">
+                  <td className="p-1 border border-slate-800 text-center bg-slate-900 text-slate-500 text-[11px]">
                     {row}
                   </td>
                   {['A', 'B', 'C'].map((col) => {
@@ -273,13 +273,13 @@ export const InteractiveMiniEditor: React.FC<InteractiveMiniEditorProps> = ({
             <button
               type="button"
               onClick={handleRunCode}
-              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+              className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
             >
               <Play className="w-3.5 h-3.5" />
               <span>Jalankan Kode</span>
             </button>
             {codeOutput !== null && (
-              <span className="text-xs text-slate-400 font-mono">Hasil Output Terminal:</span>
+              <span className="text-xs text-slate-500 font-mono">Hasil Output Terminal:</span>
             )}
           </div>
           {codeOutput !== null && (
@@ -294,7 +294,7 @@ export const InteractiveMiniEditor: React.FC<InteractiveMiniEditorProps> = ({
       {editorType === 'web' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="flex flex-col gap-2">
-            <span className="text-[10px] text-slate-400 font-mono uppercase">Kode HTML & CSS:</span>
+            <span className="text-[11px] text-slate-500 font-mono uppercase">Kode HTML & CSS:</span>
             <textarea
               value={htmlContent}
               onChange={(e) => setHtmlContent(e.target.value)}
@@ -313,7 +313,7 @@ export const InteractiveMiniEditor: React.FC<InteractiveMiniEditorProps> = ({
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-[10px] text-slate-400 font-mono uppercase">Pratinjau Browser:</span>
+            <span className="text-[11px] text-slate-500 font-mono uppercase">Pratinjau Browser:</span>
             <div className="flex-1 bg-white text-slate-900 p-3 rounded-xl min-h-[140px] overflow-auto border border-slate-700 text-xs">
               <style>{cssContent}</style>
               <div dangerouslySetInnerHTML={{ __html: htmlContent }} />

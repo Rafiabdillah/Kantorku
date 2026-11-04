@@ -546,7 +546,7 @@ export const MissionPlayView: React.FC = () => {
         });
       } else {
         passed = false;
-        feedbackList.push(`Pemeriksa belum mengenali level ${level.id}. Hubungi pengembang — misi ini belum punya kriteria penilaian.`);
+        feedbackList.push(`Pemeriksa belum mengenali level ${level.id}. Hubungi pengembang. Misi ini belum punya kriteria penilaian.`);
         level.objectives.forEach((obj) => {
           newObjectiveStates[obj.id] = { status: 'failed', reason: 'Level belum punya kriteria penilaian' };
         });
@@ -647,10 +647,10 @@ export const MissionPlayView: React.FC = () => {
           </button>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase tracking-wide">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase tracking-wide">
                 Tier {level.tier} • {level.module.toUpperCase()} {level.track ? `(${level.track.toUpperCase()})` : ''}
               </span>
-              <span className="text-[9px] text-slate-400">|</span>
+              <span className="text-[11px] text-slate-500">|</span>
               <h1 className="text-xs font-semibold text-slate-700">{level.title}</h1>
             </div>
           </div>
@@ -673,7 +673,7 @@ export const MissionPlayView: React.FC = () => {
             className="p-1.5 hover:bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer min-h-[44px] min-w-[44px]"
             title="Pengaturan Cepat Misi"
           >
-            <Sliders className="w-4 h-4 text-emerald-600" />
+            <Sliders className="w-4 h-4 text-emerald-700" />
             <span className="hidden sm:inline">Pengaturan</span>
           </button>
 
@@ -687,7 +687,7 @@ export const MissionPlayView: React.FC = () => {
             title="Perbesar editor agar ruang menulis lebih lega (Esc untuk keluar)"
             aria-label="Perbesar editor"
           >
-            <Maximize2 className="w-4 h-4 text-emerald-600" />
+            <Maximize2 className="w-4 h-4 text-emerald-700" />
             <span>Perbesar</span>
           </button>
         </div>
@@ -733,7 +733,7 @@ export const MissionPlayView: React.FC = () => {
           title="Perbesar editor agar ruang menulis lebih lega"
           aria-label="Perbesar editor"
         >
-          <Maximize2 className="w-4 h-4 text-emerald-600" />
+          <Maximize2 className="w-4 h-4 text-emerald-700" />
           <span>Lebarkan</span>
         </button>
       </div>
@@ -755,7 +755,7 @@ export const MissionPlayView: React.FC = () => {
               />
               <div>
                 <div className="font-bold text-xs text-slate-800 capitalize">{characterName}</div>
-                <div className="text-[9px] text-slate-400 font-medium">PT Maju Sejahtera</div>
+                <div className="text-[11px] text-slate-500 font-medium">PT Maju Sejahtera</div>
               </div>
             </div>
 
@@ -765,7 +765,7 @@ export const MissionPlayView: React.FC = () => {
 
             {activeDialogNode?.choices && activeDialogNode.choices.length > 0 && !dialogueResponse && (
               <div className="space-y-1 pt-0.5">
-                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Pilih Responsmu:</span>
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Pilih Responsmu:</span>
                 {activeDialogNode.choices.map((c) => (
                   <button
                     key={c.id}
@@ -789,7 +789,7 @@ export const MissionPlayView: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex items-center gap-1 text-xs font-bold text-slate-900">
-              <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+              <BookOpen className="w-3.5 h-3.5 text-emerald-700" />
               <span>Konsep Inti</span>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-200/50">
@@ -818,7 +818,7 @@ export const MissionPlayView: React.FC = () => {
               }}
               className="w-full py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-800 flex items-center justify-center gap-1.5 transition cursor-pointer min-h-[44px]"
             >
-              <GraduationCap className="w-4 h-4 text-emerald-600" />
+              <GraduationCap className="w-4 h-4 text-emerald-700" />
               <span>Belum paham? Buka Pelajarannya</span>
             </button>
           </div>
@@ -840,14 +840,14 @@ export const MissionPlayView: React.FC = () => {
               <div className="flex items-center gap-2 min-w-0">
                 <Maximize2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span className="text-xs font-bold truncate">Mode Editor Lebar</span>
-                <span className="hidden sm:inline text-[10px] text-slate-400 truncate">
+                <span className="hidden sm:inline text-[11px] text-slate-500 truncate">
                   {level.module.toUpperCase()} • Esc untuk keluar
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => setEditorExpanded(false)}
-                className="flex items-center justify-center gap-1 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition cursor-pointer shrink-0 min-h-[44px]"
+                className="flex items-center justify-center gap-1 px-3 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition cursor-pointer shrink-0 min-h-[44px]"
                 title="Perkecil editor (Esc)"
                 aria-label="Perkecil editor"
               >
@@ -894,7 +894,7 @@ export const MissionPlayView: React.FC = () => {
             <div>
               <div className="text-xs font-bold text-slate-900 mb-2 uppercase tracking-wide flex items-center justify-between">
                 <span>Target Pekerjaan</span>
-                <span className="text-[10px] font-normal text-slate-500">
+                <span className="text-[11px] font-normal text-slate-500">
                   {Object.values(objectiveStates).filter(s => s.status === 'passed').length}/{level.objectives.length} Selesai
                 </span>
               </div>
@@ -914,16 +914,16 @@ export const MissionPlayView: React.FC = () => {
                     >
                       <div className="flex items-start gap-1.5">
                         {state.status === 'passed' ? (
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" />
                         ) : state.status === 'failed' ? (
                           <XCircle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
                         ) : (
-                          <Circle className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
+                          <Circle className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
                         )}
                         <span className="leading-tight font-medium">{obj.text}</span>
                       </div>
                       {state.status === 'failed' && state.reason && (
-                        <p className="text-[10px] text-rose-600 pl-5 leading-tight font-sans">
+                        <p className="text-[11px] text-rose-600 pl-5 leading-tight font-sans">
                           {state.reason}
                         </p>
                       )}
@@ -937,7 +937,7 @@ export const MissionPlayView: React.FC = () => {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs font-bold text-slate-900">
                 <span>Bantuan (Hint)</span>
-                <span className="text-[9px] text-slate-500 font-normal">Level {unlockedHintLevel}/3</span>
+                <span className="text-[11px] text-slate-500 font-normal">Level {unlockedHintLevel}/3</span>
               </div>
 
               {unlockedHintLevel > 0 && (
@@ -966,11 +966,11 @@ export const MissionPlayView: React.FC = () => {
 
               {missionFailCount >= 3 && (
                 <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl space-y-1">
-                  <div className="flex items-center gap-1 text-[10px] font-bold text-rose-800">
+                  <div className="flex items-center gap-1 text-[11px] font-bold text-rose-800">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Bantuan Bos Bu Sari (Gratis)</span>
                   </div>
-                  <p className="text-[10px] text-rose-900 leading-relaxed">{level.bossHelp}</p>
+                  <p className="text-[11px] text-rose-900 leading-relaxed">{level.bossHelp}</p>
                 </div>
               )}
             </div>
@@ -981,7 +981,7 @@ export const MissionPlayView: React.FC = () => {
             <button
               type="button"
               onClick={handleValidate}
-              className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer min-h-[48px]"
+              className="w-full py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer min-h-[48px]"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>Kirim & Periksa Jawaban</span>
@@ -996,13 +996,13 @@ export const MissionPlayView: React.FC = () => {
           <div role="dialog" aria-modal="true" aria-label="Hasil tugas" className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
-                <MessageCircle className="w-4 h-4 text-emerald-600" />
+                <MessageCircle className="w-4 h-4 text-emerald-700" />
                 <span>Log Riwayat Dialog Adegan</span>
               </div>
               <button
                 type="button"
                 onClick={() => setShowHistoryModal(false)}
-                className="text-slate-400 hover:text-slate-600 font-bold p-1.5 cursor-pointer min-h-[44px] min-w-[44px]"
+                className="text-slate-500 hover:text-slate-600 font-bold p-1.5 cursor-pointer min-h-[44px] min-w-[44px]"
               >
                 ✕
               </button>
@@ -1025,7 +1025,7 @@ export const MissionPlayView: React.FC = () => {
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
             <div className="text-center">
               {validationOutput.passed ? (
-                <div className="inline-flex p-3 bg-emerald-100 rounded-full text-emerald-600 mb-2">
+                <div className="inline-flex p-3 bg-emerald-100 rounded-full text-emerald-700 mb-2">
                   <Award className="w-8 h-8" />
                 </div>
               ) : (
@@ -1072,27 +1072,27 @@ export const MissionPlayView: React.FC = () => {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs font-bold text-slate-900 mb-1">
                 <span>Skor 4 Dimensi</span>
-                <span className="text-[10px] text-slate-500">Rubrik Penilaian</span>
+                <span className="text-[11px] text-slate-500">Rubrik Penilaian</span>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-1">
                 <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-400 text-[9px] block">Benar</span>
+                  <span className="text-slate-500 text-[11px] block">Benar</span>
                   <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.correctness}%</div>
                 </div>
                 <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-400 text-[9px] block">Efisien</span>
+                  <span className="text-slate-500 text-[11px] block">Efisien</span>
                   <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.efficiency}%</div>
                 </div>
                 <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-400 text-[9px] block">Rapi</span>
+                  <span className="text-slate-500 text-[11px] block">Rapi</span>
                   <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.neatness}%</div>
                 </div>
                 <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-400 text-[9px] block">Dirawat</span>
+                  <span className="text-slate-500 text-[11px] block">Dirawat</span>
                   <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.maintainability}%</div>
                 </div>
                 <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-400 text-[9px] block">Komunikasi</span>
+                  <span className="text-slate-500 text-[11px] block">Komunikasi</span>
                   <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.communication}%</div>
                 </div>
               </div>
@@ -1123,7 +1123,7 @@ export const MissionPlayView: React.FC = () => {
                     setShowResultModal(false);
                     setView('career-map');
                   }}
-                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px]"
+                  className="flex-1 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px]"
                 >
                   Lanjut ke Peta Karier
                 </button>

@@ -76,7 +76,7 @@ export const SpeedAttackView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
               Mode Kilat (Time Attack)
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Uji Kecepatan & Ketangkasan</h1>
@@ -118,7 +118,7 @@ export const SpeedAttackView: React.FC = () => {
 
       {gameState === 'playing' && currentQ && (
         <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-md space-y-4 animate-in fade-in">
-          <div className="flex items-center justify-between text-xs text-slate-400">
+          <div className="flex items-center justify-between text-xs text-slate-500">
             <span>Skor: <strong className="text-slate-800 font-mono">{score}</strong></span>
             <span>Soal #{currentQIndex + 1}</span>
           </div>
@@ -147,7 +147,7 @@ export const SpeedAttackView: React.FC = () => {
           </div>
 
           <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Waktu Habis!</span>
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Waktu Habis!</span>
             <h2 className="text-2xl font-extrabold text-slate-900 mt-1">Skor Akhir: {score} Poin</h2>
             <div className="text-xs text-amber-700 font-bold mt-1">Kombo Tertinggi: {highestCombo}x</div>
           </div>

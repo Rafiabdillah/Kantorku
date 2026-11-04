@@ -101,10 +101,10 @@ export const CaseFileView: React.FC = () => {
           </button>
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800 uppercase tracking-wide whitespace-nowrap">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800 uppercase tracking-wide whitespace-nowrap">
                 Kasus Nyata v2.0 • {caseItem.industry}
               </span>
-              <span className="hidden sm:inline text-xs text-slate-400">|</span>
+              <span className="hidden sm:inline text-xs text-slate-500">|</span>
               <h1 className="text-[11px] sm:text-xs font-bold text-slate-800">{caseItem.title}</h1>
             </div>
           </div>
@@ -124,8 +124,8 @@ export const CaseFileView: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 w-full sm:w-auto">
-          <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500 font-mono bg-slate-100 px-2.5 py-1 rounded-lg">
-            <Clock className="w-3.5 h-3.5 text-amber-600" />
+          <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-600 font-mono bg-slate-100 px-2.5 py-1 rounded-lg">
+            <Clock className="w-3.5 h-3.5 text-amber-700" />
             <span>Tenggat: {caseItem.deadlineHours} Jam</span>
           </div>
 
@@ -163,7 +163,7 @@ export const CaseFileView: React.FC = () => {
           <button
             type="button"
             onClick={handleFinishCase}
-            className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer shrink-0"
           >
             <CheckCircle2 className="w-4 h-4" />
             <span className="hidden sm:inline">Kirim Serah Terima</span>
@@ -202,7 +202,7 @@ export const CaseFileView: React.FC = () => {
             <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-2">
               <div className="flex items-center justify-between text-xs text-emerald-800">
                 <span className="font-bold flex items-center gap-1.5">
-                  <Volume2 className="w-4 h-4 text-emerald-600 animate-pulse" />
+                  <Volume2 className="w-4 h-4 text-emerald-700 animate-pulse" />
                   <span>Voice Note: {caseItem.voiceNotes[0].speaker} ({caseItem.voiceNotes[0].duration})</span>
                 </span>
               </div>
@@ -215,7 +215,7 @@ export const CaseFileView: React.FC = () => {
           {/* Internal Team Chat (Multi-Party Interests) */}
           <div className="space-y-2">
             <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-              <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+              <MessageSquare className="w-3.5 h-3.5 text-emerald-700" />
               <span>Diskusi Tim Internal (Multi-Pihak)</span>
             </div>
             <div className="space-y-2">
@@ -223,7 +223,7 @@ export const CaseFileView: React.FC = () => {
                 <div key={idx} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
                   <div className="flex items-center justify-between text-[11px] font-bold text-slate-700">
                     <span>{chat.sender} {chat.role ? `(${chat.role})` : ''}</span>
-                    <span className="text-slate-400 font-normal">{chat.time}</span>
+                    <span className="text-slate-500 font-normal">{chat.time}</span>
                   </div>
                   <div className="text-slate-600 mt-1">{chat.message}</div>
                 </div>
@@ -300,7 +300,7 @@ export const CaseFileView: React.FC = () => {
               <div className="flex items-center gap-1.5 min-w-0">
                 <Maximize2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span className="text-xs font-bold truncate">Mode Editor Lebar</span>
-                <span className="text-[10px] text-slate-400 hidden sm:inline truncate">
+                <span className="text-[11px] text-slate-500 hidden sm:inline truncate">
                   Tekan Esc untuk menutup
                 </span>
               </div>
@@ -337,7 +337,7 @@ export const CaseFileView: React.FC = () => {
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
             <div className="text-center">
-              <div className="inline-flex p-3 bg-emerald-100 rounded-full text-emerald-600 mx-auto mb-2">
+              <div className="inline-flex p-3 bg-emerald-100 rounded-full text-emerald-700 mx-auto mb-2">
                 <Award className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-extrabold text-slate-900">Serah Terima Kasus Disetujui!</h3>
@@ -349,24 +349,24 @@ export const CaseFileView: React.FC = () => {
             {/* 5-Dimension Rubric Scoring */}
             <div className="grid grid-cols-5 gap-1.5 text-center text-xs">
               <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Benar</span>
+                <span className="text-slate-500 text-[11px] block">Benar</span>
                 <span className="font-bold text-slate-800 text-xs">95%</span>
               </div>
               <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Efisien</span>
+                <span className="text-slate-500 text-[11px] block">Efisien</span>
                 <span className="font-bold text-slate-800 text-xs">90%</span>
               </div>
               <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Rapi</span>
+                <span className="text-slate-500 text-[11px] block">Rapi</span>
                 <span className="font-bold text-slate-800 text-xs">95%</span>
               </div>
               <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Dirawat</span>
+                <span className="text-slate-500 text-[11px] block">Dirawat</span>
                 <span className="font-bold text-slate-800 text-xs">90%</span>
               </div>
               <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-400 text-[9px] block">Komunikasi</span>
-                <span className="font-bold text-emerald-600 text-xs">100%</span>
+                <span className="text-slate-500 text-[11px] block">Komunikasi</span>
+                <span className="font-bold text-emerald-700 text-xs">100%</span>
               </div>
             </div>
 
@@ -394,7 +394,7 @@ export const CaseFileView: React.FC = () => {
                 setShowCompleteModal(false);
                 setView('office');
               }}
-              className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition cursor-pointer mt-1"
+              className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs transition cursor-pointer mt-1"
             >
               Kembali ke Denah Kantor
             </button>

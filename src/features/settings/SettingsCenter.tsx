@@ -288,10 +288,10 @@ export const SettingsCenter: React.FC = () => {
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 uppercase tracking-wide">
+              <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 uppercase tracking-wide">
                 Pusat Pengaturan v2.0
               </span>
-              <span className="text-[10px] font-mono text-slate-400">Offline-first</span>
+              <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">Offline-first</span>
             </div>
             <h1 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white mt-1">
               Preferensi & Lingkungan Kerja
@@ -349,11 +349,11 @@ export const SettingsCenter: React.FC = () => {
                 <div className="font-bold text-xs text-white group-hover:text-emerald-300 transition">
                   {preset.title}
                 </div>
-                <div className="text-[10px] text-emerald-100/70 mt-1 leading-snug">
+                <div className="text-[11px] text-emerald-100/70 mt-1 leading-snug">
                   {preset.description}
                 </div>
               </div>
-              <div className="text-[10px] font-bold text-emerald-300 mt-2 flex items-center gap-1">
+              <div className="text-[11px] font-bold text-emerald-300 mt-2 flex items-center gap-1">
                 <span>Terapkan Preset</span>
                 <span>→</span>
               </div>
@@ -408,13 +408,13 @@ export const SettingsCenter: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className={isActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}>
+                    <span className={isActive ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-400'}>
                       {ICON_MAP[sec.iconName] || <Sliders className="w-4 h-4" />}
                     </span>
                     <span>{sec.title}</span>
                   </div>
                   {modifiedCount > 0 && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold">
+                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold">
                       {modifiedCount} diubah
                     </span>
                   )}
@@ -426,13 +426,13 @@ export const SettingsCenter: React.FC = () => {
           {/* Live Preview Card */}
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
             <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-2">
-              <Eye className="w-4 h-4 text-emerald-600" />
+              <Eye className="w-4 h-4 text-emerald-700" />
               <span>Pratinjau Langsung (Live Preview)</span>
             </div>
             <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700/60 space-y-2 text-xs">
               <div className="flex items-center justify-between">
                 <span className="text-slate-500">Skala Font:</span>
-                <span className="font-bold uppercase text-[10px] px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300">
+                <span className="font-bold uppercase text-[11px] px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300">
                   {get('appearance_font_size', 'medium')}
                 </span>
               </div>
@@ -501,7 +501,7 @@ export const SettingsCenter: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowAddProfileModal(true)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-xs"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-xs"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Tambah Profil</span>
@@ -525,15 +525,15 @@ export const SettingsCenter: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                           <span>{p.name}</span>
-                          {p.pinHash && <Lock className="w-3 h-3 text-amber-600" />}
+                          {p.pinHash && <Lock className="w-3 h-3 text-amber-700" />}
                         </div>
                         {isCurrent && (
-                          <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-600 text-white">
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-700 text-white">
                             Aktif
                           </span>
                         )}
                       </div>
-                      <div className="text-[10px] text-slate-500 mt-2">
+                      <div className="text-[11px] text-slate-500 mt-2">
                         {p.learningGoal === 'magang_karir'
                           ? 'Persiapan Magang'
                           : p.learningGoal === 'skripsi_akademik'
@@ -550,7 +550,7 @@ export const SettingsCenter: React.FC = () => {
                               showNotification(`Profil "${p.name}" dihapus.`);
                             }
                           }}
-                          className="mt-2 text-[10px] text-rose-600 hover:text-rose-700 font-bold self-end"
+                          className="mt-2 text-[11px] text-rose-600 hover:text-rose-700 font-bold self-end"
                         >
                           Hapus
                         </button>
@@ -600,7 +600,7 @@ export const SettingsCenter: React.FC = () => {
               <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div className="max-w-md">
                   <div className="font-bold text-sm text-emerald-900 dark:text-emerald-200 flex items-center gap-2">
-                    <Download className="w-4 h-4 text-emerald-600" />
+                    <Download className="w-4 h-4 text-emerald-700" />
                     <span>Cadangkan &amp; Pulihkan Progres</span>
                   </div>
                   <p className="text-[11px] text-emerald-800/80 dark:text-emerald-300/80 mt-1 leading-snug">
@@ -612,7 +612,7 @@ export const SettingsCenter: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleExportProgress}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-xs"
+                    className="flex items-center gap-1.5 px-3 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-xs"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Ekspor Progres</span>
@@ -635,7 +635,7 @@ export const SettingsCenter: React.FC = () => {
                 </div>
               </div>
               <div className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <ShieldCheck className="w-4 h-4 text-emerald-700" />
                 <span>Reset Bertingkat (Tiered Reset)</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
@@ -716,7 +716,7 @@ export const SettingsCenter: React.FC = () => {
               <button
                 type="button"
                 onClick={handleVersionTap}
-                className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 rounded-xl font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 cursor-pointer self-start sm:self-auto"
+                className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 rounded-xl font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400 cursor-pointer self-start sm:self-auto"
               >
                 v{__APP_VERSION__} ({versionTapCount}/5)
               </button>
@@ -742,11 +742,11 @@ export const SettingsCenter: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-sm text-slate-900 dark:text-white">{def.label}</span>
                         {modified && (
-                          <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">
                             Diubah
                           </span>
                         )}
-                        <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-400">
+                        <span className="text-[11px] uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
                           {def.scope}
                         </span>
                       </div>
@@ -758,12 +758,15 @@ export const SettingsCenter: React.FC = () => {
                       {def.type === 'boolean' && (
                         <button
                           type="button"
+                          role="switch"
+                          aria-checked={Boolean(curVal)}
+                          aria-label={def.label}
                           onClick={() => {
                             sound.playClick();
                             set(def.key, !curVal);
                           }}
                           className={`w-12 h-6 rounded-full transition cursor-pointer relative p-0.5 ${
-                            curVal ? 'bg-emerald-600' : 'bg-slate-300 dark:bg-slate-700'
+                            curVal ? 'bg-emerald-700' : 'bg-slate-300 dark:bg-slate-700'
                           }`}
                         >
                           <div
@@ -776,6 +779,7 @@ export const SettingsCenter: React.FC = () => {
 
                       {def.type === 'select' && def.options && (
                         <select
+                          aria-label={def.label}
                           value={curVal}
                           onChange={(e) => {
                             sound.playClick();
@@ -797,7 +801,7 @@ export const SettingsCenter: React.FC = () => {
 
                       {def.type === 'slider' && (
                         <div className="flex items-center gap-2">
-                          <input
+                          <input aria-label={def.label}
                             type="range"
                             min={def.min ?? 0}
                             max={def.max ?? 100}
@@ -813,7 +817,7 @@ export const SettingsCenter: React.FC = () => {
                       )}
 
                       {def.type === 'text' && (
-                        <input
+                        <input aria-label={def.label}
                           type="text"
                           value={curVal}
                           onChange={(e) => set(def.key, e.target.value)}
@@ -869,7 +873,7 @@ export const SettingsCenter: React.FC = () => {
               undo();
               showNotification('Perubahan berhasil dibatalkan.');
             }}
-            className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-xs transition cursor-pointer shadow-xs"
+            className="flex items-center gap-1 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold text-xs transition cursor-pointer shadow-xs"
           >
             <Undo2 className="w-3.5 h-3.5" />
             <span>Batalkan (5s)</span>
@@ -944,7 +948,7 @@ export const SettingsCenter: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-xl text-white shadow-xs"
+                  className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 font-bold rounded-xl text-white shadow-xs"
                 >
                   Simpan Profil
                 </button>
@@ -958,7 +962,7 @@ export const SettingsCenter: React.FC = () => {
       {pinPromptModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-sm w-full p-6 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-4">
-            <div className="flex items-center gap-2 text-amber-600">
+            <div className="flex items-center gap-2 text-amber-700">
               <Lock className="w-5 h-5" />
               <h3 className="font-black text-base text-slate-900 dark:text-white">Masukkan PIN Profil</h3>
             </div>
@@ -986,7 +990,7 @@ export const SettingsCenter: React.FC = () => {
               <button
                 type="button"
                 onClick={handlePinSubmit}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-xs font-bold text-white shadow-xs"
+                className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 rounded-xl text-xs font-bold text-white shadow-xs"
               >
                 Buka Profil
               </button>
@@ -1021,7 +1025,7 @@ export const SettingsCenter: React.FC = () => {
                 type="button"
                 disabled={!importJsonText.trim()}
                 onClick={handleImportJson}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-xs font-bold text-white shadow-xs disabled:opacity-50"
+                className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 rounded-xl text-xs font-bold text-white shadow-xs disabled:opacity-50"
               >
                 Proses Impor
               </button>

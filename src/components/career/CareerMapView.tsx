@@ -67,7 +67,7 @@ export const CareerMapView: React.FC = () => {
               activeModule === 'excel' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-700" />
             <span>Excel</span>
           </button>
           <button
@@ -138,9 +138,9 @@ export const CareerMapView: React.FC = () => {
               <span>
                 Tier {t}: {tInfo.title}
               </span>
-              {isTierLocked && <Lock className="w-3 h-3 text-slate-400" />}
+              {isTierLocked && <Lock className="w-3 h-3 text-slate-500" />}
               {isPlayerTier && (
-                <span className="text-[10px] bg-emerald-500 text-white px-1.5 py-0.2 rounded-full font-bold">
+                <span className="text-[11px] bg-emerald-700 text-white px-1.5 py-0.2 rounded-full font-bold">
                   Kariermu
                 </span>
               )}
@@ -178,17 +178,17 @@ export const CareerMapView: React.FC = () => {
                       Tier {lvl.tier} • Bab {lvl.chapter}
                     </span>
                     {lvl.scale && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200 uppercase">
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200 uppercase">
                         Skala: {lvl.scale}
                       </span>
                     )}
                     {lvl.track && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 uppercase">
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 uppercase">
                         Track {lvl.track.toUpperCase()}
                       </span>
                     )}
                     {lvl.isBoss && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 flex items-center gap-1">
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 flex items-center gap-1">
                         <Award className="w-3 h-3" />
                         Boss Level
                       </span>
@@ -213,7 +213,7 @@ export const CareerMapView: React.FC = () => {
                   {/* Skills Tagged */}
                   <div className="flex flex-wrap gap-1.5 mt-2.5">
                     {lvl.skillsTaught.map((skill, i) => (
-                      <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium">
+                      <span key={i} className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium">
                         {skill}
                       </span>
                     ))}
@@ -247,7 +247,7 @@ export const CareerMapView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => startMission(lvl.id)}
-                      className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer"
+                      className="flex items-center gap-2 px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer"
                     >
                       <Play className="w-3.5 h-3.5 fill-current" />
                       <span>{isCompleted ? 'Main Ulang' : 'Mulai Tugas'}</span>
@@ -260,9 +260,9 @@ export const CareerMapView: React.FC = () => {
                       <span>Terkunci</span>
                     </div>
                     {tierThreshold !== undefined && (
-                      <span className="text-[10px] text-slate-400 font-medium text-right leading-snug max-w-[220px]">
+                      <span className="text-[11px] text-slate-500 font-medium text-right leading-snug max-w-[220px]">
                         Terbuka di Tier {lvl.tier} (butuh {tierThreshold.toLocaleString('id-ID')} XP total
-                        {xpNeeded > 0 && <> — kurang <b className="text-slate-500">{xpNeeded.toLocaleString('id-ID')} XP</b></>})
+                        {xpNeeded > 0 && <>, kurang <b className="text-slate-500">{xpNeeded.toLocaleString('id-ID')} XP</b></>})
                       </span>
                     )}
                   </div>

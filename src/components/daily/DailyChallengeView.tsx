@@ -50,7 +50,7 @@ export const DailyChallengeView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
               Tantangan Harian
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Daily Office Sprint</h1>
@@ -93,8 +93,8 @@ export const DailyChallengeView: React.FC = () => {
       {/* Question Card */}
       <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-4">
         <div className="flex items-center justify-between text-xs text-slate-500">
-          <span className="font-bold uppercase tracking-wider text-slate-400">Soal Hari Ini</span>
-          <span className="font-semibold text-emerald-600">+100 Koin • +150 XP</span>
+          <span className="font-bold uppercase tracking-wider text-slate-500">Soal Hari Ini</span>
+          <span className="font-semibold text-emerald-700">+100 Koin • +150 XP</span>
         </div>
 
         <h2 className="text-base font-extrabold text-slate-900 leading-snug">{question.question}</h2>
@@ -112,7 +112,7 @@ export const DailyChallengeView: React.FC = () => {
                     ? 'bg-emerald-50 border-emerald-500 text-emerald-900 font-bold'
                     : selectedOption === opt.id
                     ? 'bg-rose-50 border-rose-500 text-rose-900'
-                    : 'bg-slate-50 text-slate-400 border-slate-200'
+                    : 'bg-slate-50 text-slate-500 border-slate-200'
                   : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-800 hover:border-emerald-400'
               }`}
             >

@@ -224,7 +224,7 @@ export const LearningCenterView: React.FC = () => {
               }}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl transition whitespace-nowrap cursor-pointer snap-start shrink-0 ${
                 isActive
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
+                  ? 'bg-emerald-700 text-white shadow-md shadow-emerald-600/20'
                   : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80'
               }`}
             >
@@ -253,10 +253,10 @@ export const LearningCenterView: React.FC = () => {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">
                         Lanjutkan Belajar
                       </span>
-                      <span className="text-xs text-slate-400">
+                      <span className="text-xs text-slate-500">
                         Langkah {(lastEntry.currentStepIndex || 0) + 1} dari {lastLsn.steps.length}
                       </span>
                     </div>
@@ -271,7 +271,7 @@ export const LearningCenterView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => openLesson(lastLsn.id, lastEntry.currentStepIndex || 0)}
-                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 shrink-0"
+                  className="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 shrink-0"
                 >
                   <span>Lanjutkan Membaca</span>
                   <ArrowRight className="w-4 h-4" />
@@ -296,7 +296,7 @@ export const LearningCenterView: React.FC = () => {
                   className="group p-5 bg-white rounded-3xl border border-slate-200/80 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
                 >
                   <div className="space-y-2">
-                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 line-clamp-1">
+                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 line-clamp-1">
                       {rec.reason}
                     </span>
                     <h3 className="font-extrabold text-sm text-slate-900 group-hover:text-emerald-700 transition">
@@ -306,12 +306,12 @@ export const LearningCenterView: React.FC = () => {
                       {rec.lesson.objectives[0]}
                     </p>
                   </div>
-                  <div className="pt-4 flex items-center justify-between text-xs text-slate-400 border-t border-slate-100 mt-3">
+                  <div className="pt-4 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 mt-3">
                     <span className="flex items-center gap-1 font-medium">
                       <Clock className="w-3.5 h-3.5" />
                       {rec.lesson.estimatedMinutes} Menit
                     </span>
-                    <span className="font-bold text-emerald-600 flex items-center gap-1 group-hover:translate-x-1 transition">
+                    <span className="font-bold text-emerald-700 flex items-center gap-1 group-hover:translate-x-1 transition">
                       Mulai <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
@@ -324,12 +324,12 @@ export const LearningCenterView: React.FC = () => {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-emerald-600" />
+                <Zap className="w-5 h-5 text-emerald-700" />
                 <h2 className="text-base font-extrabold text-slate-900">
                   Pelajaran Kilat (Penyegaran 3 Menit)
                 </h2>
               </div>
-              <span className="text-xs text-slate-400">Cocok sebelum Review Harian</span>
+              <span className="text-xs text-slate-500">Cocok sebelum Review Harian</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
               {quickLessons.map((l) => (
@@ -339,16 +339,16 @@ export const LearningCenterView: React.FC = () => {
                   className="p-4 bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-300 hover:bg-emerald-50/30 transition cursor-pointer flex flex-col justify-between"
                 >
                   <div>
-                    <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
                       {l.track}
                     </span>
                     <h4 className="font-bold text-xs text-slate-800 mt-1 line-clamp-2">
                       {l.title}
                     </h4>
                   </div>
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-100">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 mt-3 pt-2 border-t border-slate-100">
                     <span>⏱️ ~{l.estimatedMinutes} mnt</span>
-                    <span className="text-emerald-600 font-bold">Buka</span>
+                    <span className="text-emerald-700 font-bold">Buka</span>
                   </div>
                 </div>
               ))}
@@ -365,7 +365,7 @@ export const LearningCenterView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveTab('jalur')}
-                className="text-xs font-bold text-emerald-600 hover:text-emerald-700"
+                className="text-xs font-bold text-emerald-700 hover:text-emerald-700"
               >
                 Lihat Semua Jalur →
               </button>
@@ -427,7 +427,7 @@ export const LearningCenterView: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <h3 className="font-extrabold text-base text-slate-900">{path.title}</h3>
                         {path.isCustom && (
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">
                             Mode Kelas ({path.author || 'Dosen'})
                           </span>
                         )}
@@ -436,7 +436,7 @@ export const LearningCenterView: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                    <Clock className="w-4 h-4 text-emerald-600" />
+                    <Clock className="w-4 h-4 text-emerald-700" />
                     <span>Estimasi: {path.estimatedHours}</span>
                   </div>
                 </div>
@@ -468,14 +468,14 @@ export const LearningCenterView: React.FC = () => {
                           }`}
                         >
                           <div className="flex items-center gap-2">
-                            <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] flex items-center justify-center shrink-0">
+                            <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-700 font-bold text-[11px] flex items-center justify-center shrink-0">
                               {idx + 1}
                             </span>
                             <div>
                               <div className="font-bold text-xs truncate max-w-[160px]">
                                 {lesson.title}
                               </div>
-                              <span className="text-[10px] text-slate-400">
+                              <span className="text-[11px] text-slate-500">
                                 {lesson.estimatedMinutes} mnt • Tier {lesson.tier}
                               </span>
                             </div>
@@ -483,12 +483,12 @@ export const LearningCenterView: React.FC = () => {
 
                           <div className="flex items-center gap-1">
                             {isMandatory && (
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800">
+                              <span className="text-[11px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800">
                                 Wajib
                               </span>
                             )}
                             {isCompleted && (
-                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                              <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
                             )}
                           </div>
                         </div>
@@ -508,7 +508,7 @@ export const LearningCenterView: React.FC = () => {
           {/* Filter Bar */}
           <div className="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div className="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-2xl flex-1 max-w-md">
-              <Search className="w-4 h-4 text-slate-400" />
+              <Search className="w-4 h-4 text-slate-500" />
               <input
                 type="text"
                 value={searchQuery}
@@ -549,11 +549,11 @@ export const LearningCenterView: React.FC = () => {
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
                         {l.track} • TIER {l.tier}
                       </span>
                       {isCompleted && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500 text-white flex items-center gap-1">
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-700 text-white flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3" /> Selesai
                         </span>
                       )}
@@ -564,9 +564,9 @@ export const LearningCenterView: React.FC = () => {
                     <p className="text-xs text-slate-500 line-clamp-2">{l.objectives[0]}</p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-100 mt-4 flex items-center justify-between text-xs text-slate-400">
+                  <div className="pt-3 border-t border-slate-100 mt-4 flex items-center justify-between text-xs text-slate-500">
                     <span>⏱️ {l.estimatedMinutes} Menit</span>
-                    <span className="font-bold text-emerald-600 flex items-center gap-1 group-hover:translate-x-1 transition">
+                    <span className="font-bold text-emerald-700 flex items-center gap-1 group-hover:translate-x-1 transition">
                       Buka Pelajaran <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
@@ -583,7 +583,7 @@ export const LearningCenterView: React.FC = () => {
           {/* Search & Filter Header */}
           <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-2 bg-slate-100 px-3 py-2.5 rounded-2xl flex-1 max-w-lg">
-              <Search className="w-4 h-4 text-slate-400" />
+              <Search className="w-4 h-4 text-slate-500" />
               <input
                 type="text"
                 value={searchQuery}
@@ -601,7 +601,7 @@ export const LearningCenterView: React.FC = () => {
                   onClick={() => setSelectedGlossaryCategory(cat)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition capitalize cursor-pointer ${
                     selectedGlossaryCategory === cat
-                      ? 'bg-emerald-600 text-white shadow-xs'
+                      ? 'bg-emerald-700 text-white shadow-xs'
                       : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
                   }`}
                 >
@@ -620,12 +620,12 @@ export const LearningCenterView: React.FC = () => {
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600 uppercase">
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600 uppercase">
                       {term.category}
                     </span>
                     <h3 className="text-base font-black text-slate-900 mt-1">{term.term}</h3>
                     {term.englishTerm && (
-                      <div className="text-xs text-slate-400 italic">{term.englishTerm}</div>
+                      <div className="text-xs text-slate-500 italic">{term.englishTerm}</div>
                     )}
                   </div>
                 </div>
@@ -640,7 +640,7 @@ export const LearningCenterView: React.FC = () => {
 
                 {term.example && (
                   <div className="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 font-mono">
-                    <span className="text-slate-400 block text-[10px] font-sans font-bold">
+                    <span className="text-slate-500 block text-[11px] font-sans font-bold">
                       Contoh Penerapan:
                     </span>
                     {term.example}
@@ -649,7 +649,7 @@ export const LearningCenterView: React.FC = () => {
 
                 {term.commonMistake && (
                   <div className="text-xs text-rose-800 bg-rose-50 p-2.5 rounded-xl border border-rose-200">
-                    <span className="font-bold block text-[10px]">⚠️ Kesalahan Umum:</span>
+                    <span className="font-bold block text-[11px]">⚠️ Kesalahan Umum:</span>
                     {term.commonMistake}
                   </div>
                 )}
@@ -738,7 +738,7 @@ export const LearningCenterView: React.FC = () => {
             </div>
 
             {selectedCheatSheet.footerNote && (
-              <div className="pt-4 border-t border-slate-200 text-center text-[10px] text-slate-400">
+              <div className="pt-4 border-t border-slate-200 text-center text-[11px] text-slate-500">
                 {selectedCheatSheet.footerNote}
               </div>
             )}
@@ -771,7 +771,7 @@ export const LearningCenterView: React.FC = () => {
                 a.download = `Catatan_KantorKu_${Date.now()}.md`;
                 a.click();
               }}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow-sm"
+              className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow-sm"
             >
               <FileDown className="w-4 h-4" />
               <span>Ekspor ke Markdown</span>
@@ -782,7 +782,7 @@ export const LearningCenterView: React.FC = () => {
             <div className="p-12 bg-white rounded-3xl border border-slate-200 text-center space-y-2">
               <StickyNote className="w-8 h-8 text-slate-300 mx-auto" />
               <h3 className="font-bold text-sm text-slate-700">Belum Ada Catatan Tersimpan</h3>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto">
+              <p className="text-xs text-slate-500 max-w-sm mx-auto">
                 Sorot teks di dalam pelajaran atau buka ikon Catatan saat membaca untuk menyimpan poin penting.
               </p>
             </div>
@@ -797,10 +797,10 @@ export const LearningCenterView: React.FC = () => {
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
                           {lesson?.title || note.lessonId}
                         </span>
-                        <span className="text-[10px] text-slate-400">
+                        <span className="text-[11px] text-slate-500">
                           Langkah {note.stepIndex + 1}
                         </span>
                       </div>
@@ -816,7 +816,7 @@ export const LearningCenterView: React.FC = () => {
                       </p>
                     </div>
 
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
                       <span>{new Date(note.createdAt).toLocaleDateString('id-ID')}</span>
                       <button
                         type="button"
@@ -874,15 +874,15 @@ export const LearningCenterView: React.FC = () => {
                   className="p-4 bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-300 transition cursor-pointer flex flex-col justify-between"
                 >
                   <div className="space-y-2">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${statusBg}`}>
+                    <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${statusBg}`}>
                       {statusLabel}
                     </span>
                     <h4 className="font-extrabold text-xs text-slate-800 mt-1">{l.skillId}</h4>
                     <p className="text-[11px] text-slate-500 line-clamp-1">{l.title}</p>
                   </div>
-                  <div className="text-[10px] text-slate-400 pt-2 border-t border-slate-100 mt-3 flex justify-between">
+                  <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-100 mt-3 flex justify-between">
                     <span>Tier {l.tier}</span>
-                    <span className="font-bold text-emerald-600">Buka Pelajaran</span>
+                    <span className="font-bold text-emerald-700">Buka Pelajaran</span>
                   </div>
                 </div>
               );

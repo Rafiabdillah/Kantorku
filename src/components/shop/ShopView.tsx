@@ -54,7 +54,7 @@ export const ShopView: React.FC = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="min-w-0">
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">
               Toko Kantor & Kosmetik
             </span>
             <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-1 leading-tight">Dekorasi Meja & Fasilitas Kerja</h1>
@@ -64,7 +64,7 @@ export const ShopView: React.FC = () => {
         {/* Player Wallet Status */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 font-bold text-xs">
-            <Coins className="w-4 h-4 text-amber-600" />
+            <Coins className="w-4 h-4 text-amber-700" />
             <span>{profile.coins} Koin</span>
           </div>
           <div className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 rounded-xl border border-blue-200 text-blue-900 font-bold text-xs">
@@ -119,21 +119,21 @@ export const ShopView: React.FC = () => {
               <div className="flex items-start justify-between">
                 <span className="text-4xl p-2 rounded-2xl bg-slate-50 border border-slate-100">{item.icon}</span>
                 {isEquipped ? (
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1">
                     <Check className="w-3 h-3" /> Dipakai
                   </span>
                 ) : isOwned ? (
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
                     Dimiliki
                   </span>
                 ) : (
-                  <span className="text-xs font-bold text-amber-600 font-mono">{item.cost} Koin</span>
+                  <span className="text-xs font-bold text-amber-700 font-mono">{item.cost} Koin</span>
                 )}
               </div>
 
               <div>
                 <h3 className="font-extrabold text-sm text-slate-900">{item.name}</h3>
-                <span className="text-[10px] text-slate-400 capitalize">{item.category}</span>
+                <span className="text-[11px] text-slate-500 capitalize">{item.category}</span>
               </div>
 
               <div>
@@ -144,7 +144,7 @@ export const ShopView: React.FC = () => {
                     disabled={isEquipped}
                     className={`w-full py-2.5 rounded-xl font-bold text-xs transition cursor-pointer ${
                       isEquipped
-                        ? 'bg-slate-100 text-slate-400 cursor-default'
+                        ? 'bg-slate-100 text-slate-500 cursor-default'
                         : 'bg-slate-900 hover:bg-slate-800 text-white shadow-xs'
                     }`}
                   >
@@ -157,8 +157,8 @@ export const ShopView: React.FC = () => {
                     disabled={!isAffordable}
                     className={`w-full py-2.5 rounded-xl font-bold text-xs transition cursor-pointer ${
                       isAffordable
-                        ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-md'
-                        : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                        ? 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-md'
+                        : 'bg-slate-100 text-slate-500 cursor-not-allowed'
                     }`}
                   >
                     Beli ({item.cost} Koin)

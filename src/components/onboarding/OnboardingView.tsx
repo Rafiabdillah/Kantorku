@@ -132,7 +132,7 @@ export const OnboardingView: React.FC = () => {
                         }`}
                       >
                         <CharacterAvatar id={opt.characterId} size="sm" />
-                        <span className="text-[10px] font-bold text-slate-700 truncate max-w-full">
+                        <span className="text-[11px] font-bold text-slate-700 truncate max-w-full">
                           {opt.label.split(' ')[0]}
                         </span>
                       </button>
@@ -197,7 +197,7 @@ export const OnboardingView: React.FC = () => {
               <button
                 type="button"
                 onClick={handleStartTest}
-                className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+                className="flex-1 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Ikuti Tes Penempatan Adaptif</span>
                 <ArrowRight className="w-4 h-4" />
@@ -219,7 +219,7 @@ export const OnboardingView: React.FC = () => {
               <span className="text-xs font-bold text-slate-500">
                 Soal Penempatan {currentQIndex + 1} dari {PLACEMENT_QUESTIONS.length}
               </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
                 {currentQ.module}
               </span>
             </div>
@@ -250,7 +250,7 @@ export const OnboardingView: React.FC = () => {
             </div>
 
             <div>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Hasil Tes Penempatan</span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Hasil Tes Penempatan</span>
               <h2 className="text-2xl font-extrabold text-slate-900 mt-1">
                 Rekomendasi Jabatan: {TIERS[determinedTier].badge} {TIERS[determinedTier].title}
               </h2>
@@ -262,19 +262,19 @@ export const OnboardingView: React.FC = () => {
             {/* Skor Rincian per Modul */}
             <div className="grid grid-cols-3 gap-2 text-xs">
               <div className="p-2.5 bg-emerald-50 rounded-xl border border-emerald-200 text-center">
-                <span className="text-[10px] text-emerald-800 font-bold block">Excel</span>
+                <span className="text-[11px] text-emerald-800 font-bold block">Excel</span>
                 <span className="font-extrabold text-emerald-950 font-mono">
                   {moduleScores.excel?.correct ?? 0}/5 Benar
                 </span>
               </div>
               <div className="p-2.5 bg-indigo-50 rounded-xl border border-indigo-200 text-center">
-                <span className="text-[10px] text-indigo-800 font-bold block">JavaScript</span>
+                <span className="text-[11px] text-indigo-800 font-bold block">JavaScript</span>
                 <span className="font-extrabold text-indigo-950 font-mono">
                   {moduleScores.coding?.correct ?? 0}/3 Benar
                 </span>
               </div>
               <div className="p-2.5 bg-rose-50 rounded-xl border border-rose-200 text-center">
-                <span className="text-[10px] text-rose-800 font-bold block">Word</span>
+                <span className="text-[11px] text-rose-800 font-bold block">Word</span>
                 <span className="font-extrabold text-rose-950 font-mono">
                   {moduleScores.word?.correct ?? 0}/2 Benar
                 </span>
@@ -302,7 +302,7 @@ export const OnboardingView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleFinishOnboarding(determinedTier)}
-                className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs shadow-md transition cursor-pointer"
+                className="flex-1 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs shadow-md transition cursor-pointer"
               >
                 Mulai Sebagai {TIERS[determinedTier].title}
               </button>

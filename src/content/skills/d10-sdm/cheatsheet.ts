@@ -31,7 +31,7 @@ export const D10_CHEATSHEET: CheatsheetItem[] = [
     title: 'Pedoman Kepatuhan Kontrak PKWT & Prosedur SP',
     category: 'Regulasi & Disiplin Kerja',
     points: [
-      'PKWT tidak boleh mensyaratkan masa percobaan (probation) — batal demi hukum',
+      'PKWT tidak boleh mensyaratkan masa percobaan (probation), batal demi hukum',
       'Jangka waktu PKWT maksimal 5 tahun akumulatif termasuk perpanjangan',
       'Wajib dibuat tertulis dalam Bahasa Indonesia dan dicatatkan ke dinas tenaga kerja',
       'Model Konseling Kinerja: Situation (waktu/konteks), Behavior (fakta tindakan), Impact (dampak)',

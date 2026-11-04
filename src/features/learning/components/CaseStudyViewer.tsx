@@ -47,7 +47,7 @@ export const CaseStudyViewer: React.FC<CaseStudyViewerProps> = ({
             <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800">
               Bedah Kasus Interaktif
             </span>
-            <span className="text-xs text-slate-400">• Buruk vs Baik</span>
+            <span className="text-xs text-slate-500">• Buruk vs Baik</span>
           </div>
           <h1 className="text-2xl font-black text-slate-900 mt-1">{activeCase.title}</h1>
           <p className="text-xs text-slate-500 mt-1 max-w-2xl">{activeCase.summary}</p>
@@ -109,7 +109,7 @@ export const CaseStudyViewer: React.FC<CaseStudyViewerProps> = ({
             <Sparkles className="w-4 h-4" />
             <span>Klik Anotasi Bedah Masalah di Bawah Ini:</span>
           </div>
-          <span className="text-[11px] text-slate-400">
+          <span className="text-[11px] text-slate-500">
             {activeCase.annotations.length} Titik Kritis Ditemukan
           </span>
         </div>
@@ -167,7 +167,7 @@ export const CaseStudyViewer: React.FC<CaseStudyViewerProps> = ({
             <button
               type="button"
               onClick={() => onOpenLesson(activeCase.relatedLessonId!)}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shrink-0 flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition cursor-pointer shrink-0 flex items-center gap-1.5 shadow-sm"
             >
               <span>Buka Pelajarannya</span>
               <ArrowRight className="w-4 h-4" />
@@ -186,7 +186,7 @@ export const CaseStudyViewer: React.FC<CaseStudyViewerProps> = ({
                 <AlertTriangle className="w-4 h-4 text-rose-600" />
                 <span>{activeCase.badDocument.title || 'Versi Buruk (Cacat Standar)'}</span>
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 bg-rose-200 text-rose-900 rounded-full">
+              <span className="text-[11px] font-bold px-2 py-0.5 bg-rose-200 text-rose-900 rounded-full">
                 Hindari Ini
               </span>
             </div>
@@ -201,10 +201,10 @@ export const CaseStudyViewer: React.FC<CaseStudyViewerProps> = ({
           <div className="bg-white rounded-3xl border-2 border-emerald-300 shadow-sm overflow-hidden flex flex-col">
             <div className="px-5 py-3 bg-emerald-50 border-b border-emerald-100 flex items-center justify-between">
               <div className="flex items-center gap-2 text-emerald-800 font-bold text-xs">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-700" />
                 <span>{activeCase.goodDocument.title || 'Versi Baik (Standar Korporat)'}</span>
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-200 text-emerald-900 rounded-full">
+              <span className="text-[11px] font-bold px-2 py-0.5 bg-emerald-200 text-emerald-900 rounded-full">
                 Standar KantorKu
               </span>
             </div>
@@ -218,7 +218,7 @@ export const CaseStudyViewer: React.FC<CaseStudyViewerProps> = ({
       {/* Key Takeaways Bottom Card */}
       <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm">
         <h3 className="font-extrabold text-sm text-slate-800 flex items-center gap-2 mb-3">
-          <FileText className="w-4 h-4 text-emerald-600" />
+          <FileText className="w-4 h-4 text-emerald-700" />
           <span>Pelajaran Utama yang Harus Kamu Bawa ke Meja Kerja:</span>
         </h3>
         <ul className="space-y-2 text-xs text-slate-600">
