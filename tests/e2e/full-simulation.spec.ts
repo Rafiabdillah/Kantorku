@@ -637,4 +637,26 @@ test.describe('KantorKu full feature simulation', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('SIM.25 Legacy profile: XP earned before v1.1.6 promotes the job on the next load', async ({ page }) => {
+    const errors = watchErrors(page);
+    await openView(page, 'office');
+
+    await page.evaluate(() => {
+      const stored = JSON.parse(localStorage.getItem('kantorku_game_storage_v1') || '{}');
+      stored.state.profile.xp = 1570;
+      stored.state.profile.currentTier = 1;
+      localStorage.setItem('kantorku_game_storage_v1', JSON.stringify(stored));
+    });
+    await page.reload();
+    await page.waitForLoadState('domcontentloaded');
+
+    await expect(page.getByRole('main').getByText('💼 Staf').first()).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('1.570 XP').first()).toBeVisible();
+
+    await openView(page, 'career-map');
+    await expect(page.getByText('💼 Staf').first()).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
 });

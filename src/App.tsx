@@ -83,19 +83,29 @@ const AboutView = lazy(() =>
 );
 
 export default function App() {
-  const { profile, currentView, setView, completeOnboarding, startMission, activeLevelId, checkStreak } = useGameStore();
+  const {
+    profile,
+    currentView,
+    setView,
+    completeOnboarding,
+    startMission,
+    activeLevelId,
+    checkStreak,
+    syncTierFromXp,
+  } = useGameStore();
   const hasAppliedUrlRoute = useRef(false);
 
   // Streak dihitung saat aplikasi dibuka dan saat tab kembali aktif, bukan hanya saat Daily dikerjakan.
   useEffect(() => {
     if (!profile.hasCompletedOnboarding) return;
+    syncTierFromXp();
     checkStreak();
     const onVisible = () => {
       if (document.visibilityState === 'visible') checkStreak();
     };
     document.addEventListener('visibilitychange', onVisible);
     return () => document.removeEventListener('visibilitychange', onVisible);
-  }, [profile.hasCompletedOnboarding, checkStreak]);
+  }, [profile.hasCompletedOnboarding, checkStreak, syncTierFromXp]);
 
   // Query parameter support: apply the deep link once so it cannot hijack in-app navigation.
   useEffect(() => {

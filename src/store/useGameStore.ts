@@ -61,6 +61,8 @@ interface GameState {
   addXp: (amount: number) => void;
   /** Beri XP/koin hanya sekali per kunci (mis. `case:abc`, `daily:2026-11-04`). Mengembalikan hadiah yang benar-benar diberikan. */
   awardOnce: (key: string, xp: number, coins?: number) => { granted: boolean; xp: number; coins: number };
+  /** Nyalakan jabatan ke level yang sesuai XP. Profil lama (<= v1.1.5) menambah XP tanpa menaikkan tier. */
+  syncTierFromXp: () => void;
   /** Hadiah terakhir (untuk toast/modal) dan notifikasi naik tier. */
   lastReward: RewardNotice | null;
   clearReward: () => void;
@@ -375,6 +377,13 @@ export const useGameStore = create<GameState>()(
         });
         return { granted: true, xp, coins };
       },
+
+      syncTierFromXp: () =>
+        set((state) => {
+          const tier = Math.max(state.profile.currentTier, getTierForXp(state.profile.xp)) as TierLevel;
+          if (tier === state.profile.currentTier) return {};
+          return { profile: { ...state.profile, currentTier: tier } };
+        }),
 
       addCoins: (amount) => {
         sound.playCoin();

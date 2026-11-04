@@ -101,3 +101,14 @@ test('updateReputation: a score of 0 is not reset to 50', () => {
   useGameStore.getState().updateReputation('sari', 5);
   assert.equal(useGameStore.getState().profile.reputation.sari, 5);
 });
+
+test('syncTierFromXp: catches up a legacy profile and never demotes', () => {
+  reset({ xp: 1570, currentTier: 1 });
+  useGameStore.getState().syncTierFromXp();
+  assert.equal(useGameStore.getState().profile.currentTier, 3);
+
+  reset({ xp: 100, currentTier: 5 });
+  useGameStore.getState().syncTierFromXp();
+  assert.equal(useGameStore.getState().profile.currentTier, 5);
+  assert.equal(useGameStore.getState().profile.xp, 100);
+});
