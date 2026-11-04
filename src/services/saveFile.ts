@@ -2,8 +2,10 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  * KantorKu - Save file (progres game) validation & builder.
- * Dependency-free so the store can import it without cycles.
+ * Only imports pure type/constant modules, so the store can import this without cycles.
  */
+
+import { TIERS } from '../types';
 
 export const SAVE_FILE_KIND = 'save-game-progress';
 export const GAME_STORAGE_VERSION = 2;
@@ -41,8 +43,8 @@ function validateProfileLike(raw: unknown): { ok: boolean; message?: string } {
   if (!isFiniteNumber(p.xp) || p.xp < 0) {
     return { ok: false, message: 'Nilai XP pada berkas tidak valid.' };
   }
-  if (!isFiniteNumber(p.currentTier) || p.currentTier < 1) {
-    return { ok: false, message: 'Tier karier pada berkas tidak valid.' };
+  if (!(isFiniteNumber(p.currentTier) && p.currentTier in TIERS)) {
+    return { ok: false, message: 'Tier karier pada berkas berada di luar jabatan yang dikenal (1-7).' };
   }
   for (const key of ['inventory', 'unlockedAchievements', 'completedLevelIds'] as const) {
     if (p[key] !== undefined && !Array.isArray(p[key])) {
@@ -79,10 +81,13 @@ export function parseSaveFileJson(text: string): SaveFileParseResult {
   }
 
   const p = profileCandidate as Record<string, unknown>;
+  // A save file always represents a game already in progress. Without this flag the autostart
+  // boot path re-runs onboarding over the restored profile and wipes name, XP and tier.
+  const restoredProfile = { ...p, hasCompletedOnboarding: true };
   return {
     ok: true,
     message: 'Berkas progres valid.',
-    profile: p,
+    profile: restoredProfile,
     summary: {
       name: p.name as string,
       coins: p.coins as number,

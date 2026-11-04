@@ -576,4 +576,65 @@ test.describe('KantorKu full feature simulation', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('SIM.23 Save file: minimal restore survives reload and out-of-range tier is rejected', async ({ page }) => {
+    const errors = watchErrors(page);
+    page.on('dialog', (d) => d.accept());
+    await openView(page, 'settings');
+    await page.getByRole('button', { name: 'Data & Privasi' }).click();
+
+    // A hand-edited save with only the required fields must not be wiped by the autostart boot path
+    const minimal = {
+      app: 'kantorku',
+      kind: 'save-game-progress',
+      storageVersion: 2,
+      exportedAt: '2026-11-04T00:00:00.000Z',
+      profile: { name: 'QA Minimal', coins: 3210, xp: 25000, currentTier: 7, completedLevelIds: ['web-t1-01'] },
+    };
+    await page.locator('input[type="file"]').setInputFiles({
+      name: 'minimal.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(minimal)),
+    });
+    await expect(page.getByText('Progres "QA Minimal" berhasil dipulihkan!')).toBeVisible();
+
+    await openView(page, 'office');
+    await expect(page.getByRole('heading', { name: 'Selamat Datang, QA Minimal' })).toBeVisible();
+    await expect(page.getByText('25.000 XP').first()).toBeVisible();
+
+    await openView(page, 'settings');
+    await page.getByRole('button', { name: 'Data & Privasi' }).click();
+
+    // A save claiming a job level that does not exist is refused instead of poisoning the profile
+    const ghost = { ...minimal, profile: { ...minimal.profile, name: 'QA Hantu', currentTier: 99 } };
+    await page.locator('input[type="file"]').setInputFiles({
+      name: 'ghost.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(ghost)),
+    });
+    await expect(page.getByText(/Tier karier pada berkas berada di luar jabatan/)).toBeVisible();
+    await expect(page.getByText('Progres "QA Hantu" berhasil dipulihkan!')).toHaveCount(0);
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.24 Accessibility: mission and case views expose a heading, settings shows the real version', async ({
+    page,
+  }) => {
+    const errors = watchErrors(page);
+    const { version } = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+
+    await openView(page, 'mission&level=excel-t1-01');
+    await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible({ timeout: 15000 });
+
+    await openView(page, 'case-file');
+    await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
+
+    await openView(page, 'settings');
+    await page.getByRole('button', { name: 'Lanjutan & Bantuan' }).click();
+    await expect(page.getByText(`Versi KantorKu v${version}`)).toBeVisible();
+    await expect(page.getByRole('button', { name: `v${version} (0/5)` })).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
 });

@@ -651,7 +651,7 @@ export const MissionPlayView: React.FC = () => {
                 Tier {level.tier} • {level.module.toUpperCase()} {level.track ? `(${level.track.toUpperCase()})` : ''}
               </span>
               <span className="text-[9px] text-slate-400">|</span>
-              <span className="text-xs font-semibold text-slate-700">{level.title}</span>
+              <h1 className="text-xs font-semibold text-slate-700">{level.title}</h1>
             </div>
           </div>
         </div>

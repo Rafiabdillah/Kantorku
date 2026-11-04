@@ -105,7 +105,7 @@ export const CaseFileView: React.FC = () => {
                 Kasus Nyata v2.0 • {caseItem.industry}
               </span>
               <span className="hidden sm:inline text-xs text-slate-400">|</span>
-              <span className="text-[11px] sm:text-xs font-bold text-slate-800">{caseItem.title}</span>
+              <h1 className="text-[11px] sm:text-xs font-bold text-slate-800">{caseItem.title}</h1>
             </div>
           </div>
           <button

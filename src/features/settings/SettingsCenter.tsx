@@ -709,7 +709,7 @@ export const SettingsCenter: React.FC = () => {
               <div className="flex items-center gap-3.5">
                 <BrandLogoIcon className="w-10 h-10 rounded-xl shadow-sm shrink-0" />
                 <div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white">Versi KantorKu v2.0 Production</h3>
+                  <h3 className="font-bold text-sm text-slate-900 dark:text-white">Versi KantorKu v{__APP_VERSION__}</h3>
                   <p className="text-xs text-slate-500">Klik nomor versi 5 kali beruntun untuk membuka Developer Test Mode.</p>
                 </div>
               </div>
@@ -718,7 +718,7 @@ export const SettingsCenter: React.FC = () => {
                 onClick={handleVersionTap}
                 className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 rounded-xl font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 cursor-pointer self-start sm:self-auto"
               >
-                v2.0.0-release ({versionTapCount}/5)
+                v{__APP_VERSION__} ({versionTapCount}/5)
               </button>
             </div>
           )}

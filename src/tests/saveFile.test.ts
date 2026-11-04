@@ -73,6 +73,18 @@ test('Save file: tier below 1 is rejected', () => {
   assert.match(res.message, /Tier/);
 });
 
+test('Save file: tier above the highest known job is rejected', () => {
+  const res = parseSaveFileJson(JSON.stringify({ name: 'X', coins: 1, xp: 0, currentTier: 99 }));
+  assert.equal(res.ok, false);
+  assert.match(res.message, /Tier/);
+});
+
+test('Save file: restored profile is flagged as onboarding-complete so boot cannot wipe it', () => {
+  const res = parseSaveFileJson(JSON.stringify({ name: 'Budi', coins: 50, xp: 10, currentTier: 1 }));
+  assert.equal(res.ok, true);
+  assert.equal((res.profile as any).hasCompletedOnboarding, true);
+});
+
 test('Save file: non-array inventory is rejected', () => {
   const res = parseSaveFileJson(
     JSON.stringify({ name: 'X', coins: 1, xp: 0, currentTier: 1, inventory: 'desk-kayu' })
