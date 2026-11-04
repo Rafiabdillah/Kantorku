@@ -214,6 +214,15 @@ export class ExcelFormulaEngine {
       }
     }
 
+    // Urutan prioritas Excel: perbandingan, &, + -, * /, ^. Operator terendah dipisah lebih dulu.
+    // Check for string concat &
+    const concatMatch = this.findTopLevelOperator(clean, ['&']);
+    if (concatMatch) {
+      const left = this.evalExpression(concatMatch.left, visited, precedents);
+      const right = this.evalExpression(concatMatch.right, visited, precedents);
+      return `${left}${right}`;
+    }
+
     // Check for addition and subtraction at top level
     const addSubMatch = this.findTopLevelOperator(clean, ['+', '-']);
     if (addSubMatch) {
@@ -234,12 +243,46 @@ export class ExcelFormulaEngine {
       return Number(left) * Number(right);
     }
 
-    // Check for string concat &
-    const concatMatch = this.findTopLevelOperator(clean, ['&']);
-    if (concatMatch) {
-      const left = this.evalExpression(concatMatch.left, visited, precedents);
-      const right = this.evalExpression(concatMatch.right, visited, precedents);
-      return `${left}${right}`;
+    // Pangkat (^), rata kiri seperti Excel
+    const powMatch = this.findTopLevelOperator(clean, ['^']);
+    if (powMatch) {
+      const left = Number(this.evalExpression(powMatch.left, visited, precedents));
+      const right = Number(this.evalExpression(powMatch.right, visited, precedents));
+      return Math.pow(left, right);
+    }
+
+    // Tanda minus/plus di depan, mis. =-B1
+    if (clean.startsWith('-')) {
+      return -Number(this.evalExpression(clean.slice(1), visited, precedents));
+    }
+    if (clean.startsWith('+')) {
+      return this.evalExpression(clean.slice(1), visited, precedents);
+    }
+
+    // Persen di belakang angka, mis. =B1*10%
+    if (clean.endsWith('%') && clean.length > 1) {
+      return Number(this.evalExpression(clean.slice(0, -1), visited, precedents)) / 100;
+    }
+
+    // Kurung pengelompok, mis. =B1*(1-C1)
+    if (clean.startsWith('(') && clean.endsWith(')')) {
+      let depth = 0;
+      let inQuote = false;
+      let wraps = true;
+      for (let i = 0; i < clean.length; i++) {
+        const ch = clean[i];
+        if (ch === '"') inQuote = !inQuote;
+        if (inQuote) continue;
+        if (ch === '(') depth++;
+        else if (ch === ')') {
+          depth--;
+          if (depth === 0 && i < clean.length - 1) {
+            wraps = false;
+            break;
+          }
+        }
+      }
+      if (wraps && depth === 0) return this.evalExpression(clean.slice(1, -1), visited, precedents);
     }
 
     // Check for function calls like FUNCTION_NAME(...)
@@ -297,6 +340,53 @@ export class ExcelFormulaEngine {
     return null;
   }
 
+  /** Cocokkan nilai sel dengan kriteria COUNTIF/SUMIF: angka, teks, operator (>=, <>, dll.), dan wildcard * ?. */
+  private matchesCriteria(value: any, criteria: any): boolean {
+    if (typeof criteria === 'number') return Number(value) === criteria && String(value).trim() !== '';
+    if (typeof criteria === 'boolean') return value === criteria;
+    const text = String(criteria);
+    const m = text.match(/^(<=|>=|<>|<|>|=)([\s\S]*)$/);
+    const op = m ? m[1] : '=';
+    const operandText = m ? m[2].trim() : text.trim();
+    const operandNum = Number(operandText);
+    const numeric = operandText !== '' && !isNaN(operandNum);
+    const cellText = String(value ?? '').trim();
+    if (numeric && cellText !== '' && !isNaN(Number(cellText))) {
+      const cellNum = Number(cellText);
+      switch (op) {
+        case '>': return cellNum > operandNum;
+        case '<': return cellNum < operandNum;
+        case '>=': return cellNum >= operandNum;
+        case '<=': return cellNum <= operandNum;
+        case '<>': return cellNum !== operandNum;
+        default: return cellNum === operandNum;
+      }
+    }
+    if (numeric && op !== '<>') {
+      // Sel teks tidak pernah cocok dengan kriteria angka
+      return false;
+    }
+    const a = cellText.toLowerCase();
+    const b = operandText.toLowerCase();
+    if (op === '=' || op === '<>') {
+      const hasWildcard = /[*?]/.test(b);
+      let hit: boolean;
+      if (hasWildcard) {
+        const re = new RegExp('^' + b.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*').replace(/\?/g, '.') + '$');
+        hit = re.test(a);
+      } else {
+        hit = a === b;
+      }
+      return op === '=' ? hit : !hit;
+    }
+    switch (op) {
+      case '>': return a > b;
+      case '<': return a < b;
+      case '>=': return a >= b;
+      default: return a <= b;
+    }
+  }
+
   private executeFunction(name: string, rawArgs: string[], visited: Set<string>, precedents: string[]): any {
     // Collect cell values from an argument (handles range A1:B10 or single expr)
     const resolveArgValues = (argStr: string): any[] => {
@@ -307,6 +397,23 @@ export class ExcelFormulaEngine {
         return cells.map((c) => this.getCellValue(c, visited));
       }
       return [this.evalExpression(trimmed, visited, precedents)];
+    };
+
+    // Isi sel apa adanya: sel kosong ditandai blank agar COUNT/COUNTA/COUNTBLANK tidak menghitungnya sebagai 0.
+    const resolveCells = (argStr: string): { blank: boolean; value: any }[] => {
+      const trimmed = argStr.trim();
+      if (trimmed.includes(':') && !trimmed.startsWith('"')) {
+        const cells = expandRange(trimmed);
+        precedents.push(...cells);
+        return cells.map((c) => {
+          const cell = this.grid[c.toUpperCase().replace(/\$/g, '')];
+          const raw = String(cell?.raw ?? '').trim();
+          const value = this.getCellValue(c, visited);
+          return { blank: raw === '' || (raw.startsWith('=') && value === ''), value: raw === '' ? '' : value };
+        });
+      }
+      const value = this.evalExpression(trimmed, visited, precedents);
+      return [{ blank: value === '' || value === null || value === undefined, value }];
     };
 
     switch (name) {
@@ -328,12 +435,11 @@ export class ExcelFormulaEngine {
         return nums.length ? Math.max(...nums) : 0;
       }
       case 'COUNT': {
-        const vals = rawArgs.flatMap(resolveArgValues);
-        return vals.filter((v) => typeof v === 'number' || (!isNaN(Number(v)) && v !== '' && v !== null)).length;
+        const cells = rawArgs.flatMap(resolveCells);
+        return cells.filter((c) => !c.blank && (typeof c.value === 'number' || (typeof c.value === 'string' && c.value.trim() !== '' && !isNaN(Number(c.value))))).length;
       }
       case 'COUNTA': {
-        const vals = rawArgs.flatMap(resolveArgValues);
-        return vals.filter((v) => v !== '' && v !== null && v !== undefined).length;
+        return rawArgs.flatMap(resolveCells).filter((c) => !c.blank).length;
       }
       case 'ROUND': {
         const val = Number(this.evalExpression(rawArgs[0], visited, precedents));
@@ -382,12 +488,12 @@ export class ExcelFormulaEngine {
         const criteria = this.evalExpression(rawArgs[1], visited, precedents);
         let count = 0;
         for (const cell of rangeCells) {
-          const val = this.getCellValue(cell, visited);
-          if (String(val).toLowerCase() === String(criteria).toLowerCase()) count++;
+          if (this.matchesCriteria(this.getCellValue(cell, visited), criteria)) count++;
         }
         return count;
       }
-      case 'SUMIF': {
+      case 'SUMIF':
+      case 'AVERAGEIF': {
         if (rawArgs.length < 2) throw new Error('#VALUE!');
         const rangeCells = expandRange(rawArgs[0]);
         precedents.push(...rangeCells);
@@ -396,14 +502,61 @@ export class ExcelFormulaEngine {
         precedents.push(...sumRange);
 
         let total = 0;
+        let hits = 0;
         for (let i = 0; i < rangeCells.length; i++) {
-          const checkVal = this.getCellValue(rangeCells[i], visited);
-          if (String(checkVal).toLowerCase() === String(criteria).toLowerCase()) {
-            const addVal = Number(this.getCellValue(sumRange[i] || rangeCells[i], visited));
-            if (!isNaN(addVal)) total += addVal;
+          if (!this.matchesCriteria(this.getCellValue(rangeCells[i], visited), criteria)) continue;
+          const addVal = Number(this.getCellValue(sumRange[i] || rangeCells[i], visited));
+          if (!isNaN(addVal)) {
+            total += addVal;
+            hits++;
           }
         }
+        if (name === 'AVERAGEIF') {
+          if (hits === 0) throw new Error('#DIV/0!');
+          return total / hits;
+        }
         return total;
+      }
+      case 'SUMIFS':
+      case 'COUNTIFS': {
+        // SUMIFS(rentang_jumlah; rentang1; kriteria1; ...) dan COUNTIFS(rentang1; kriteria1; ...)
+        const isSum = name === 'SUMIFS';
+        const pairsStart = isSum ? 1 : 0;
+        if (rawArgs.length < pairsStart + 2 || (rawArgs.length - pairsStart) % 2 !== 0) throw new Error('#VALUE!');
+        const sumCells = isSum ? expandRange(rawArgs[0]) : [];
+        if (isSum) precedents.push(...sumCells);
+        const conditions: { cells: string[]; criteria: any }[] = [];
+        for (let i = pairsStart; i < rawArgs.length; i += 2) {
+          const cells = expandRange(rawArgs[i]);
+          precedents.push(...cells);
+          conditions.push({ cells, criteria: this.evalExpression(rawArgs[i + 1], visited, precedents) });
+        }
+        const size = conditions[0].cells.length;
+        let total = 0;
+        let count = 0;
+        for (let i = 0; i < size; i++) {
+          const ok = conditions.every((c) => this.matchesCriteria(this.getCellValue(c.cells[i], visited), c.criteria));
+          if (!ok) continue;
+          count++;
+          if (isSum) {
+            const v = Number(this.getCellValue(sumCells[i], visited));
+            if (!isNaN(v)) total += v;
+          }
+        }
+        return isSum ? total : count;
+      }
+      case 'COUNTBLANK': {
+        return rawArgs.flatMap(resolveCells).filter((c) => c.blank).length;
+      }
+      case 'VALUE': {
+        const n = Number(String(this.evalExpression(rawArgs[0], visited, precedents)).trim());
+        if (isNaN(n)) throw new Error('#VALUE!');
+        return n;
+      }
+      case 'PROPER': {
+        return String(this.evalExpression(rawArgs[0], visited, precedents))
+          .toLowerCase()
+          .replace(/(^|[^\p{L}])(\p{L})/gu, (_m, pre, ch) => pre + ch.toUpperCase());
       }
       case 'VLOOKUP': {
         if (rawArgs.length < 3) throw new Error('#VALUE!');

@@ -898,7 +898,7 @@ export const EXCEL_LEVELS: LevelItem[] = [
       'Kamu bisa menggunakan pemisah titik koma (;) atau koma (,).',
     ],
     bossHelp: 'Ketik di C2: =IF(B2>=75; "LULUS"; "REMEDIAL"). Ulangi di C3 (B3>=75) dan C4 (B4>=75). Hasilnya: LULUS, REMEDIAL, LULUS.',
-    referenceSolution: 'C2: =IF(B2>=75, "LULUS", "REMEDIAL")',
+    referenceSolution: 'C2: =IF(B2>=75, "LULUS", "REMEDIAL"), C3: =IF(B3>=75, "LULUS", "REMEDIAL"), C4: =IF(B4>=75, "LULUS", "REMEDIAL")',
     solutionExplanation: 'Logika kondisional IF merupakan dasar automasi pengambilan keputusan di spreadsheet bisnis.',
     commonMistakes: [
       'Lupa memberikan tanda kutip ganda (" ") pada teks LULUS atau REMEDIAL sehingga muncul error #NAME?.',
@@ -969,7 +969,7 @@ export const EXCEL_LEVELS: LevelItem[] = [
       'Bonus yang didapat berturut-turut: Rp 1.500.000, Rp 0, dan Rp 0.',
     ],
     bossHelp: 'Ketik di D2: =IF(AND(B2>=90; C2>=10000000); 1500000; 0). Lanjutkan ke D3 dan D4. Hasilnya Danang dapat 1.5jt, Citra dan Fajar 0.',
-    referenceSolution: 'D2: =IF(AND(B2>=90, C2>=10000000), 1500000, 0)',
+    referenceSolution: 'D2: =IF(AND(B2>=90, C2>=10000000), 1500000, 0), D3: =IF(AND(B3>=90, C3>=10000000), 1500000, 0), D4: =IF(AND(B4>=90, C4>=10000000), 1500000, 0)',
     solutionExplanation: 'Fungsi logika kombinasi AND menguji validitas ganda sebelum mengeluarkan keputusan numerik atau teks.',
     commonMistakes: [
       'Menulis AND di luar IF seperti =AND(B2>=90, C2>=10000000) yang hanya menghasilkan TRUE/FALSE tanpa angka nominal.',
