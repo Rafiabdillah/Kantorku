@@ -31,6 +31,16 @@ export type AppView =
   | 'settings'
   | 'about';
 
+/** Misi terbuka bila tier-nya sudah tercapai, sudah pernah selesai, atau misi pertama modul tersebut. */
+export function isLevelUnlocked(
+  profile: Pick<PlayerProfile, 'currentTier' | 'completedLevelIds'>,
+  level: { id: string; tier: TierLevel; module: ModuleType },
+): boolean {
+  if (level.tier <= profile.currentTier) return true;
+  if (profile.completedLevelIds.includes(level.id)) return true;
+  return LEVELS.find((l) => l.module === level.module)?.id === level.id;
+}
+
 export interface RewardNotice {
   xp: number;
   coins: number;
@@ -65,6 +75,8 @@ interface GameState {
   syncTierFromXp: () => void;
   /** Hadiah terakhir (untuk toast/modal) dan notifikasi naik tier. */
   lastReward: RewardNotice | null;
+  lockNotice: string | null;
+  clearLockNotice: () => void;
   clearReward: () => void;
   addCoins: (amount: number) => void;
   spendCoins: (amount: number) => boolean;
@@ -83,7 +95,7 @@ interface GameState {
   activeCss: string;
   missionFailCount: number;
   unlockedHintLevel: number; // 0, 1, 2, 3
-  startMission: (levelId: string) => void;
+  startMission: (levelId: string, options?: { force?: boolean }) => boolean;
   setCell: (address: string, data: Partial<CellData>) => void;
   setCode: (code: string) => void;
   setWord: (content: string) => void;
@@ -343,6 +355,8 @@ export const useGameStore = create<GameState>()(
         set((state) => ({ profile: { ...state.profile, avatar } })),
 
       lastReward: null,
+      lockNotice: null,
+      clearLockNotice: () => set({ lockNotice: null }),
       clearReward: () => set({ lastReward: null }),
 
       addXp: (amount) =>
@@ -505,9 +519,16 @@ export const useGameStore = create<GameState>()(
       missionFailCount: 0,
       unlockedHintLevel: 0,
 
-      startMission: (levelId) => {
+      startMission: (levelId, options) => {
         const lvl = LEVELS.find((l) => l.id === levelId);
-        if (!lvl) return;
+        if (!lvl) return false;
+        if (!options?.force && !isLevelUnlocked(get().profile, lvl)) {
+          const needed = TIERS[lvl.tier];
+          set({
+            lockNotice: `Misi "${lvl.title}" terkunci. Butuh jabatan ${needed.title} (${needed.minXp.toLocaleString('id-ID')} XP).`,
+          });
+          return false;
+        }
         sound.playClick();
         set({
           activeLevelId: levelId,
@@ -519,7 +540,9 @@ export const useGameStore = create<GameState>()(
           missionFailCount: 0,
           unlockedHintLevel: 0,
           currentView: 'mission',
+          lockNotice: null,
         });
+        return true;
       },
 
       setCell: (address, data) => {

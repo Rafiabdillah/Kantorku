@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGameStore, TIER_XP_THRESHOLDS } from '../../store/useGameStore';
+import { useGameStore, TIER_XP_THRESHOLDS, isLevelUnlocked } from '../../store/useGameStore';
 import { LEVELS } from '../../content/levels';
 import { ModuleType, TierLevel, TIERS } from '../../types';
 import { CharacterAvatar } from '../character/CharacterAvatar';
@@ -23,7 +23,6 @@ export const CareerMapView: React.FC = () => {
   const [selectedTier, setSelectedTier] = useState<TierLevel>(profile.currentTier);
 
   const filteredLevels = LEVELS.filter((l) => l.module === activeModule && l.tier === selectedTier);
-  const firstModuleLevelId = LEVELS.find((l) => l.module === activeModule)?.id;
 
   const masteryPercent = profile.moduleMastery[activeModule] || 0;
 
@@ -130,7 +129,7 @@ export const CareerMapView: React.FC = () => {
               }}
               className={`flex shrink-0 items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-semibold whitespace-nowrap transition border cursor-pointer ${
                 isSelected
-                  ? 'bg-slate-900 text-white border-slate-900 shadow-md'
+                  ? 'bg-emerald-700 text-white border-emerald-700 shadow-md'
                   : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
               }`}
             >
@@ -151,10 +150,19 @@ export const CareerMapView: React.FC = () => {
 
       {/* Levels Pathway Nodes */}
       <div className="flex flex-col gap-4">
+        {filteredLevels.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center">
+            <p className="text-sm font-bold text-slate-800">Belum ada misi di Tier {selectedTier} untuk modul ini</p>
+            <p className="mt-1 text-xs text-slate-600">
+              Misi tingkat ini belum tersedia. Kamu tetap bisa naik jabatan lewat XP dari Kasus Nyata, Mode Game, dan
+              misi modul lain.
+            </p>
+          </div>
+        )}
         {filteredLevels.map((lvl) => {
           const isCompleted = profile.completedLevelIds.includes(lvl.id);
           const stars = profile.levelStars[lvl.id] || 0;
-          const isUnlocked = lvl.tier <= profile.currentTier || isCompleted || lvl.id === firstModuleLevelId;
+          const isUnlocked = isLevelUnlocked(profile, lvl);
           const tierThreshold = TIER_XP_THRESHOLDS[lvl.tier];
           const xpNeeded = tierThreshold ? Math.max(0, tierThreshold - profile.xp) : 0;
 
@@ -166,7 +174,7 @@ export const CareerMapView: React.FC = () => {
                   ? 'bg-white border-emerald-200 shadow-xs'
                   : isUnlocked
                   ? 'bg-white border-slate-300 shadow-md ring-1 ring-slate-200'
-                  : 'bg-slate-50/80 border-slate-200 opacity-60'
+                  : 'bg-slate-100 border-slate-300'
               }`}
             >
               {/* Level Info Left */}

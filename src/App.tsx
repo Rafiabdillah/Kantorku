@@ -121,7 +121,7 @@ export default function App() {
         completeOnboarding('Budi Pratama', 'player', 1);
       }
       if (targetLevel) {
-        startMission(targetLevel);
+        startMission(targetLevel, { force: true });
         hasAppliedUrlRoute.current = true;
       } else if (targetView) {
         if (targetView === 'mission' && !activeLevelId) {
