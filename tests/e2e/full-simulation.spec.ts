@@ -110,13 +110,30 @@ test.describe('KantorKu full feature simulation', () => {
     expect(errors).toEqual([]);
   });
 
-  test('SIM.05 Duel: deterministic win versus Dimas awards coins', async ({ page }) => {
+  test('SIM.05 Duel: answering the formula questions correctly beats Dimas', async ({ page }) => {
     const errors = watchErrors(page);
     await openView(page, 'duel');
 
-    await page.getByRole('button', { name: /Mulai Duel Asinkron/ }).click();
-    await expect(page.getByText('Duel Sedang Berlangsung...')).toBeVisible();
-    await expect(page.getByText('Kamu Memenangkan Duel!')).toBeVisible({ timeout: 10000 });
+    const answers: Record<string, string> = {
+      'A1=10, A2=20, A3=30. Hasil =SUM(A1:A3)?': '60',
+      'A1=4, A2=8, A3=12. Hasil =AVERAGE(A1:A3)?': '8',
+      'Rumus untuk mencari nilai terbesar di B1:B10?': '=MAX(B1:B10)',
+      'Hasil =IF(5>3,"Lulus","Gagal")?': 'Lulus',
+      'A1=7. Hasil =A1*2+1?': '15',
+      'Rumus menghitung sel berisi angka di A1:A9?': '=COUNT(A1:A9)',
+      'Hasil =COUNTIF(A1:A3,">5") jika A1=3, A2=8, A3=9?': '2',
+      'Hasil =10/4?': '2,5',
+      'Kunci sel agar tidak bergeser saat disalin memakai?': '$A$1',
+      'Hasil =LEN("Kantor")?': '6',
+    };
+
+    await page.getByRole('button', { name: /Mulai Duel/ }).click();
+    for (let i = 0; i < 3; i++) {
+      const prompt = (await page.locator('h2').first().innerText()).trim();
+      expect(answers[prompt], `unknown question: ${prompt}`).toBeDefined();
+      await page.getByRole('button', { name: answers[prompt], exact: true }).click();
+    }
+    await expect(page.getByText('Kamu Memenangkan Duel!')).toBeVisible();
     await expect(page.getByText('+200 Koin & +300 XP')).toBeVisible();
 
     expect(errors).toEqual([]);
