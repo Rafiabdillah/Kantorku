@@ -1,9 +1,41 @@
-import React, { useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useGameStore, localDateKey } from '../../store/useGameStore';
 import { CharacterAvatar } from '../character/CharacterAvatar';
 import { sound } from '../../services/sound';
 import confetti from 'canvas-confetti';
 import { Trophy, Swords, ArrowLeft, CheckCircle2, UserCheck } from 'lucide-react';
+
+interface DuelQuestion {
+  prompt: string;
+  options: string[];
+  answer: number;
+}
+
+const QUESTION_POOL: DuelQuestion[] = [
+  { prompt: 'A1=10, A2=20, A3=30. Hasil =SUM(A1:A3)?', options: ['30', '60', '600'], answer: 1 },
+  { prompt: 'A1=4, A2=8, A3=12. Hasil =AVERAGE(A1:A3)?', options: ['8', '12', '24'], answer: 0 },
+  { prompt: 'Rumus untuk mencari nilai terbesar di B1:B10?', options: ['=MIN(B1:B10)', '=MAX(B1:B10)', '=COUNT(B1:B10)'], answer: 1 },
+  { prompt: 'Hasil =IF(5>3,"Lulus","Gagal")?', options: ['Lulus', 'Gagal', 'TRUE'], answer: 0 },
+  { prompt: 'A1=7. Hasil =A1*2+1?', options: ['16', '15', '21'], answer: 1 },
+  { prompt: 'Rumus menghitung sel berisi angka di A1:A9?', options: ['=COUNT(A1:A9)', '=SUM(A1:A9)', '=LEN(A1:A9)'], answer: 0 },
+  { prompt: 'Hasil =COUNTIF(A1:A3,">5") jika A1=3, A2=8, A3=9?', options: ['1', '2', '3'], answer: 1 },
+  { prompt: 'Hasil =10/4?', options: ['2', '2,5', '4'], answer: 1 },
+  { prompt: 'Kunci sel agar tidak bergeser saat disalin memakai?', options: ['A1', '$A$1', '#A#1'], answer: 1 },
+  { prompt: 'Hasil =LEN("Kantor")?', options: ['5', '6', '7'], answer: 1 },
+];
+
+/** Memilih 3 soal berbeda secara deterministik dari kunci (lawan + tanggal), jadi soal sama sepanjang hari. */
+function pickQuestions(seedKey: string): DuelQuestion[] {
+  let h = 0;
+  for (const ch of seedKey) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const pool = [...QUESTION_POOL];
+  const out: DuelQuestion[] = [];
+  while (out.length < 3) {
+    h = (h * 1103515245 + 12345) >>> 0;
+    out.push(pool.splice(h % pool.length, 1)[0]);
+  }
+  return out;
+}
 
 export const DuelView: React.FC = () => {
   const { profile, setView, awardOnce } = useGameStore();
@@ -12,6 +44,15 @@ export const DuelView: React.FC = () => {
   const [duelState, setDuelState] = useState<'select' | 'battling' | 'result'>('select');
   const [playerSpeed, setPlayerSpeed] = useState<number>(0);
   const [winner, setWinner] = useState<'player' | 'opponent'>('player');
+  const [picked, setPicked] = useState<number[]>([]);
+  const [qIndex, setQIndex] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [granted, setGranted] = useState(false);
+  const startRef = useRef(0);
+  const questions = useMemo(
+    () => pickQuestions(`${selectedOpponent}:${localDateKey()}`),
+    [selectedOpponent],
+  );
 
   const opponents = [
     { id: 'dimas' as const, name: 'Dimas (Operasional)', style: 'Cepat tapi kadang ceroboh', avgTimeSec: 18 },
@@ -21,24 +62,35 @@ export const DuelView: React.FC = () => {
 
   const handleStartDuel = () => {
     sound.playClick();
+    setPicked([]);
+    setQIndex(0);
+    startRef.current = Date.now();
     setDuelState('battling');
-    // Simulate real-time competitive duel
-    setTimeout(() => {
-      const opp = opponents.find((o) => o.id === selectedOpponent)!;
-      const simulatedPlayerTime = 10 + Math.floor(Math.random() * 8);
-      setPlayerSpeed(simulatedPlayerTime);
+  };
 
-      if (simulatedPlayerTime <= opp.avgTimeSec) {
-        setWinner('player');
-        sound.playSuccess();
-        confetti({ particleCount: 70 });
-        awardOnce(`duel:${selectedOpponent}:${localDateKey()}`, 300, 200);
-      } else {
-        setWinner('opponent');
-        sound.playError();
-      }
-      setDuelState('result');
-    }, 2500);
+  const handleAnswer = (optionIndex: number) => {
+    sound.playClick();
+    const next = [...picked, optionIndex];
+    setPicked(next);
+    if (qIndex + 1 < questions.length) {
+      setQIndex(qIndex + 1);
+      return;
+    }
+    const seconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
+    const correct = next.filter((o, i) => o === questions[i].answer).length;
+    const opp = opponents.find((o) => o.id === selectedOpponent)!;
+    setPlayerSpeed(seconds);
+    setCorrectCount(correct);
+    if (correct === questions.length && seconds <= opp.avgTimeSec) {
+      setWinner('player');
+      sound.playSuccess();
+      confetti({ particleCount: 70 });
+      setGranted(awardOnce(`duel:${selectedOpponent}:${localDateKey()}`, 300, 200).granted);
+    } else {
+      setWinner('opponent');
+      sound.playError();
+    }
+    setDuelState('result');
   };
 
   return (
@@ -104,20 +156,30 @@ export const DuelView: React.FC = () => {
             className="w-full py-3.5 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-2xl text-xs shadow-lg transition flex items-center justify-center gap-2 cursor-pointer mt-2"
           >
             <Swords className="w-4 h-4" />
-            <span>Mulai Duel Asinkron (Seed Sama)</span>
+            <span>Mulai Duel (3 Soal Rumus)</span>
           </button>
         </div>
       )}
 
       {duelState === 'battling' && (
-        <div className="bg-white rounded-3xl p-12 border border-slate-200 text-center space-y-4 animate-in fade-in">
-          <div className="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto animate-bounce">
-            <Swords className="w-8 h-8" />
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 space-y-4">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
+            <span>Soal {qIndex + 1} dari {questions.length}</span>
+            <span>Lawan: {opponents.find((o) => o.id === selectedOpponent)?.name}</span>
           </div>
-          <h2 className="text-xl font-extrabold text-slate-900">Duel Sedang Berlangsung...</h2>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            Kedua pihak mengerjakan soal spreadsheet yang sama persis dengan seed data acak.
-          </p>
+          <h2 className="text-lg font-extrabold text-slate-900">{questions[qIndex].prompt}</h2>
+          <div className="grid gap-2">
+            {questions[qIndex].options.map((opt, i) => (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => handleAnswer(i)}
+                className="min-h-11 px-4 py-2.5 text-left text-sm font-semibold font-mono rounded-xl border border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-800 cursor-pointer transition"
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
@@ -133,19 +195,23 @@ export const DuelView: React.FC = () => {
 
           <div>
             <h2 className="text-2xl font-extrabold text-slate-900">
-              {winner === 'player' ? 'Kamu Memenangkan Duel!' : 'Lawan Sedikit Lebih Cepat!'}
+              {winner === 'player' ? 'Kamu Memenangkan Duel!' : 'Belum Menang Kali Ini'}
             </h2>
             <p className="text-xs text-slate-500 mt-1">
-              Waktumu: <strong className="text-slate-800 font-mono">{playerSpeed} detik</strong> | Lawan:{' '}
+              Benar {correctCount}/{questions.length}. Waktumu: <strong className="text-slate-800 font-mono">{playerSpeed} detik</strong> | Lawan:{' '}
               <strong className="text-slate-800 font-mono">
                 {opponents.find((o) => o.id === selectedOpponent)?.avgTimeSec} detik
               </strong>
             </p>
           </div>
 
+          {winner === 'opponent' && (
+            <p className="text-xs text-slate-600">Menang butuh semua jawaban benar dan waktu tidak melebihi lawan.</p>
+          )}
+
           {winner === 'player' && (
             <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs text-emerald-800 font-semibold">
-              Hadiah Kemenangan: +200 Koin & +300 XP
+              {granted ? 'Hadiah Kemenangan: +200 Koin & +300 XP' : 'Hadiah lawan ini sudah kamu ambil hari ini. Coba lawan lain atau besok.'}
             </div>
           )}
 
