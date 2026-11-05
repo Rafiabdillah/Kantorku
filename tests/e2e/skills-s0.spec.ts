@@ -104,7 +104,7 @@ test.describe('KantorKu F7: Skills S0 E2E Acceptance Suite', () => {
     const sendBtn = page.getByRole('button', { name: 'Kirim & Evaluasi Email' });
     await sendBtn.click();
     await page.waitForTimeout(200);
-    await expect(page.locator('text=Ubah draf dulu — ada yang perlu diperbaiki')).toBeVisible();
+    await expect(page.locator('text=Ubah draf dulu, ada yang perlu diperbaiki')).toBeVisible();
 
     // Now fill valid professional email to pass
     const subjectInput = page.locator('input[placeholder*="Klarifikasi Perubahan Jadwal"]');

@@ -446,7 +446,7 @@ test.describe('KantorKu full feature simulation', () => {
     const errors = watchErrors(page);
     await openView(page, 'career-map');
 
-    // Default view: player tier 1, Excel track — tier-1 levels visible and startable
+    // Default view: player tier 1, Excel track: tier-1 levels visible and startable
     await expect(page.getByText('Menghitung Jumlah Transaksi dengan COUNT & COUNTA')).toBeVisible({ timeout: 15000 });
     await expect(page.getByRole('button', { name: /Mulai Tugas/ }).first()).toBeVisible();
 
