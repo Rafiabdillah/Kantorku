@@ -37,6 +37,13 @@ import { QuickSettingsModal } from '../../features/settings/QuickSettingsModal';
 import { ALL_LESSONS } from '../../content/lessons';
 import { ErrorBoundary } from '../common/ErrorBoundary';
 import { isBlankWorkSubmission, BLANK_SUBMISSION_MESSAGE } from '../../engine/submissionGuard';
+import {
+  MeasuredRubric,
+  RUBRIC_DIMENSIONS,
+  RUBRIC_LABELS,
+  UNMEASURED_RUBRIC,
+  correctnessFromObjectives,
+} from '../../engine/evaluation';
 
 export const MissionPlayView: React.FC = () => {
   const {
@@ -73,9 +80,10 @@ export const MissionPlayView: React.FC = () => {
 
   const [validationOutput, setValidationOutput] = useState<{
     passed: boolean;
+    blank: boolean;
     stars: number;
     feedback: string[];
-    rubric: { correctness: number; efficiency: number; neatness: number; maintainability: number; communication: number };
+    rubric: MeasuredRubric;
   } | null>(null);
 
   const level = LEVELS.find((l) => l.id === activeLevelId) || LEVELS[0];
@@ -129,10 +137,12 @@ export const MissionPlayView: React.FC = () => {
 
     let passed = false;
     const feedbackList: string[] = [];
-    let rubric = { correctness: 100, efficiency: 90, neatness: 90, maintainability: 90, communication: 90 };
+    let rubric: MeasuredRubric = UNMEASURED_RUBRIC;
+    let blank = false;
     const newObjectiveStates: Record<string, { status: 'untested' | 'passed' | 'failed'; reason?: string }> = {};
 
     if (isBlankWorkSubmission(level, { sheet: activeSheet, code: activeCode, word: activeWord, html: activeHtml, css: activeCss })) {
+      blank = true;
       feedbackList.push(BLANK_SUBMISSION_MESSAGE);
       level.objectives.forEach((obj) => {
         newObjectiveStates[obj.id] = { status: 'failed', reason: 'Belum ada perubahan dari kondisi awal' };
@@ -596,12 +606,19 @@ export const MissionPlayView: React.FC = () => {
 
     setObjectiveStates(newObjectiveStates);
 
+    // Misi Excel/Code tidak diukur per dimensi, jadi "Benar" dihitung dari tujuan yang lolos
+    // dan dimensi sisanya tetap kosong (bukan angka 90% karangan).
+    if (!blank && rubric.correctness === null) {
+      rubric = { ...rubric, correctness: correctnessFromObjectives(newObjectiveStates) };
+    }
+
     let stars = 3;
     if (unlockedHintLevel >= 2 || missionFailCount >= 2) stars = 2;
     if (unlockedHintLevel >= 3 || missionFailCount >= 3) stars = 1;
 
     setValidationOutput({
       passed,
+      blank,
       stars,
       feedback: feedbackList,
       rubric,
@@ -1034,12 +1051,18 @@ export const MissionPlayView: React.FC = () => {
                 </div>
               )}
               <h3 className="text-xl font-extrabold text-slate-900">
-                {validationOutput.passed ? 'Tugas Berhasil Diselesaikan!' : 'Masih Ada Kesalahan'}
+                {validationOutput.passed
+                  ? 'Tugas Berhasil Diselesaikan!'
+                  : validationOutput.blank
+                    ? 'Belum Ada Perubahan'
+                    : 'Masih Ada Kesalahan'}
               </h3>
               <p className="text-xs text-slate-500 mt-1">
                 {validationOutput.passed
                   ? 'Pekerjaanmu memenuhi standar mutu PT Maju Sejahtera.'
-                  : 'Cek catatan evaluasi di bawah dan coba lagi tanpa panik!'}
+                  : validationOutput.blank
+                    ? 'Belum ada yang bisa dinilai. Kerjakan dulu targetnya, lalu kirim lagi.'
+                    : 'Cek catatan evaluasi di bawah dan coba lagi tanpa panik!'}
               </p>
             </div>
 
@@ -1069,34 +1092,32 @@ export const MissionPlayView: React.FC = () => {
             )}
 
             {/* 5-Dimension Rubric - stacked on mobile, grid on desktop */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-xs font-bold text-slate-900 mb-1">
-                <span>Skor 4 Dimensi</span>
-                <span className="text-[11px] text-slate-500">Rubrik Penilaian</span>
+            {!validationOutput.blank && (
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-900 mb-1">
+                  <span>Skor 5 Dimensi</span>
+                  <span className="text-[10px] text-slate-500">Rubrik Penilaian</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-1">
+                  {RUBRIC_DIMENSIONS.map((dimension) => {
+                    const score = validationOutput.rubric[dimension];
+                    return (
+                      <div key={dimension} className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
+                        <span className="text-slate-500 text-[11px] block">{RUBRIC_LABELS[dimension]}</span>
+                        <div className={`font-bold text-xs ${score === null ? 'text-slate-500' : 'text-slate-800'}`}>
+                          {score === null ? '—' : `${score}%`}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {validationOutput.rubric.efficiency === null && (
+                  <p className="text-[10px] text-slate-500">
+                    Tanda — berarti misi ini belum mengukur dimensi tersebut secara otomatis.
+                  </p>
+                )}
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-1">
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-500 text-[11px] block">Benar</span>
-                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.correctness}%</div>
-                </div>
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-500 text-[11px] block">Efisien</span>
-                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.efficiency}%</div>
-                </div>
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-500 text-[11px] block">Rapi</span>
-                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.neatness}%</div>
-                </div>
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-500 text-[11px] block">Dirawat</span>
-                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.maintainability}%</div>
-                </div>
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <span className="text-slate-500 text-[11px] block">Komunikasi</span>
-                  <div className="font-bold text-slate-800 text-xs">{validationOutput.rubric.communication}%</div>
-                </div>
-              </div>
-            </div>
+            )}
 
             {/* Feedback */}
             <div className="space-y-1 text-xs">

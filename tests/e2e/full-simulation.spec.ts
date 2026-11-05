@@ -66,7 +66,7 @@ test.describe('KantorKu full feature simulation', () => {
 
     await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
     await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
-    await expect(page.getByText('Skor 4 Dimensi')).toBeVisible();
+    await expect(page.getByText('Skor 5 Dimensi')).toBeVisible();
 
     await page.getByRole('button', { name: 'Lanjut ke Peta Karier' }).click();
     await expect(page.getByRole('heading', { name: 'Jalur Pembelajaran Profesional' })).toBeVisible();
@@ -510,12 +510,14 @@ test.describe('KantorKu full feature simulation', () => {
       await page.waitForLoadState('domcontentloaded');
       await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
 
-      await expect(page.getByRole('heading', { name: 'Masih Ada Kesalahan' })).toBeVisible({ timeout: 15000 });
+      await expect(page.getByRole('heading', { name: 'Belum Ada Perubahan' })).toBeVisible({ timeout: 15000 });
       await expect(page.getByText('Kamu belum mengubah apa pun')).toBeVisible();
+      // Nothing was measured, so no rubric grid is shown at all.
+      await expect(page.getByText('Skor 5 Dimensi')).toHaveCount(0);
       await expect(page.getByRole('heading', { name: 'Tugas Berhasil Diselesaikan!' })).toHaveCount(0);
 
       await page.getByRole('button', { name: 'Coba Perbaiki Lagi' }).click();
-      await expect(page.getByRole('heading', { name: 'Masih Ada Kesalahan' })).toHaveCount(0);
+      await expect(page.getByRole('heading', { name: 'Belum Ada Perubahan' })).toHaveCount(0);
     }
 
     // None of the four rejected submissions awarded XP
@@ -656,6 +658,60 @@ test.describe('KantorKu full feature simulation', () => {
 
     await openView(page, 'career-map');
     await expect(page.getByText('💼 Staf').first()).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.26 Partial Excel work: rubric reports measured dimensions only, no invented 90%', async ({ page }) => {
+    const errors = watchErrors(page);
+
+    await page.goto('/?autostart=1&level=excel-t1-01');
+    await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
+    await fillCell(page, 'B2', '55000');
+
+    await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
+    await expect(page.getByRole('heading', { name: 'Masih Ada Kesalahan' })).toBeVisible({ timeout: 15000 });
+
+    // 1 dari 3 tujuan lolos -> Benar 33%, dimensi lain belum diukur
+    await expect(page.getByText('Skor 5 Dimensi')).toBeVisible();
+    await expect(page.getByText('33%', { exact: true })).toBeVisible();
+    await expect(page.getByText('—', { exact: true })).toHaveCount(4);
+    await expect(page.getByText('90%', { exact: true })).toHaveCount(0);
+    await expect(page.getByText(/belum mengukur dimensi tersebut/)).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('SIM.27 Case handover: nothing done is refused, real clarification plus note is scored', async ({ page }) => {
+    const errors = watchErrors(page);
+
+    await openView(page, 'case-file');
+    await expect(page.getByText(/Kasus Nyata v2\.0/)).toBeVisible({ timeout: 15000 });
+
+    await page.getByRole('button', { name: 'Kirim Serah Terima' }).click();
+    await expect(page.getByRole('heading', { name: 'Serah Terima Belum Bisa Diterima' })).toBeVisible();
+    await expect(page.getByText(/belum menjawab pertanyaan klarifikasi/)).toBeVisible();
+    await expect(page.getByText(/masih memakai contoh bawaan/)).toBeVisible();
+    await page.getByRole('button', { name: 'Lanjut Kerjakan Kasus' }).click();
+    await expect(
+      page.getByRole('heading', { name: 'Serah Terima Kasus Disetujui!' })
+    ).toHaveCount(0);
+
+    await openView(page, 'office');
+    await expect(page.getByRole('main').getByText('0 XP').first()).toBeVisible();
+
+    await openView(page, 'case-file');
+    await page.getByRole('button', { name: /Keluarkan transaksi Retur/ }).click();
+    await page
+      .locator('textarea[placeholder*="ringkasan hasil pekerjaan"]')
+      .fill('Retur dikeluarkan dari omzet bersih, rekap siap dibagikan.');
+    await page.getByRole('button', { name: 'Kirim Serah Terima' }).click();
+
+    await expect(page.getByRole('heading', { name: 'Serah Terima Kasus Disetujui!' })).toBeVisible();
+    await expect(page.getByText('Skor 5 Dimensi')).toBeVisible();
+    await expect(page.getByText('100%', { exact: true })).toBeVisible();
+    await expect(page.getByText('—', { exact: true })).toHaveCount(3);
+    await expect(page.getByText(/Klarifikasi klien dijawab dengan opsi yang paling aman/)).toBeVisible();
 
     expect(errors).toEqual([]);
   });

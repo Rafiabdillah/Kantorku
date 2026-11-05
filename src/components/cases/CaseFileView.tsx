@@ -24,9 +24,19 @@ import {
   Minimize2,
 } from 'lucide-react';
 import { ErrorBoundary } from '../common/ErrorBoundary';
+import { isBlankWork } from '../../engine/submissionGuard';
+import {
+  CaseEvaluation,
+  RUBRIC_DIMENSIONS,
+  RUBRIC_LABELS,
+  evaluateCaseHandover,
+  isHandoverWritten,
+} from '../../engine/evaluation';
+
+const DEFAULT_HANDOVER_NOTE = 'Tugas telah selesai dirapikan sesuai instruksi.';
 
 export const CaseFileView: React.FC = () => {
-  const { activeCaseId, setView, awardOnce, updateReputation } = useGameStore();
+  const { activeCaseId, setView, awardOnce, updateReputation, addErrorLog } = useGameStore();
 
   const caseItem = CASE_FILES.find((c) => c.id === activeCaseId) || CASE_FILES[0];
 
@@ -37,8 +47,9 @@ export const CaseFileView: React.FC = () => {
   const [cssData, setCssData] = useState<string>(caseItem.initialData.css || '');
   const [selectedClarification, setSelectedClarification] = useState<string | null>(null);
   const [clarificationSubmitted, setClarificationSubmitted] = useState<boolean>(false);
-  const [handoverNote, setHandoverNote] = useState<string>('Tugas telah selesai dirapikan sesuai instruksi.');
+  const [handoverNote, setHandoverNote] = useState<string>(DEFAULT_HANDOVER_NOTE);
   const [showCompleteModal, setShowCompleteModal] = useState<boolean>(false);
+  const [caseReview, setCaseReview] = useState<CaseEvaluation | null>(null);
   const [activeMobileTab, setActiveMobileTab] = useState<'brief' | 'editor' | 'handover'>('editor');
   const [editorExpanded, setEditorExpanded] = useState<boolean>(false);
 
@@ -75,6 +86,40 @@ export const CaseFileView: React.FC = () => {
   };
 
   const handleFinishCase = () => {
+    sound.playClick();
+    const clarification = caseItem.clarifyingQuestions[0];
+    const review = evaluateCaseHandover({
+      workChanged: !isBlankWork(caseItem.module, caseItem.initialData, {
+        sheet: sheetData,
+        code: '',
+        word: '',
+        html: htmlData,
+        css: cssData,
+      }),
+      // Kasus tanpa pertanyaan klarifikasi tidak boleh terkunci oleh gerbang ini.
+      clarificationAnswered: !clarification || Boolean(selectedClarification),
+      clarificationOptimal: Boolean(
+        clarification?.options.some((option) => option.id === selectedClarification && option.isOptimal)
+      ),
+      handoverWritten: isHandoverWritten(handoverNote, DEFAULT_HANDOVER_NOTE),
+    });
+    setCaseReview(review);
+
+    if (review.blockers.length > 0) {
+      sound.playError();
+      setShowCompleteModal(false);
+      addErrorLog({
+        levelId: caseItem.id,
+        levelTitle: caseItem.title,
+        module: caseItem.module,
+        tier: caseItem.tier,
+        userAttempt: handoverNote.trim().slice(0, 120) || '(pesan serah terima kosong)',
+        mistakeDescription: review.blockers[0],
+        explanation: 'Kasus baru dinilai setelah klarifikasi dijawab dan pesan serah terima ditulis sendiri.',
+      });
+      return;
+    }
+
     sound.playSuccess();
     confetti({ particleCount: 70, spread: 60 });
     // Hadiah hanya diberikan pada penyelesaian pertama kasus ini.
@@ -332,6 +377,50 @@ export const CaseFileView: React.FC = () => {
         </div>
       </div>
 
+      {/* Case rejected: nothing measurable was submitted yet */}
+      {caseReview && caseReview.blockers.length > 0 && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Serah terima belum dapat diterima"
+            className="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95"
+          >
+            <div className="text-center">
+              <div className="inline-flex p-3 bg-rose-100 rounded-full text-rose-600 mx-auto mb-2">
+                <AlertTriangle className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-extrabold text-slate-900">Serah Terima Belum Bisa Diterima</h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Belum ada pekerjaan yang bisa dinilai dari kasus {caseItem.title}.
+              </p>
+            </div>
+
+            <div className="space-y-1.5">
+              {caseReview.blockers.map((blocker, idx) => (
+                <p
+                  key={idx}
+                  className="p-2.5 rounded-xl border text-xs leading-relaxed bg-rose-50 border-rose-200 text-rose-900 min-h-[44px] flex items-start"
+                >
+                  {blocker}
+                </p>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                sound.playClick();
+                setCaseReview(null);
+              }}
+              className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px]"
+            >
+              Lanjut Kerjakan Kasus
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Completion & Debrief Modal */}
       {showCompleteModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
@@ -346,29 +435,43 @@ export const CaseFileView: React.FC = () => {
               </p>
             </div>
 
-            {/* 5-Dimension Rubric Scoring */}
-            <div className="grid grid-cols-5 gap-1.5 text-center text-xs">
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Benar</span>
-                <span className="font-bold text-slate-800 text-xs">95%</span>
+            {/* 5-Dimension Rubric Scoring - hanya dimensi yang benar-benar diukur */}
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-900">
+                <span>Skor 5 Dimensi</span>
+                <span className="text-[10px] text-slate-500">Rubrik Penilaian</span>
               </div>
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Efisien</span>
-                <span className="font-bold text-slate-800 text-xs">90%</span>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-center text-xs">
+                {RUBRIC_DIMENSIONS.map((dimension) => {
+                  const score = caseReview?.rubric[dimension] ?? null;
+                  return (
+                    <div key={dimension} className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
+                      <span className="text-slate-500 text-[11px] block">{RUBRIC_LABELS[dimension]}</span>
+                      <div className={`font-bold text-xs ${score === null ? 'text-slate-500' : 'text-slate-800'}`}>
+                        {score === null ? '—' : `${score}%`}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Rapi</span>
-                <span className="font-bold text-slate-800 text-xs">95%</span>
-              </div>
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Dirawat</span>
-                <span className="font-bold text-slate-800 text-xs">90%</span>
-              </div>
-              <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Komunikasi</span>
-                <span className="font-bold text-emerald-700 text-xs">100%</span>
-              </div>
+              <p className="text-[10px] text-slate-500">
+                Tanda — berarti kasus ini belum mengukur dimensi tersebut secara otomatis.
+              </p>
             </div>
+
+            {/* Catatan Penilaian */}
+            {caseReview && caseReview.notes.length > 0 && (
+              <div className="space-y-1.5">
+                {caseReview.notes.map((note, idx) => (
+                  <p
+                    key={idx}
+                    className="p-2.5 rounded-xl border text-xs leading-relaxed bg-slate-50 border-slate-200 text-slate-700"
+                  >
+                    {note}
+                  </p>
+                ))}
+              </div>
+            )}
 
             {/* Debrief Catatan Mentor */}
             {caseItem.mentorDebrief && (

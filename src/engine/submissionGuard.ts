@@ -1,4 +1,4 @@
-import { LevelItem, SheetGrid } from '../types';
+import { LevelItem, ModuleType, SheetGrid } from '../types';
 
 const filledCells = (grid: SheetGrid): string[][] =>
   Object.entries(grid)
@@ -19,19 +19,31 @@ export interface WorkSnapshot {
 export const BLANK_SUBMISSION_MESSAGE =
   'Kamu belum mengubah apa pun. Kerjakan dulu sesuai target pekerjaan, lalu kirim kembali.';
 
-export function isBlankWorkSubmission(level: LevelItem, current: WorkSnapshot): boolean {
-  switch (level.module) {
+export interface InitialWork {
+  excel?: SheetGrid;
+  code?: string;
+  word?: string;
+  html?: string;
+  css?: string;
+}
+
+export function isBlankWork(module: ModuleType, initial: InitialWork, current: WorkSnapshot): boolean {
+  switch (module) {
     case 'excel':
       return JSON.stringify(filledCells(current.sheet)) ===
-        JSON.stringify(filledCells(level.initialData.excel || {}));
+        JSON.stringify(filledCells(initial.excel || {}));
     case 'web':
-      return current.html.trim() === (level.initialData.html || '').trim() &&
-        current.css.trim() === (level.initialData.css || '').trim();
+      return current.html.trim() === (initial.html || '').trim() &&
+        current.css.trim() === (initial.css || '').trim();
     case 'coding':
-      return current.code.trim() === (level.initialData.code || '').trim();
+      return current.code.trim() === (initial.code || '').trim();
     case 'word':
-      return plainText(current.word) === plainText(level.initialData.word || '');
+      return plainText(current.word) === plainText(initial.word || '');
     default:
       return false;
   }
+}
+
+export function isBlankWorkSubmission(level: LevelItem, current: WorkSnapshot): boolean {
+  return isBlankWork(level.module, level.initialData, current);
 }

@@ -22,7 +22,7 @@
     "content:audit": "tsx scripts/contentAudit.ts",
     "skills:audit": "tsx scripts/auditSkills.ts",
     "check": "npm run lint && npm test && npm run skills:audit && npm run test:e2e && npm run build",
-    "test:e2e": "playwright test tests/e2e/"
+    "test:e2e": "npm run build && playwright test tests/e2e/"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",

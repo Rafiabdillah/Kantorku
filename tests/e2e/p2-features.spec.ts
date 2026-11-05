@@ -53,10 +53,13 @@ test.describe('KantorKu P2: Feature Completeness & Integrity Suite', () => {
 
     await page.goto('/?autostart=1&view=mission&level=excel-t1-01');
     await page.waitForLoadState('domcontentloaded');
+    // A cold preview start (bundle download + React mount) can outlast the expect budget, so
+    // absorb it here instead of letting it eat the first feature assertion.
+    await expect(page.locator('#root > *')).toBeVisible({ timeout: 30000 });
 
     // Formula bar is full width and editable
     const formulaBar = page.locator('input[data-formula-bar="true"]');
-    await expect(formulaBar).toBeVisible({ timeout: 10000 });
+    await expect(formulaBar).toBeVisible();
     await formulaBar.fill('=SUM(1;2)');
     await formulaBar.press('Enter');
     await expect(page.locator('td[data-cell="B2"]')).toContainText('3');

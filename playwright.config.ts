@@ -19,7 +19,9 @@ export default defineConfig({
     trace: 'off',
   },
   webServer: {
-    command: 'npm run dev',
+    // `npm run test:e2e` builds first, so the suite always exercises the production bundle and
+    // editing a source file mid-run can no longer invalidate modules under a running test.
+    command: 'npm run preview -- --port 3000 --strictPort',
     url: 'http://localhost:3000',
     reuseExistingServer: true,
     timeout: 120000,

@@ -10,6 +10,16 @@ const webLevels = LEVELS.filter((l) => l.module === 'web');
 const wordLevels = LEVELS.filter((l) => l.module === 'word');
 const codingLevels = LEVELS.filter((l) => l.module === 'coding');
 
+/**
+ * Anggaran 3s di sandbox diukur dengan jam dinding, jadi mesin yang sedang sibuk bisa memunculkan
+ * "terlalu lama" palsu. Loop yang benar-benar tidak berhenti tetap gagal pada percobaan kedua.
+ */
+async function runWithTimeoutRetry(code: string, testCases: Parameters<typeof runCodeWithTests>[1]) {
+  const first = await runCodeWithTests(code, testCases, extractFunctionName(code));
+  if (!first.friendlyError?.includes('terlalu lama')) return first;
+  return runCodeWithTests(code, testCases, extractFunctionName(code));
+}
+
 test('starter drafts for web missions do not satisfy their own requirements', () => {
   const offenders = webLevels
     .filter((l) => validateWebContent(l.initialData.html || '', l.initialData.css || '', l.webRequirements || {}).passed)
@@ -37,7 +47,7 @@ test('starter code for coding missions fails its own test cases', async () => {
 test('every coding mission is solvable: its reference solution passes all test cases', async () => {
   const broken: string[] = [];
   for (const l of codingLevels) {
-    const res = await runCodeWithTests(l.referenceSolution, l.testCases || [], extractFunctionName(l.referenceSolution));
+    const res = await runWithTimeoutRetry(l.referenceSolution, l.testCases || []);
     if (!res.success) broken.push(`${l.id}: ${res.friendlyError || res.error || 'gagal'}`);
   }
   assert.deepEqual(broken, []);
