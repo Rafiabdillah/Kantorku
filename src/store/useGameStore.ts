@@ -728,7 +728,11 @@ export const useGameStore = create<GameState>()(
 
       // Shop
       buyCosmetic: (itemId, cost, category) => {
-        if (!get().spendCoins(cost)) return false;
+        if (get().profile.inventory.includes(itemId)) {
+          get().equipCosmetic(category, itemId);
+          return true;
+        }
+        if (!Number.isFinite(cost) || cost < 0 || !get().spendCoins(cost)) return false;
         set((state) => ({
           profile: {
             ...state.profile,

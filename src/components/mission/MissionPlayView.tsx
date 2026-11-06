@@ -150,7 +150,32 @@ export const MissionPlayView: React.FC = () => {
     } else if (level.module === 'excel') {
       const engine = new ExcelFormulaEngine(activeSheet);
 
-      if (level.id === 'excel-t1-01') {
+      if (level.excelChecks?.length) {
+        const results = level.excelChecks.map((check) => {
+          const raw = String(activeSheet[check.cell]?.raw ?? '').toUpperCase();
+          const actual = engine.getCellValue(check.cell);
+          const valueOk =
+            typeof check.expected === 'number'
+              ? typeof actual === 'number' && Math.abs(actual - check.expected) < 0.005
+              : String(actual).trim().toLowerCase() === check.expected.toLowerCase();
+          const formulaOk = (check.formulaIncludes ?? []).every((f) => raw.includes(f.toUpperCase()));
+          return { check, ok: valueOk && formulaOk };
+        });
+        passed = results.every((r) => r.ok);
+        if (passed) {
+          feedbackList.push('Semua sel sudah tepat. Rumusmu menghasilkan angka yang benar.');
+        } else {
+          results.filter((r) => !r.ok).forEach((r) => feedbackList.push(r.check.message));
+        }
+        level.objectives.forEach((obj, idx) => {
+          const group = results.filter((r) => r.check.objective === idx);
+          const ok = group.length > 0 && group.every((r) => r.ok);
+          newObjectiveStates[obj.id] = {
+            status: ok ? 'passed' : 'failed',
+            reason: ok ? undefined : group.find((r) => !r.ok)?.check.message,
+          };
+        });
+      } else if (level.id === 'excel-t1-01') {
         const b2 = Number(activeSheet['B2']?.raw);
         const b3 = Number(activeSheet['B3']?.raw);
         const b4 = Number(activeSheet['B4']?.raw);

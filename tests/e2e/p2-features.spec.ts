@@ -259,4 +259,15 @@ test.describe('KantorKu P2: Feature Completeness & Integrity Suite', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('Onboarding asks for a name before the placement test', async ({ page }) => {
+    await page.goto('/');
+    const nameInput = page.locator('input[placeholder*="nama Anda"]').first();
+    await expect(nameInput).toHaveValue('');
+    await page.locator('button:has-text("Ikuti Tes Penempatan")').first().click();
+    await expect(page.getByRole('alert')).toContainText('Isi namamu dulu');
+    await expect(page.locator('text=Soal Penempatan 1')).toHaveCount(0);
+    await nameInput.fill('Dewi Lestari');
+    await expect(page.getByRole('alert')).toHaveCount(0);
+  });
 });

@@ -110,9 +110,11 @@ test('content: every coding level ships at least one test case', () => {
   assert.deepEqual(offenders.map((l) => l.id), []);
 });
 
-test('content: every excel level has an explicit grader in MissionPlayView', () => {
+test('content: every excel level has an explicit grader (declarative checks or a branch in MissionPlayView)', () => {
   const source = readFileSync(fileURLToPath(new URL('../components/mission/MissionPlayView.tsx', import.meta.url)), 'utf-8');
-  const missing = LEVELS.filter((l) => l.module === 'excel' && !source.includes(`level.id === '${l.id}'`));
+  const missing = LEVELS.filter(
+    (l) => l.module === 'excel' && !l.excelChecks?.length && !source.includes(`level.id === '${l.id}'`),
+  );
   assert.deepEqual(missing.map((l) => l.id), []);
 });
 

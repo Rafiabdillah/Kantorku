@@ -19,6 +19,10 @@ export function validateWebContent(
   const feedback: string[] = [];
   const unmet: string[] = [];
 
+  // Komentar tidak boleh dihitung sebagai jawaban: "/* display: flex */" bukan Flexbox.
+  html = html.replace(/<!--[\s\S]*?-->/g, '');
+  css = css.replace(/\/\*[\s\S]*?\*\//g, '');
+
   let correctness = 100;
   let neatness = 90;
   let efficiency = 95;

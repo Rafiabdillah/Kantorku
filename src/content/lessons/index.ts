@@ -12,6 +12,7 @@ import { CODING_LESSONS } from './codingLessons';
 import { WEB_LESSONS_PATCH } from './webLessonsPatch';
 import { CODING_LESSONS_PATCH } from './codingLessonsPatch';
 import { WORD_LESSONS_PATCH } from './wordLessonsPatch';
+import { TIER4_LESSONS } from './tier4Lessons';
 
 export * from './paths';
 export * from './glossary';
@@ -26,6 +27,7 @@ export const ALL_LESSONS: Lesson[] = [
   ...WEB_LESSONS_PATCH,
   ...CODING_LESSONS,
   ...CODING_LESSONS_PATCH,
+  ...TIER4_LESSONS,
 ];
 
 const lessonsById = new Map<string, Lesson>(ALL_LESSONS.map((l) => [l.id, l]));

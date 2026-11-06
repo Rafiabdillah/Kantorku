@@ -134,6 +134,15 @@ export interface LevelItem {
     description: string;
     hidden?: boolean;
   }[];
+  /** Penilaian Excel deklaratif: nilai sel yang diharapkan dan, bila perlu, rumus wajib. */
+  excelChecks?: {
+    cell: string;
+    /** Indeks objektif (mulai 0) yang dinilai oleh cek ini. */
+    objective: number;
+    expected: string | number;
+    formulaIncludes?: string[];
+    message: string;
+  }[];
   webRequirements?: {
     requiredTags?: string[];
     requiredClasses?: string[];

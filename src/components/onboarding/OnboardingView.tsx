@@ -11,7 +11,8 @@ import { Briefcase, ArrowRight, CheckCircle2, Sparkles, Award, User, Check } fro
 export const OnboardingView: React.FC = () => {
   const { completeOnboarding } = useGameStore();
   const [step, setStep] = useState<'profile' | 'test' | 'result'>('profile');
-  const [name, setName] = useState<string>('Budi Santoso');
+  const [name, setName] = useState<string>('');
+  const [nameError, setNameError] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>('player');
   const [goal, setGoal] = useState<'all' | 'excel' | 'coding' | 'word'>('all');
 
@@ -24,7 +25,8 @@ export const OnboardingView: React.FC = () => {
   });
   const [determinedTier, setDeterminedTier] = useState<TierLevel>(1);
 
-  const currentQ = PLACEMENT_QUESTIONS[currentQIndex];
+  const [questions, setQuestions] = useState(PLACEMENT_QUESTIONS);
+  const currentQ = questions[currentQIndex];
 
   const avatarOptions: { id: string; label: string; characterId: CharacterId | 'player' }[] = [
     { id: 'player', label: 'Budi (Player)', characterId: 'player' },
@@ -36,7 +38,21 @@ export const OnboardingView: React.FC = () => {
 
   const handleStartTest = () => {
     sound.playClick();
-    if (!name.trim()) return;
+    if (!name.trim()) {
+      setNameError(true);
+      document.getElementById('onboardingview-f1')?.focus();
+      return;
+    }
+    setQuestions(
+      PLACEMENT_QUESTIONS.map((q) => {
+        const options = [...q.options];
+        for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
+        }
+        return { ...q, options };
+      }),
+    );
     setStep('test');
   };
 
@@ -105,10 +121,20 @@ export const OnboardingView: React.FC = () => {
                 <input id="onboardingview-f1"
                   type="text"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (e.target.value.trim()) setNameError(false);
+                  }}
                   placeholder="Masukkan nama Anda..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                  aria-invalid={nameError}
+                  aria-describedby={nameError ? 'onboarding-name-error' : undefined}
+                  className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:ring-2 focus:ring-emerald-500 outline-none ${nameError ? 'border-red-600' : 'border-slate-300'}`}
                 />
+                {nameError && (
+                  <p id="onboarding-name-error" role="alert" className="mt-1.5 text-xs font-semibold text-red-700">
+                    Isi namamu dulu sebelum mengikuti tes penempatan.
+                  </p>
+                )}
               </div>
 
               {/* Pilihan Avatar Karakter */}
