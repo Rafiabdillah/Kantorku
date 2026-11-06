@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useGameStore, TIER_XP_THRESHOLDS, isLevelUnlocked } from '../../store/useGameStore';
+import { useGameStore, TIER_XP_THRESHOLDS, isLevelUnlocked, isCaseUnlocked } from '../../store/useGameStore';
 import { LEVELS } from '../../content/levels';
+import { CASE_FILES } from '../../content/caseFiles';
 import { ModuleType, TierLevel, TIERS } from '../../types';
 import { CharacterAvatar } from '../character/CharacterAvatar';
 import { sound } from '../../services/sound';
@@ -18,11 +19,14 @@ import {
 } from 'lucide-react';
 
 export const CareerMapView: React.FC = () => {
-  const { profile, startMission, openLessonView } = useGameStore();
+  const { profile, startMission, openLessonView, startCaseFile } = useGameStore();
   const [activeModule, setActiveModule] = useState<ModuleType>('excel');
   const [selectedTier, setSelectedTier] = useState<TierLevel>(profile.currentTier);
 
   const filteredLevels = LEVELS.filter((l) => l.module === activeModule && l.tier === selectedTier);
+
+  const tierCases = CASE_FILES.filter((c) => c.module === activeModule && c.tier === selectedTier);
+  const casesUnlocked = isCaseUnlocked(profile, { tier: selectedTier });
 
   const masteryPercent = profile.moduleMastery[activeModule] || 0;
 
@@ -154,8 +158,8 @@ export const CareerMapView: React.FC = () => {
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center">
             <p className="text-sm font-bold text-slate-800">Belum ada misi di Tier {selectedTier} untuk modul ini</p>
             <p className="mt-1 text-xs text-slate-600">
-              Misi tingkat ini belum tersedia. Kamu tetap bisa naik jabatan lewat XP dari Kasus Nyata, Mode Game, dan
-              misi modul lain.
+              Tier ini belum punya misi latihan untuk jalur ini. Kerjakan Kasus Nyata di bawah untuk mendapat XP dan
+              naik jabatan.
             </p>
           </div>
         )}
@@ -280,6 +284,55 @@ export const CareerMapView: React.FC = () => {
           );
         })}
       </div>
+
+      <section aria-labelledby="career-cases-heading" className="flex flex-col gap-3">
+        <h2 id="career-cases-heading" className="text-base font-extrabold text-white">
+          Kasus Nyata Tier {selectedTier}
+        </h2>
+        {tierCases.length === 0 && (
+          <p className="rounded-2xl border border-dashed border-slate-500 bg-white p-4 text-xs text-slate-700">
+            Belum ada kasus nyata di tier ini untuk jalur ini.
+          </p>
+        )}
+        {tierCases.map((c) => {
+          const done = Boolean(profile.xpClaims?.[`case:${c.id}`]);
+          return (
+            <article
+              key={c.id}
+              className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div className="space-y-1">
+                <p className="text-[11px] font-bold text-amber-800">Kasus Nyata, {c.industry}</p>
+                <h3 className="text-sm font-bold text-slate-900">{c.title}</h3>
+                <p className="text-xs text-slate-700">{c.summary}</p>
+                <p className="text-xs text-slate-600">
+                  Tenggat {c.deadlineHours} jam, +{c.xpReward} XP{done ? ', selesai' : ''}
+                </p>
+              </div>
+              <button
+                type="button"
+                disabled={!casesUnlocked}
+                onClick={() => {
+                  sound.playClick();
+                  startCaseFile(c.id);
+                }}
+                className="inline-flex items-center justify-center gap-1.5 min-h-11 shrink-0 px-4 rounded-xl text-xs font-bold cursor-pointer disabled:cursor-not-allowed bg-slate-900 text-white hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-600 focus-visible:outline-2 focus-visible:outline-emerald-600"
+              >
+                {!casesUnlocked ? (
+                  <>
+                    <Lock className="w-3.5 h-3.5" aria-hidden="true" />
+                    Terkunci
+                  </>
+                ) : done ? (
+                  'Kerjakan lagi'
+                ) : (
+                  'Buka kasus'
+                )}
+              </button>
+            </article>
+          );
+        })}
+      </section>
     </div>
   );
 };

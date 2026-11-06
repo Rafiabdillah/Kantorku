@@ -54,7 +54,7 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({ onOpenMenu, menuOpen
               }}
               aria-current={isActive ? 'page' : undefined}
               className={`relative flex-1 min-w-0 flex flex-col items-center justify-center gap-0.5 py-2 min-h-[56px] rounded-xl transition cursor-pointer ${
-                isActive ? 'text-emerald-700' : 'text-slate-500 hover:text-slate-800'
+                isActive ? 'text-emerald-700' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <span
@@ -83,7 +83,7 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({ onOpenMenu, menuOpen
           aria-label="Buka semua menu"
           aria-expanded={menuOpen}
           className={`relative flex-1 min-w-0 flex flex-col items-center justify-center gap-0.5 py-2 min-h-[56px] rounded-xl transition cursor-pointer ${
-            menuOpen ? 'text-emerald-700' : 'text-slate-500 hover:text-slate-800'
+            menuOpen ? 'text-emerald-700' : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <span
