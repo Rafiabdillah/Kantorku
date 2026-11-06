@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { CASE_FILES } from '../../content/caseFiles';
+import { CaseCatalogView } from './CaseCatalogView';
+import { WordDocumentEditor } from '../editor/WordDocumentEditor';
+import { evaluateCaseDeliverable } from '../../engine/caseDeliverable';
 import { CharacterAvatar } from '../character/CharacterAvatar';
 import { SpreadsheetEditor } from '../editor/SpreadsheetEditor';
 import { WebPreviewEditor } from '../editor/WebPreviewEditor';
-import { SheetGrid } from '../../types';
+import { CaseFile, SheetGrid } from '../../types';
 import { sound } from '../../services/sound';
 import confetti from 'canvas-confetti';
 import {
@@ -36,13 +39,19 @@ import {
 const DEFAULT_HANDOVER_NOTE = 'Tugas telah selesai dirapikan sesuai instruksi.';
 
 export const CaseFileView: React.FC = () => {
-  const { activeCaseId, setView, awardOnce, updateReputation, addErrorLog } = useGameStore();
+  const activeCaseId = useGameStore((s) => s.activeCaseId);
+  const caseItem = CASE_FILES.find((c) => c.id === activeCaseId);
+  if (!caseItem) return <CaseCatalogView />;
+  return <CaseWorkspace key={caseItem.id} caseItem={caseItem} />;
+};
 
-  const caseItem = CASE_FILES.find((c) => c.id === activeCaseId) || CASE_FILES[0];
+const CaseWorkspace: React.FC<{ caseItem: CaseFile }> = ({ caseItem }) => {
+  const { closeCaseFile, awardOnce, updateReputation, addErrorLog } = useGameStore();
 
   const [sheetData, setSheetData] = useState<SheetGrid>(() =>
     caseItem.initialData.excel ? JSON.parse(JSON.stringify(caseItem.initialData.excel)) : {}
   );
+  const [wordData, setWordData] = useState<string>(caseItem.initialData.word || '');
   const [htmlData, setHtmlData] = useState<string>(caseItem.initialData.html || '');
   const [cssData, setCssData] = useState<string>(caseItem.initialData.css || '');
   const [selectedClarification, setSelectedClarification] = useState<string | null>(null);
@@ -92,9 +101,15 @@ export const CaseFileView: React.FC = () => {
       workChanged: !isBlankWork(caseItem.module, caseItem.initialData, {
         sheet: sheetData,
         code: '',
-        word: '',
+        word: wordData,
         html: htmlData,
         css: cssData,
+      }),
+      deliverable: evaluateCaseDeliverable(caseItem, {
+        sheet: sheetData,
+        html: htmlData,
+        css: cssData,
+        word: wordData,
       }),
       // Kasus tanpa pertanyaan klarifikasi tidak boleh terkunci oleh gerbang ini.
       clarificationAnswered: !clarification || Boolean(selectedClarification),
@@ -135,23 +150,15 @@ export const CaseFileView: React.FC = () => {
         <div className="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
           <button
             type="button"
-            onClick={() => {
-              sound.playClick();
-              setView('office');
-            }}
-            className="inline-flex items-center justify-center min-w-11 min-h-11 p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition shrink-0"
-            aria-label="Kembali ke kantor"
+            onClick={closeCaseFile}
+            className="inline-flex items-center justify-center min-w-11 min-h-11 p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 cursor-pointer transition shrink-0"
+            aria-label="Kembali ke daftar kasus"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800 uppercase tracking-wide whitespace-nowrap">
-                Kasus Nyata v2.0 • {caseItem.industry}
-              </span>
-              <span className="hidden sm:inline text-xs text-slate-500">|</span>
-              <h1 className="text-[11px] sm:text-xs font-bold text-slate-800">{caseItem.title}</h1>
-            </div>
+            <p className="text-xs font-semibold text-amber-800 break-words">Kasus Nyata, {caseItem.industry}</p>
+            <h1 className="text-sm sm:text-base font-extrabold text-slate-900 break-words">{caseItem.title}</h1>
           </div>
           <button
             type="button"
@@ -345,7 +352,7 @@ export const CaseFileView: React.FC = () => {
               <div className="flex items-center gap-1.5 min-w-0">
                 <Maximize2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span className="text-xs font-bold truncate">Mode Editor Lebar</span>
-                <span className="text-[11px] text-slate-500 hidden sm:inline truncate">
+                <span className="text-[11px] text-slate-600 hidden sm:inline truncate">
                   Tekan Esc untuk menutup
                 </span>
               </div>
@@ -369,6 +376,8 @@ export const CaseFileView: React.FC = () => {
                   onHtmlChange={(h) => setHtmlData(h)}
                   onCssChange={(c) => setCssData(c)}
                 />
+              ) : caseItem.module === 'word' ? (
+                <WordDocumentEditor content={wordData} onChange={setWordData} />
               ) : (
                 <SpreadsheetEditor grid={sheetData} onCellChange={handleCellChange} />
               )}
@@ -446,16 +455,16 @@ export const CaseFileView: React.FC = () => {
                   const score = caseReview?.rubric[dimension] ?? null;
                   return (
                     <div key={dimension} className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
-                      <span className="text-slate-500 text-[11px] block">{RUBRIC_LABELS[dimension]}</span>
+                      <span className="text-slate-600 text-[11px] block">{RUBRIC_LABELS[dimension]}</span>
                       <div className={`font-bold text-xs ${score === null ? 'text-slate-500' : 'text-slate-800'}`}>
-                        {score === null ? '—' : `${score}%`}
+                        {score === null ? 'Belum diukur' : `${score}%`}
                       </div>
                     </div>
                   );
                 })}
               </div>
               <p className="text-[10px] text-slate-500">
-                Tanda — berarti kasus ini belum mengukur dimensi tersebut secara otomatis.
+                Dimensi bertuliskan "Belum diukur" belum dinilai otomatis pada kasus ini.
               </p>
             </div>
 
@@ -495,11 +504,11 @@ export const CaseFileView: React.FC = () => {
               type="button"
               onClick={() => {
                 setShowCompleteModal(false);
-                setView('office');
+                closeCaseFile();
               }}
               className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs transition cursor-pointer mt-1"
             >
-              Kembali ke Denah Kantor
+              Kembali ke Daftar Kasus
             </button>
           </div>
         </div>

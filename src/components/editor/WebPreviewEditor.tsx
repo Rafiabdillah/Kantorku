@@ -67,6 +67,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
         currentLang,
         oneDark,
         EditorView.lineWrapping,
+        EditorView.contentAttributes.of({ 'aria-label': `Editor kode ${activeTab.toUpperCase()}` }),
         EditorState.tabSize.of(tabSize),
         keymap.of([indentWithTab, ...defaultKeymap]),
         updateListener,
@@ -82,7 +83,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
           },
           '.cm-gutters': {
             backgroundColor: '#090d16',
-            color: '#64748b',
+            color: '#94a3b8',
             borderRight: '1px solid #1e293b',
           },
           '.cm-content': {
@@ -163,7 +164,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
               setActiveTab('html');
             }}
             className={`flex items-center gap-1.5 px-3 py-1.5 min-h-[44px] sm:min-h-[40px] rounded-lg text-xs font-bold transition cursor-pointer touch-manipulation ${
-              activeTab === 'html' ? 'bg-orange-600 text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'html' ? 'bg-orange-700 text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
             <Code2 className="w-3.5 h-3.5" />
@@ -241,7 +242,7 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
         {/* Code Editor Area with CodeMirror 6 */}
         <div className="flex-1 flex flex-col border-b md:border-b-0 md:border-r border-slate-800 bg-slate-900 overflow-hidden min-h-[220px]">
           <div className="flex-1 overflow-hidden relative bg-[#090d16]" ref={containerRef} />
-          <div className="px-3 py-1 bg-slate-950 text-[11px] text-slate-500 border-t border-slate-800 flex justify-between">
+          <div className="px-3 py-1 bg-slate-950 text-[11px] text-slate-400 border-t border-slate-800 flex justify-between">
             <span>CodeMirror 6 • {activeTab.toUpperCase()} Mode</span>
             <span>Live Sync Preview</span>
           </div>
@@ -251,13 +252,13 @@ export const WebPreviewEditor: React.FC<WebPreviewEditorProps> = ({
         <div className="flex-1 bg-slate-950 flex flex-col items-center justify-center p-3 overflow-auto min-h-[220px]">
           <div className={`w-full h-full ${viewportWidthMap[viewport]} bg-white rounded-xl shadow-2xl overflow-hidden border border-slate-700 flex flex-col transition-all duration-300`}>
             {/* Browser Header Bar */}
-            <div className="px-3 py-1.5 bg-slate-100 border-b border-slate-200 flex items-center justify-between text-[11px] text-slate-500 select-none">
+            <div className="px-3 py-1.5 bg-slate-100 border-b border-slate-200 flex items-center justify-between text-[11px] text-slate-600 select-none">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-rose-400" />
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
               </div>
-              <div className="bg-white border border-slate-200 px-3 py-0.5 rounded-full text-[11px] text-slate-400 font-sans truncate max-w-[180px]">
+              <div className="bg-white border border-slate-200 px-3 py-0.5 rounded-full text-[11px] text-slate-600 font-sans truncate max-w-[180px]">
                 https://majustore.local/{viewport}
               </div>
               <span className="font-sans font-semibold text-[11px] text-slate-600 uppercase">

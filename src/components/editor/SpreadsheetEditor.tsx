@@ -730,16 +730,16 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
             Sheet1 (Aktif)
           </div>
           <span className="text-slate-500">|</span>
-          <span className="text-[11px] text-slate-500 font-mono">
+          <span className="text-[11px] text-slate-600 font-mono">
             Grid: 26 Kolom (A-Z) × 200 Baris
           </span>
           <span className="text-slate-500 hidden sm:inline">|</span>
-          <span className="text-[11px] text-slate-500 font-mono hidden sm:inline">
+          <span className="text-[11px] text-slate-600 font-mono hidden sm:inline">
             Pemisah: {settingsRepo.get('excel_separator', 'semicolon') === 'semicolon' ? 'Titik Koma (;)' : 'Koma (,)'}
           </span>
         </div>
           <div
-            className="text-[11px] text-slate-500 font-mono truncate max-w-[55%] text-right"
+            className="text-[11px] text-slate-600 font-mono truncate max-w-[55%] text-right"
             title={grid[selectedCell]?.raw || undefined}
           >
             {grid[selectedCell]?.raw ? `Sel ${selectedCell}: ${grid[selectedCell]?.raw}` : `${selectedCell}: (Kosong)`}

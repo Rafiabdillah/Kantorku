@@ -81,7 +81,7 @@ test.describe('KantorKu Smoke & Robustness Test Suite', () => {
     await expect(page.locator('text=Target Pekerjaan')).toBeVisible();
 
     // Test Case File mobile tabs
-    await page.goto('/?autostart=1&view=case-file');
+    await page.goto('/?autostart=1&case=case-01-sayur');
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(300);
 

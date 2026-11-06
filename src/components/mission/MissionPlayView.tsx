@@ -1130,7 +1130,7 @@ export const MissionPlayView: React.FC = () => {
                       <div key={dimension} className="p-2 rounded-xl bg-slate-50 border border-slate-200/60">
                         <span className="text-slate-500 text-[11px] block">{RUBRIC_LABELS[dimension]}</span>
                         <div className={`font-bold text-xs ${score === null ? 'text-slate-500' : 'text-slate-800'}`}>
-                          {score === null ? '—' : `${score}%`}
+                          {score === null ? 'Belum diukur' : `${score}%`}
                         </div>
                       </div>
                     );
@@ -1138,7 +1138,7 @@ export const MissionPlayView: React.FC = () => {
                 </div>
                 {validationOutput.rubric.efficiency === null && (
                   <p className="text-[10px] text-slate-500">
-                    Tanda — berarti misi ini belum mengukur dimensi tersebut secara otomatis.
+                    Dimensi bertuliskan "Belum diukur" belum dinilai otomatis pada misi ini.
                   </p>
                 )}
               </div>

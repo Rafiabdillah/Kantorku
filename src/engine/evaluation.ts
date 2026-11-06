@@ -49,6 +49,8 @@ export interface CaseSignals {
   clarificationAnswered: boolean;
   clarificationOptimal: boolean;
   handoverWritten: boolean;
+  /** Hasil penilaian berkas kerja. Dihilangkan bila kasus tidak dinilai per berkas. */
+  deliverable?: { checked: boolean; passed: boolean; messages: string[] };
 }
 
 export interface CaseEvaluation {
@@ -67,7 +69,16 @@ export function isHandoverWritten(note: string, defaultNote: string): boolean {
 export function evaluateCaseHandover(signals: CaseSignals): CaseEvaluation {
   const blockers: string[] = [];
   const notes: string[] = [];
+  const deliverable = signals.deliverable;
 
+  if (deliverable?.checked && !deliverable.passed) {
+    blockers.push(
+      `Hasil kerjamu belum memenuhi permintaan klien. ${deliverable.messages.join(' ')}`.trim()
+    );
+  }
+  if (deliverable?.checked && !signals.workChanged) {
+    blockers.push('Berkas kerja masih persis seperti kondisi awal. Kerjakan permintaan klien dulu.');
+  }
   if (!signals.clarificationAnswered) {
     blockers.push('Kamu belum menjawab pertanyaan klarifikasi dari klien. Tanyakan atau pilih jawabannya dulu.');
   }
@@ -79,14 +90,18 @@ export function evaluateCaseHandover(signals: CaseSignals): CaseEvaluation {
     notes.push(
       signals.clarificationOptimal
         ? 'Klarifikasi klien dijawab dengan opsi yang paling aman secara bisnis.'
-        : 'Klarifikasi sudah dijawab, tapi opsinya bukan yang paling tepat — pertanggungjawabkan di pesan serah terima.'
+        : 'Klarifikasi sudah dijawab, tapi opsinya bukan yang paling tepat. Pertanggungjawabkan di pesan serah terima.'
     );
   }
-  notes.push(
-    signals.workChanged
-      ? 'Berkas kerja kasus sudah diubah dari kondisi awal.'
-      : 'Berkas kerja masih persis seperti kondisi awal, jadi penilaian hanya menimbang klarifikasi dan pesan serah terima.'
-  );
+  if (deliverable?.checked) {
+    notes.push('Hasil kerjamu sudah memenuhi semua syarat yang diminta klien.');
+  } else {
+    notes.push(
+      signals.workChanged
+        ? 'Berkas kerja kasus sudah diubah dari kondisi awal.'
+        : 'Berkas kerja masih persis seperti kondisi awal, jadi penilaian hanya menimbang klarifikasi dan pesan serah terima.'
+    );
+  }
   if (signals.handoverWritten) {
     notes.push('Ringkasan serah terima cukup rinci untuk dibaca penggantimu.');
   }
@@ -96,7 +111,15 @@ export function evaluateCaseHandover(signals: CaseSignals): CaseEvaluation {
     notes,
     rubric: {
       ...UNMEASURED_RUBRIC,
-      correctness: signals.workChanged ? 100 : 0,
+      correctness: deliverable
+        ? deliverable.checked
+          ? deliverable.passed
+            ? 100
+            : 0
+          : null
+        : signals.workChanged
+        ? 100
+        : 0,
       communication: clampScore((signals.handoverWritten ? 70 : 0) + (signals.clarificationOptimal ? 30 : 0)),
     },
   };

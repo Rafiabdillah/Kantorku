@@ -133,7 +133,7 @@ export const HeaderNav: React.FC = () => {
               <div className="font-black text-sm tracking-tight text-slate-900 leading-none">
                 KantorKu
               </div>
-              <div className="hidden min-[360px]:block text-[11px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">
+              <div className="hidden min-[360px]:block text-[11px] text-slate-600 font-semibold tracking-wider uppercase mt-0.5">
                 PT Maju Sejahtera
               </div>
             </div>
@@ -172,7 +172,7 @@ export const HeaderNav: React.FC = () => {
           <div className="hidden md:flex flex-col items-end text-right">
             <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
               <span className="text-emerald-700">{tierInfo.badge} {tierInfo.title}</span>
-              <span className="text-slate-400 text-[11px] whitespace-nowrap">({profile.xp.toLocaleString('id-ID')} XP)</span>
+              <span className="text-slate-600 text-[11px] whitespace-nowrap">({profile.xp.toLocaleString('id-ID')} XP)</span>
             </div>
             <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden mt-1 border border-slate-200">
               <div

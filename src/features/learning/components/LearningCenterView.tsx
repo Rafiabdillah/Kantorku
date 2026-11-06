@@ -56,7 +56,7 @@ export type LearningCenterTab =
   | 'peta';
 
 export const LearningCenterView: React.FC = () => {
-  const { profile, setView, startMission, activeLearningLessonId, openLessonView } = useGameStore();
+  const { profile, setView, startMission, startCaseFile, activeLearningLessonId, openLessonView } = useGameStore();
   const [learningState, setLearningState] = useState(learningRepo.getState());
   const [activeTab, setActiveTab] = useState<LearningCenterTab>('beranda');
   const [activeLessonId, setActiveLessonId] = useState<string | null>(activeLearningLessonId || null);
@@ -107,7 +107,7 @@ export const LearningCenterView: React.FC = () => {
           }}
           onOpenCaseFile={(caseId) => {
             closeLesson();
-            setView('case-file');
+            startCaseFile(caseId);
           }}
         />
       </ErrorBoundary>

@@ -89,6 +89,7 @@ export default function App() {
     setView,
     completeOnboarding,
     startMission,
+    startCaseFile,
     activeLevelId,
     checkStreak,
     syncTierFromXp,
@@ -115,12 +116,16 @@ export default function App() {
     const autostart = params.get('autostart');
     const targetView = params.get('view') as AppView | null;
     const targetLevel = params.get('level');
+    const targetCase = params.get('case');
 
     if (autostart === '1') {
       if (!profile.hasCompletedOnboarding) {
         completeOnboarding('Budi Pratama', 'player', 1);
       }
-      if (targetLevel) {
+      if (targetCase) {
+        startCaseFile(targetCase, { force: true });
+        hasAppliedUrlRoute.current = true;
+      } else if (targetLevel) {
         startMission(targetLevel, { force: true });
         hasAppliedUrlRoute.current = true;
       } else if (targetView) {
@@ -142,7 +147,7 @@ export default function App() {
       }
       hasAppliedUrlRoute.current = true;
     }
-  }, [profile.hasCompletedOnboarding, setView, completeOnboarding, startMission, activeLevelId]);
+  }, [profile.hasCompletedOnboarding, setView, completeOnboarding, startMission, startCaseFile, activeLevelId]);
 
   // Show onboarding if not yet completed and not autostarted
   const isAutostart =

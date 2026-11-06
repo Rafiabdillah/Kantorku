@@ -16,7 +16,7 @@ function watchErrors(page: Page): string[] {
 }
 
 async function openView(page: Page, view: string) {
-  await page.goto(`/?autostart=1&view=${view}`);
+  await page.goto(view.startsWith('case=') ? `/?autostart=1&${view}` : `/?autostart=1&view=${view}`);
   await page.waitForLoadState('domcontentloaded');
 }
 
@@ -75,19 +75,22 @@ test.describe('KantorKu full feature simulation', () => {
 
   test('SIM.03 Case file: clarification reply and handover debrief', async ({ page }) => {
     const errors = watchErrors(page);
-    await openView(page, 'case-file');
+    await openView(page, 'case=case-01-sayur');
 
-    await expect(page.getByText(/Kasus Nyata v2\.0/)).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText(/Kasus Nyata, /)).toBeVisible({ timeout: 15000 });
     await page.getByRole('button', { name: /Keluarkan transaksi Retur/ }).click();
     await expect(page.getByText(/Tepat sekali! Omzet bersih/)).toBeVisible();
 
+    await fillCell(page, 'C2', '=B2/$B$5');
+    await fillCell(page, 'C3', '=B3/$B$5');
+    await fillCell(page, 'C4', '=B4/$B$5');
     await page.locator('textarea[placeholder*="ringkasan hasil pekerjaan"]').fill('Rekap sayur selesai, retur dikeluarkan dari omzet bersih.');
     await page.getByRole('button', { name: 'Kirim Serah Terima' }).click();
 
     await expect(page.getByRole('heading', { name: 'Serah Terima Kasus Disetujui!' })).toBeVisible();
     await expect(page.getByText('Debrief: Catatan Mentor Portofolio')).toBeVisible();
-    await page.getByRole('button', { name: 'Kembali ke Denah Kantor' }).click();
-    await expect(page.getByText('Denah Interaktif Kantor PT Maju Sejahtera')).toBeVisible();
+    await page.getByRole('button', { name: 'Kembali ke Daftar Kasus', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Kasus Nyata', level: 1 })).toBeVisible();
 
     expect(errors).toEqual([]);
   });
@@ -647,7 +650,7 @@ test.describe('KantorKu full feature simulation', () => {
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible({ timeout: 15000 });
 
     await openView(page, 'case-file');
-    await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Kasus Nyata', level: 1 })).toBeVisible();
 
     await openView(page, 'settings');
     await page.getByRole('button', { name: 'Lanjutan & Bantuan' }).click();
@@ -702,8 +705,8 @@ test.describe('KantorKu full feature simulation', () => {
   test('SIM.27 Case handover: nothing done is refused, real clarification plus note is scored', async ({ page }) => {
     const errors = watchErrors(page);
 
-    await openView(page, 'case-file');
-    await expect(page.getByText(/Kasus Nyata v2\.0/)).toBeVisible({ timeout: 15000 });
+    await openView(page, 'case=case-01-sayur');
+    await expect(page.getByText(/Kasus Nyata, /)).toBeVisible({ timeout: 15000 });
 
     await page.getByRole('button', { name: 'Kirim Serah Terima' }).click();
     await expect(page.getByRole('heading', { name: 'Serah Terima Belum Bisa Diterima' })).toBeVisible();
@@ -717,8 +720,11 @@ test.describe('KantorKu full feature simulation', () => {
     await openView(page, 'office');
     await expect(page.getByRole('main').getByText('0 XP').first()).toBeVisible();
 
-    await openView(page, 'case-file');
+    await openView(page, 'case=case-01-sayur');
     await page.getByRole('button', { name: /Keluarkan transaksi Retur/ }).click();
+    await fillCell(page, 'C2', '=B2/$B$5');
+    await fillCell(page, 'C3', '=B3/$B$5');
+    await fillCell(page, 'C4', '=B4/$B$5');
     await page
       .locator('textarea[placeholder*="ringkasan hasil pekerjaan"]')
       .fill('Retur dikeluarkan dari omzet bersih, rekap siap dibagikan.');

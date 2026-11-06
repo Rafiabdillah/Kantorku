@@ -128,7 +128,7 @@ test.describe('KantorKu P2: Feature Completeness & Integrity Suite', () => {
     page.on('pageerror', (err) => errors.push(`[PageError]: ${err.message}`));
 
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/?autostart=1&view=case-file');
+    await page.goto('/?autostart=1&case=case-01-sayur');
     await page.waitForLoadState('domcontentloaded');
 
     await page.locator('button[aria-label="Perbesar editor"]').click();

@@ -46,6 +46,7 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
       doc: code,
       extensions: [
         basicSetup,
+        EditorView.contentAttributes.of({ 'aria-label': 'Editor kode JavaScript' }),
         javascript(),
         oneDark,
         EditorView.lineWrapping,
@@ -64,7 +65,7 @@ export const CodeScriptEditor: React.FC<CodeScriptEditorProps> = ({
           },
           '.cm-gutters': {
             backgroundColor: '#090d16',
-            color: '#64748b',
+            color: '#94a3b8',
             borderRight: '1px solid #1e293b',
           },
           '.cm-content': {

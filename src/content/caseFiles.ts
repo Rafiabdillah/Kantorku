@@ -1,3 +1,4 @@
+import { TIER_CASES } from './caseFilesTiers';
 import { CaseFile } from '../types';
 import { D12_CASES } from './skills/d12-komunikasi/cases';
 import { D7_CASES } from './skills/d7-keuangan-pribadi/cases';
@@ -80,6 +81,13 @@ const BASE_CASE_FILES: CaseFile[] = [
         C5: { raw: '=SUM(C2:C4)', format: 'percent' },
       },
     },
+    excelChecks: [
+      { cell: 'C2', expected: 0.3, formulaIncludes: ["="], message: "Porsi omzet Bayam di C2 harus 30% dan memakai rumus, bukan angka ketikan." },
+      { cell: 'C3', expected: 0.5, formulaIncludes: ["="], message: "Porsi omzet Wortel di C3 harus 50% dan memakai rumus." },
+      { cell: 'C4', expected: 0.2, formulaIncludes: ["="], message: "Porsi omzet Tomat di C4 harus 20% dan memakai rumus." },
+      { cell: 'C5', expected: 1, message: "Total porsi di C5 harus 100%. Cek apakah pembagi ikut bergeser saat rumus disalin." },
+    ],
+    checkSolution: { excel: {"C2": "=B2/$B$5", "C3": "=B3/$B$5", "C4": "=B4/$B$5"} },
     referenceSolutions: ['C2: =B2/$B$5, C3: =B3/$B$5, C4: =B4/$B$5'],
     reputationReward: 15,
     xpReward: 350,
@@ -143,6 +151,13 @@ const BASE_CASE_FILES: CaseFile[] = [
         C5: { raw: '=SUM(C2:C4)', format: 'rupiah' },
       },
     },
+    excelChecks: [
+      { cell: 'C2', expected: 50000, formulaIncludes: ["="], message: "Slamet (BPJS) harus dikenai Rp 50.000 lewat rumus." },
+      { cell: 'C3', expected: 120000, formulaIncludes: ["="], message: "Dewi (Umum) harus dikenai Rp 120.000 lewat rumus." },
+      { cell: 'C4', expected: 50000, formulaIncludes: ["="], message: "Rudi (BPJS) harus dikenai Rp 50.000 lewat rumus." },
+      { cell: 'C5', expected: 220000, message: "Total klaim di C5 harus Rp 220.000." },
+    ],
+    checkSolution: { excel: {"C2": "=IF(B2=\"BPJS\",50000,120000)", "C3": "=IF(B3=\"BPJS\",50000,120000)", "C4": "=IF(B4=\"BPJS\",50000,120000)"} },
     referenceSolutions: ['C2: =IF(B2="BPJS", 50000, 120000)'],
     reputationReward: 20,
     xpReward: 400,
@@ -167,6 +182,7 @@ const BASE_CASE_FILES: CaseFile[] = [
     summary: 'Buat halaman profil toko kue responsif yang memuat header, kartu menu terlaris dengan flexbox, dan tombol order.',
     emails: [],
     chats: [
+      { sender: "Kak Intan", role: "IT Lead", time: "10:08", message: "Tambahkan satu @media (max-width: 600px) agar kartu menu menumpuk ke bawah di HP. Jangan hapus struktur header dan main yang sudah ada." },
       { sender: 'Nadia', role: 'Marketing', time: '10:00', message: 'Ibu Siti ingin websitenya cantik dan gampang dibuka di HP pelanggan pas mau pesan kue ulang tahun.' },
       { sender: 'Kak Intan', role: 'IT Lead', time: '10:05', message: 'Gunakan semantic HTML dan CSS Flexbox responsif ya, jangan pakai tabel kuno untuk layout!' },
     ],
@@ -210,6 +226,11 @@ h1 { color: #9a3412; margin: 0; }
 .menu-container { display: flex; gap: 16px; padding: 20px; }
 .menu-item { flex: 1; border: 1px solid #fed7aa; padding: 16px; border-radius: 12px; background: white; text-align: center; }
 .btn-order { display: block; width: 100%; max-width: 240px; margin: 20px auto; padding: 12px; background: #16a34a; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }`,
+    },
+    webRequirements: { requireSemantic: true, requireFlexbox: true, minMediaQueries: 1, requiredClasses: ['menu-container', 'btn-order'] },
+    checkSolution: {
+      html: '<footer><p>Dapur Manis Ibu Siti, pesan lewat WhatsApp</p></footer>',
+      css: '@media (max-width: 600px) { .menu-container { flex-direction: column; } }',
     },
     referenceSolutions: ['Semantic HTML dengan header, main, dan .menu-container display: flex'],
     reputationReward: 25,
@@ -282,6 +303,13 @@ h1 { color: #9a3412; margin: 0; }
         C5: { raw: '=SUM(C2:C4)', format: 'rupiah' },
       },
     },
+    excelChecks: [
+      { cell: 'C2', expected: 180000, formulaIncludes: ["$E$1"], message: "Surcharge resi pertama harus Rp 180.000 dan mengunci tarif di $E$1." },
+      { cell: 'C3', expected: 127500, formulaIncludes: ["$E$1"], message: "Surcharge resi kedua harus Rp 127.500 dan mengunci tarif di $E$1." },
+      { cell: 'C4', expected: 360000, formulaIncludes: ["$E$1"], message: "Surcharge resi ketiga harus Rp 360.000 dan mengunci tarif di $E$1." },
+      { cell: 'C5', expected: 667500, message: "Total surcharge di C5 harus Rp 667.500." },
+    ],
+    checkSolution: { excel: {"C2": "=B2*$E$1", "C3": "=B3*$E$1", "C4": "=B4*$E$1"} },
     referenceSolutions: ['C2: =B2*$E$1, C3: =B3*$E$1, C4: =B4*$E$1'],
     reputationReward: 20,
     xpReward: 380,
@@ -352,6 +380,14 @@ h1 { color: #9a3412; margin: 0; }
         D6: { raw: '=SUM(D2:D5)', format: 'rupiah' },
       },
     },
+    excelChecks: [
+      { cell: 'D2', expected: 120000, formulaIncludes: ["IF"], message: "Struk Ojol Rp 150.000 harus menjadi Rp 120.000 setelah potongan 20%." },
+      { cell: 'D3', expected: 85000, formulaIncludes: ["IF"], message: "Struk Dine-In harus tetap Rp 85.000." },
+      { cell: 'D4', expected: 160000, formulaIncludes: ["IF"], message: "Struk Ojol Rp 200.000 harus menjadi Rp 160.000." },
+      { cell: 'D5', expected: 120000, formulaIncludes: ["IF"], message: "Struk Dine-In harus tetap Rp 120.000." },
+      { cell: 'D6', expected: 485000, message: "Total bersih resto di D6 harus Rp 485.000." },
+    ],
+    checkSolution: { excel: {"D2": "=IF(B2=\"Ojol\",C2*0.8,C2)", "D3": "=IF(B3=\"Ojol\",C3*0.8,C3)", "D4": "=IF(B4=\"Ojol\",C4*0.8,C4)", "D5": "=IF(B5=\"Ojol\",C5*0.8,C5)"} },
     referenceSolutions: ['D2: =IF(B2="Ojol", C2*0.8, C2)'],
     reputationReward: 25,
     xpReward: 420,
@@ -416,6 +452,13 @@ h1 { color: #9a3412; margin: 0; }
         C5: { raw: '=SUM(C2:C4)', format: 'rupiah' },
       },
     },
+    excelChecks: [
+      { cell: 'C2', expected: 150000, formulaIncludes: ["$E$1"], message: "Bunga Agus harus Rp 150.000 dan mengunci suku bunga di $E$1." },
+      { cell: 'C3', expected: 90000, formulaIncludes: ["$E$1"], message: "Bunga Nurul harus Rp 90.000 dan mengunci suku bunga di $E$1." },
+      { cell: 'C4', expected: 225000, formulaIncludes: ["$E$1"], message: "Bunga Bambang harus Rp 225.000 dan mengunci suku bunga di $E$1." },
+      { cell: 'C5', expected: 465000, message: "Total bunga koperasi di C5 harus Rp 465.000." },
+    ],
+    checkSolution: { excel: {"C2": "=B2*$E$1", "C3": "=B3*$E$1", "C4": "=B4*$E$1"} },
     referenceSolutions: ['C2: =B2*$E$1, C3: =B3*$E$1, C4: =B4*$E$1'],
     reputationReward: 20,
     xpReward: 390,
@@ -487,6 +530,17 @@ h1 { color: #9a3412; margin: 0; }
         E5: { raw: '=SUM(E2:E4)', format: 'rupiah' },
       },
     },
+    excelChecks: [
+      { cell: 'D2', expected: 1200000, formulaIncludes: ["IF"], message: "Pak Hendra (Deluxe, 2 malam) harus Rp 1.200.000." },
+      { cell: 'D3', expected: 350000, formulaIncludes: ["IF"], message: "Ibu Ratih (Standar, 1 malam) harus Rp 350.000." },
+      { cell: 'D4', expected: 600000, formulaIncludes: ["IF"], message: "Pak Gunawan (Deluxe, 1 malam) harus Rp 600.000." },
+      { cell: 'E2', expected: 120000, formulaIncludes: ["D2"], message: "Pajak PB1 Pak Hendra harus 10% dari D2, yaitu Rp 120.000." },
+      { cell: 'E3', expected: 35000, formulaIncludes: ["D3"], message: "Pajak PB1 Ibu Ratih harus Rp 35.000." },
+      { cell: 'E4', expected: 60000, formulaIncludes: ["D4"], message: "Pajak PB1 Pak Gunawan harus Rp 60.000." },
+      { cell: 'D5', expected: 2150000, message: "Total subtotal tarif di D5 harus Rp 2.150.000." },
+      { cell: 'E5', expected: 215000, message: "Total pajak PB1 di E5 harus Rp 215.000." },
+    ],
+    checkSolution: { excel: {"D2": "=IF(B2=\"Deluxe\",600000*C2,350000*C2)", "D3": "=IF(B3=\"Deluxe\",600000*C3,350000*C3)", "D4": "=IF(B4=\"Deluxe\",600000*C4,350000*C4)", "E2": "=D2*0.1", "E3": "=D3*0.1", "E4": "=D4*0.1"} },
     referenceSolutions: ['D2: =IF(B2="Deluxe", 600000*C2, 350000*C2), E2: =D2*0.1'],
     reputationReward: 25,
     xpReward: 430,
@@ -518,6 +572,7 @@ h1 { color: #9a3412; margin: 0; }
       },
     ],
     chats: [
+      { sender: "Bu Sari", role: "Direktur Operasional", time: "09:20", message: "Aset yang diserahterimakan ada tiga: laptop, barcode scanner, dan mesin kasir. Tabel BAST harus memuat ketiganya." },
       { sender: 'Pak Hendra', role: 'Auditor Senior', time: '09:05', message: 'Pastikan ada bab 1.0 Tujuan dan 2.0 Prosedur Kerja bernomor ya.' },
       { sender: 'Maya', role: 'HR & Kepatuhan', time: '09:10', message: 'Cantumkan juga kolom nomor seri perangkat pada tabel BAST agar mudah dicek inventaris.' },
     ],
@@ -534,6 +589,8 @@ h1 { color: #9a3412; margin: 0; }
     initialData: {
       word: '<h1>STANDAR OPERASIONAL PROSEDUR (SOP)</h1><p>No Dokumen: SOP-LOG-2026-05 | Tanggal: 1 November 2026</p><h2>1.0 TUJUAN</h2><p>Menstandarkan tata cara penanganan kasir dan serah terima inventaris elektronik di seluruh kantor cabang.</p><h2>2.0 PROSEDUR KERJA</h2><ol><li>Memverifikasi fisik perangkat bersama staf penerima.</li><li>Mencatat nomor seri pada lembar berita acara.</li><li>Menandatangani dokumen BAST rangkap dua.</li></ol><h2>3.0 BERITA ACARA SERAH TERIMA</h2><table><thead><tr><th>No</th><th>Nama Aset</th><th>Nomor Seri</th><th>Kondisi</th></tr></thead><tbody><tr><td>1</td><td>Laptop ThinkPad E14</td><td>SN-LOG-901</td><td>Baik / Baru</td></tr><tr><td>2</td><td>Barcode Scanner USB</td><td>SN-LOG-902</td><td>Baik / Baru</td></tr></tbody></table>',
     },
+    wordRequirements: { requireH1: true, requireH2: true, requireList: true, requireTable: true, minTableRows: 4, requiredKeywords: ['Tujuan', 'Prosedur', 'Nomor Seri', 'Mesin Kasir'] },
+    checkSolution: { word: '<table><tbody><tr><td>3</td><td>Mesin Kasir POS</td><td>SN-LOG-903</td><td>Baik / Baru</td></tr></tbody></table>' },
     referenceSolutions: ['Dokumen SOP dengan H1, H2 Tujuan, H2 Prosedur bernomor, dan tabel BAST 3 baris'],
     reputationReward: 30,
     xpReward: 450,
@@ -565,6 +622,7 @@ h1 { color: #9a3412; margin: 0; }
       },
     ],
     chats: [
+      { sender: "Bu Sari", role: "Direktur Operasional", time: "13:10", message: "Proposal belum lengkap tanpa bab Jadwal Kerja. Tambahkan dengan tahapan dan durasinya." },
       { sender: 'Bu Sari', role: 'Direktur Operasional', time: '10:20', message: 'Tulis ringkasan eksekutif yang meyakinkan nilai efisiensinya bagi perusahaan.' },
       { sender: 'Pak Reza', role: 'Finance', time: '10:22', message: 'Total pagu anggaran maksimal Rp 100.000.000, jangan sampai salah hitung di tabel RAB.' },
     ],
@@ -581,6 +639,8 @@ h1 { color: #9a3412; margin: 0; }
     initialData: {
       word: '<h1>PROPOSAL PENGADAAN TEKNOLOGI KANTOR</h1><h2>Ringkasan Eksekutif</h2><p>Inisiatif peningkatan kapasitas kerja staf operasional melalui penyediaan 10 unit komputer kerja dan jaringan cloud server terintegrasi.</p><h2>Rencana Anggaran Biaya (RAB)</h2><table><thead><tr><th>No</th><th>Pos Pekerjaan</th><th>Alokasi Dana</th></tr></thead><tbody><tr><td>1</td><td>Pengadaan Laptop Karyawan</td><td>Rp 70.000.000</td></tr><tr><td>2</td><td>Infrastruktur Jaringan & Cloud</td><td>Rp 20.000.000</td></tr><tr><td>3</td><td>Pelatihan Software Terpadu</td><td>Rp 10.000.000</td></tr></tbody></table><p>Total Nilai Pengadaan: <strong>Rp 100.000.000</strong></p>',
     },
+    wordRequirements: { requireH1: true, requireH2: true, requireTable: true, minTableRows: 4, requiredKeywords: ['Ringkasan Eksekutif', 'Anggaran', 'Jadwal Kerja'] },
+    checkSolution: { word: '<h2>Jadwal Kerja</h2><p>Pengadaan selesai dalam 8 minggu: minggu 1-2 pemilihan vendor, minggu 3-6 pengadaan, minggu 7-8 pelatihan.</p>' },
     referenceSolutions: ['Proposal bisnis dengan H1, H2 Ringkasan Eksekutif, tabel RAB 3 pos, dan total tebal Rp 100 Juta'],
     reputationReward: 35,
     xpReward: 480,
@@ -612,6 +672,7 @@ h1 { color: #9a3412; margin: 0; }
       },
     ],
     chats: [
+      { sender: "Kak Intan", role: "IT Lead", time: "11:20", message: "Layar 360px masih terpotong. Selain breakpoint 768px, tambahkan breakpoint kedua max-width: 480px supaya tombol CTA memenuhi lebar layar." },
       { sender: 'Kak Intan', role: 'Lead Architect', time: '11:05', message: 'Pastikan lolos zero horizontal scroll pada viewport smartphone ya.' },
       { sender: 'Nadia', role: 'Marketing', time: '11:07', message: 'Tombol Pesan Sekarang di banner utama harus sangat mencolok!' },
     ],
@@ -629,6 +690,8 @@ h1 { color: #9a3412; margin: 0; }
       html: '<header class="portal-nav">\n  <div class="logo"><strong>Layanan Digital Sejahtera</strong></div>\n  <nav><ul><li><a href="#fitur">Fitur</a></li><li><a href="#kontak">Bantuan</a></li></ul></nav>\n</header>\n<main>\n  <section class="hero-box">\n    <h1>Solusi Bantuan Kantor 24 Jam</h1>\n    <p>Layanan konsultasi operasional dan IT terpadu.</p>\n    <button class="cta-btn">Ajukan Tiket Sekarang</button>\n  </section>\n</main>\n<footer><p>&copy; 2026 PT Maju Sejahtera</p></footer>',
       css: '.portal-nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: #0f172a; color: white; }\n.portal-nav ul { display: flex; gap: 14px; list-style: none; margin: 0; padding: 0; }\n.portal-nav a { color: #38bdf8; text-decoration: none; }\n.hero-box { padding: 40px 20px; text-align: center; background: #f8fafc; }\n.cta-btn { background: #10b981; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }\n@media (max-width: 768px) {\n  .portal-nav { flex-direction: column; gap: 10px; }\n}',
     },
+    webRequirements: { requireSemantic: true, requireFlexbox: true, minMediaQueries: 2 },
+    checkSolution: { css: '@media (max-width: 480px) { .cta-btn { width: 100%; box-sizing: border-box; } }' },
     referenceSolutions: ['Halaman web responsif dengan semantic tags, flexbox navbar, hero section, dan media query mobile'],
     reputationReward: 35,
     xpReward: 500,
@@ -655,4 +718,5 @@ export const CASE_FILES: CaseFile[] = [
   ...D10_CASES,
   ...D4_CASES,
   ...D17_CASES,
+  ...TIER_CASES,
 ];

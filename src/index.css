@@ -623,3 +623,12 @@ textarea::placeholder {
 .dark .text-lime-950{color:#d9f99d}
 .dark .text-fuchsia-950{color:#f5d0fe}
 .dark .text-slate-950{color:#f8fafc}
+
+/* One Dark gutter numbers and red tokens fall below 4.5:1 on its own background. */
+div.cm-editor,
+div.cm-editor .cm-gutters {
+  background-color: #1b1e24;
+}
+div.cm-editor .cm-gutters .cm-gutterElement {
+  color: #b4bccb;
+}

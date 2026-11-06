@@ -93,6 +93,41 @@ export interface DialogueNode {
   choices?: DialogueChoice[];
 }
 
+/** Penilaian Excel deklaratif: nilai sel yang diharapkan dan, bila perlu, rumus wajib. */
+export interface ExcelCheck {
+  cell: string;
+  /** Indeks objektif (mulai 0) yang dinilai oleh cek ini. */
+  objective: number;
+  expected: string | number;
+  formulaIncludes?: string[];
+  message: string;
+}
+
+export interface WebRequirements {
+  requiredTags?: string[];
+  requiredClasses?: string[];
+  minMediaQueries?: number;
+  requireFlexbox?: boolean;
+  requireGrid?: boolean;
+  requireSemantic?: boolean;
+  requireImgAlt?: boolean;
+  responsiveCheck?: boolean;
+}
+
+export interface WordRequirements {
+  scale?: DocumentScale;
+  minWords?: number;
+  requiredKeywords?: string[];
+  requireH1?: boolean;
+  requireH2?: boolean;
+  requireTable?: boolean;
+  minTableRows?: number;
+  requireList?: boolean;
+  requireBold?: boolean;
+  academicPreset?: boolean;
+  requireFootnote?: boolean;
+}
+
 export interface LevelItem {
   id: string;
   module: ModuleType;
@@ -134,38 +169,9 @@ export interface LevelItem {
     description: string;
     hidden?: boolean;
   }[];
-  /** Penilaian Excel deklaratif: nilai sel yang diharapkan dan, bila perlu, rumus wajib. */
-  excelChecks?: {
-    cell: string;
-    /** Indeks objektif (mulai 0) yang dinilai oleh cek ini. */
-    objective: number;
-    expected: string | number;
-    formulaIncludes?: string[];
-    message: string;
-  }[];
-  webRequirements?: {
-    requiredTags?: string[];
-    requiredClasses?: string[];
-    minMediaQueries?: number;
-    requireFlexbox?: boolean;
-    requireGrid?: boolean;
-    requireSemantic?: boolean;
-    requireImgAlt?: boolean;
-    responsiveCheck?: boolean;
-  };
-  wordRequirements?: {
-    scale?: DocumentScale;
-    minWords?: number;
-    requiredKeywords?: string[];
-    requireH1?: boolean;
-    requireH2?: boolean;
-    requireTable?: boolean;
-    minTableRows?: number;
-    requireList?: boolean;
-    requireBold?: boolean;
-    academicPreset?: boolean;
-    requireFootnote?: boolean;
-  };
+  excelChecks?: ExcelCheck[];
+  webRequirements?: WebRequirements;
+  wordRequirements?: WordRequirements;
 }
 
 export interface CaseFile {
@@ -278,6 +284,15 @@ export interface CaseFile {
     html?: string;
     css?: string;
   };
+  /** Penilaian hasil kerja kasus. Kasus tanpa salah satunya dinilai lewat serah terima saja. */
+  excelChecks?: Omit<ExcelCheck, 'objective'>[];
+  webRequirements?: WebRequirements;
+  wordRequirements?: WordRequirements;
+  /**
+   * Hasil kerja yang harus lolos penilaian di atas, dipakai tes agar syarat kasus selalu bisa dipenuhi.
+   * Sel Excel menimpa berkas awal. Html, css, dan word adalah potongan yang ditambahkan ke berkas awal.
+   */
+  checkSolution?: { excel?: Record<string, string>; html?: string; css?: string; word?: string };
   referenceSolutions: string[];
   reputationReward: number;
   xpReward: number;

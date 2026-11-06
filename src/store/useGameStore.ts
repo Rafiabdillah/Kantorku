@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { PlayerProfile, CharacterId, ModuleType, TierLevel, ErrorLogItem, SheetGrid, CellData, TIERS } from '../types';
 import { LEVELS } from '../content/levels';
+import { CASE_FILES } from '../content/caseFiles';
 import { sound } from '../services/sound';
 import { parseSaveFileJson, buildSaveFileJson } from '../services/saveFile';
 import { ALL_SKILLS } from '../content/skills';
@@ -39,6 +40,11 @@ export function isLevelUnlocked(
   if (level.tier <= profile.currentTier) return true;
   if (profile.completedLevelIds.includes(level.id)) return true;
   return LEVELS.find((l) => l.module === level.module)?.id === level.id;
+}
+
+/** Kasus terbuka bila jabatan pemain sudah mencapai tier kasus tersebut. */
+export function isCaseUnlocked(profile: Pick<PlayerProfile, 'currentTier'>, caseItem: { tier: TierLevel }): boolean {
+  return caseItem.tier <= profile.currentTier;
 }
 
 export interface RewardNotice {
@@ -107,7 +113,8 @@ interface GameState {
 
   // Real Case File
   activeCaseId: string | null;
-  startCaseFile: (caseId: string) => void;
+  startCaseFile: (caseId: string, options?: { force?: boolean }) => boolean;
+  closeCaseFile: () => void;
 
   // Error Notebook
   errorNotebook: ErrorLogItem[];
@@ -694,12 +701,28 @@ export const useGameStore = create<GameState>()(
 
       // Real Case File
       activeCaseId: null,
-      startCaseFile: (caseId) => {
+      startCaseFile: (caseId, options) => {
+        const caseItem = CASE_FILES.find((c) => c.id === caseId);
+        if (!caseItem) return false;
+        if (!options?.force && !isCaseUnlocked(get().profile, caseItem)) {
+          const needed = TIERS[caseItem.tier];
+          set({
+            lockNotice: `Kasus "${caseItem.title}" terkunci. Butuh jabatan ${needed.title} (${needed.minXp.toLocaleString('id-ID')} XP).`,
+          });
+          return false;
+        }
         sound.playClick();
         set({
           activeCaseId: caseId,
           currentView: 'case-file',
+          lockNotice: null,
         });
+        return true;
+      },
+
+      closeCaseFile: () => {
+        sound.playClick();
+        set({ activeCaseId: null });
       },
 
       // Error Notebook

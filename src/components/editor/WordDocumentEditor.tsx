@@ -56,6 +56,9 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
     ],
     content,
     editable: !readOnly,
+    editorProps: {
+      attributes: { role: 'textbox', 'aria-multiline': 'true', 'aria-label': 'Isi dokumen Word' },
+    },
     onUpdate: ({ editor }) => {
       sound.playTyping();
       const html = editor.getHTML();
@@ -163,6 +166,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
         <div className="flex items-center gap-1 border-r border-slate-200 pr-2 shrink-0">
           <select
             value={fontFamily}
+            aria-label="Jenis huruf"
             onChange={(e) => setFontFamily(e.target.value as any)}
             className="text-xs min-h-[44px] sm:min-h-[40px] bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700 font-medium outline-none cursor-pointer"
           >
@@ -224,6 +228,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
             onChange={(e) => setLineSpacing(e.target.value as any)}
             className="text-[11px] min-h-[44px] sm:min-h-[40px] bg-slate-50 border border-slate-200 rounded px-1.5 py-1 text-slate-700 font-medium cursor-pointer"
             title="Spasi Baris"
+            aria-label="Spasi baris"
           >
             <option value="1.0">1.0</option>
             <option value="1.15">1.15</option>
@@ -303,6 +308,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
             onChange={(e) => setMarginPreset(e.target.value as any)}
             className="text-[11px] min-h-[44px] sm:min-h-[40px] bg-slate-50 border border-slate-200 rounded px-2 py-1 text-slate-700 font-medium cursor-pointer"
             title="Preset Margin Kertas A4"
+            aria-label="Preset margin kertas A4"
           >
             <option value="akademik">Margin 4-3-3-3 cm (Akademik ID)</option>
             <option value="normal">Margin 2.5 cm (Normal Bisnis)</option>
@@ -335,6 +341,7 @@ export const WordDocumentEditor: React.FC<WordDocumentEditorProps> = ({
             onChange={(e) => setWatermark(e.target.value)}
             className="text-[11px] min-h-[44px] sm:min-h-[40px] bg-slate-50 border border-slate-200 rounded px-2 py-1 text-slate-700 font-medium cursor-pointer"
             title="Watermark Dokumen"
+            aria-label="Watermark dokumen"
           >
             <option value="">Tanpa Watermark</option>
             <option value="DRAFT">Watermark DRAFT</option>
