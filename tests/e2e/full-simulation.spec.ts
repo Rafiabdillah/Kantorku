@@ -695,9 +695,9 @@ test.describe('KantorKu full feature simulation', () => {
     // 1 dari 3 tujuan lolos -> Benar 33%, dimensi lain belum diukur
     await expect(page.getByText('Skor 5 Dimensi')).toBeVisible();
     await expect(page.getByText('33%', { exact: true })).toBeVisible();
-    await expect(page.getByText('—', { exact: true })).toHaveCount(4);
+    await expect(page.getByText('Belum diukur', { exact: true })).toHaveCount(4);
     await expect(page.getByText('90%', { exact: true })).toHaveCount(0);
-    await expect(page.getByText(/belum mengukur dimensi tersebut/)).toBeVisible();
+    await expect(page.getByText(/belum dinilai otomatis pada misi ini/)).toBeVisible();
 
     expect(errors).toEqual([]);
   });
@@ -732,8 +732,9 @@ test.describe('KantorKu full feature simulation', () => {
 
     await expect(page.getByRole('heading', { name: 'Serah Terima Kasus Disetujui!' })).toBeVisible();
     await expect(page.getByText('Skor 5 Dimensi')).toBeVisible();
-    await expect(page.getByText('100%', { exact: true })).toBeVisible();
-    await expect(page.getByText('—', { exact: true })).toHaveCount(3);
+    const verdict = page.getByRole('dialog');
+    await expect(verdict.getByText('100%', { exact: true })).toHaveCount(2);
+    await expect(verdict.getByText('Belum diukur', { exact: true })).toHaveCount(3);
     await expect(page.getByText(/Klarifikasi klien dijawab dengan opsi yang paling aman/)).toBeVisible();
 
     expect(errors).toEqual([]);

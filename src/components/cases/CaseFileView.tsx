@@ -78,6 +78,17 @@ const CaseWorkspace: React.FC<{ caseItem: CaseFile }> = ({ caseItem }) => {
     };
   }, [editorExpanded]);
 
+  useEffect(() => {
+    if (!showCompleteModal) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setShowCompleteModal(false);
+      closeCaseFile();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [showCompleteModal, closeCaseFile]);
+
   const handleCellChange = (addr: string, data: any) => {
     setSheetData((prev) => ({
       ...prev,
@@ -433,7 +444,12 @@ const CaseWorkspace: React.FC<{ caseItem: CaseFile }> = ({ caseItem }) => {
       {/* Completion & Debrief Modal */}
       {showCompleteModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Serah terima disetujui"
+            className="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-slate-200 flex flex-col gap-4 animate-in fade-in zoom-in-95"
+          >
             <div className="text-center">
               <div className="inline-flex p-3 bg-emerald-100 rounded-full text-emerald-700 mx-auto mb-2">
                 <Award className="w-8 h-8" />
