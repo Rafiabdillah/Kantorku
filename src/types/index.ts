@@ -292,7 +292,9 @@ export interface CaseFile {
    * Hasil kerja yang harus lolos penilaian di atas, dipakai tes agar syarat kasus selalu bisa dipenuhi.
    * Sel Excel menimpa berkas awal. Html, css, dan word adalah potongan yang ditambahkan ke berkas awal.
    */
-  checkSolution?: { excel?: Record<string, string>; html?: string; css?: string; word?: string };
+  checkSolution?: { excel?: Record<string, string>; html?: string; css?: string; word?: string; code?: string };
+  /** Kasus JavaScript: kode pemain dijalankan di sandbox terhadap uji ini. */
+  testCases?: { description: string; input?: unknown[]; expected: unknown; hidden?: boolean }[];
   referenceSolutions: string[];
   reputationReward: number;
   xpReward: number;

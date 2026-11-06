@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { CheckCircle2, Clock, FileSpreadsheet, FileText, Globe, Lock } from 'lucide-react';
+import { CheckCircle2, Clock, FileSpreadsheet, FileText, Globe, Lock, Terminal } from 'lucide-react';
 import { CASE_FILES } from '../../content/caseFiles';
 import { isCaseUnlocked, useGameStore } from '../../store/useGameStore';
 import { ModuleType, TierLevel, TIERS } from '../../types';
@@ -8,15 +8,17 @@ const MODULE_LABEL: Partial<Record<ModuleType, { label: string; icon: React.Reac
   excel: { label: 'Excel', icon: <FileSpreadsheet className="w-3.5 h-3.5" aria-hidden="true" />, tone: 'bg-emerald-100 text-emerald-800' },
   word: { label: 'Word', icon: <FileText className="w-3.5 h-3.5" aria-hidden="true" />, tone: 'bg-blue-100 text-blue-800' },
   web: { label: 'Web', icon: <Globe className="w-3.5 h-3.5" aria-hidden="true" />, tone: 'bg-indigo-100 text-indigo-800' },
+  coding: { label: 'JavaScript', icon: <Terminal className="w-3.5 h-3.5" aria-hidden="true" />, tone: 'bg-amber-100 text-amber-900' },
 };
 
-type Filter = 'all' | 'excel' | 'word' | 'web';
+type Filter = 'all' | 'excel' | 'web' | 'coding' | 'word';
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: 'Semua' },
   { id: 'excel', label: 'Excel' },
-  { id: 'word', label: 'Word' },
   { id: 'web', label: 'Web' },
+  { id: 'coding', label: 'JavaScript' },
+  { id: 'word', label: 'Word & Akademik' },
 ];
 
 export const CaseCatalogView: React.FC = () => {

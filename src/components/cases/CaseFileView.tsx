@@ -3,10 +3,11 @@ import { useGameStore } from '../../store/useGameStore';
 import { CASE_FILES } from '../../content/caseFiles';
 import { CaseCatalogView } from './CaseCatalogView';
 import { WordDocumentEditor } from '../editor/WordDocumentEditor';
-import { evaluateCaseDeliverable } from '../../engine/caseDeliverable';
+import { evaluateCaseDeliverableAsync } from '../../engine/caseDeliverable';
 import { CharacterAvatar } from '../character/CharacterAvatar';
 import { SpreadsheetEditor } from '../editor/SpreadsheetEditor';
 import { WebPreviewEditor } from '../editor/WebPreviewEditor';
+import { CodeScriptEditor } from '../editor/CodeScriptEditor';
 import { CaseFile, SheetGrid } from '../../types';
 import { sound } from '../../services/sound';
 import confetti from 'canvas-confetti';
@@ -54,6 +55,7 @@ const CaseWorkspace: React.FC<{ caseItem: CaseFile }> = ({ caseItem }) => {
   const [wordData, setWordData] = useState<string>(caseItem.initialData.word || '');
   const [htmlData, setHtmlData] = useState<string>(caseItem.initialData.html || '');
   const [cssData, setCssData] = useState<string>(caseItem.initialData.css || '');
+  const [codeData, setCodeData] = useState<string>(caseItem.initialData.code || '');
   const [selectedClarification, setSelectedClarification] = useState<string | null>(null);
   const [clarificationSubmitted, setClarificationSubmitted] = useState<boolean>(false);
   const [handoverNote, setHandoverNote] = useState<string>(DEFAULT_HANDOVER_NOTE);
@@ -105,22 +107,23 @@ const CaseWorkspace: React.FC<{ caseItem: CaseFile }> = ({ caseItem }) => {
     setClarificationSubmitted(true);
   };
 
-  const handleFinishCase = () => {
+  const handleFinishCase = async () => {
     sound.playClick();
     const clarification = caseItem.clarifyingQuestions[0];
     const review = evaluateCaseHandover({
       workChanged: !isBlankWork(caseItem.module, caseItem.initialData, {
         sheet: sheetData,
-        code: '',
+        code: codeData,
         word: wordData,
         html: htmlData,
         css: cssData,
       }),
-      deliverable: evaluateCaseDeliverable(caseItem, {
+      deliverable: await evaluateCaseDeliverableAsync(caseItem, {
         sheet: sheetData,
         html: htmlData,
         css: cssData,
         word: wordData,
+        code: codeData,
       }),
       // Kasus tanpa pertanyaan klarifikasi tidak boleh terkunci oleh gerbang ini.
       clarificationAnswered: !clarification || Boolean(selectedClarification),
@@ -387,6 +390,8 @@ const CaseWorkspace: React.FC<{ caseItem: CaseFile }> = ({ caseItem }) => {
                   onHtmlChange={(h) => setHtmlData(h)}
                   onCssChange={(c) => setCssData(c)}
                 />
+              ) : caseItem.module === 'coding' ? (
+                <CodeScriptEditor code={codeData} onChange={setCodeData} testCases={caseItem.testCases?.filter((t) => !t.hidden)} />
               ) : caseItem.module === 'word' ? (
                 <WordDocumentEditor content={wordData} onChange={setWordData} />
               ) : (

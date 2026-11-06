@@ -1,4 +1,5 @@
 import { TIER_CASES } from './caseFilesTiers';
+import { TRACK_CASES } from './caseFilesTrack';
 import { CaseFile } from '../types';
 import { D12_CASES } from './skills/d12-komunikasi/cases';
 import { D7_CASES } from './skills/d7-keuangan-pribadi/cases';
@@ -719,4 +720,5 @@ export const CASE_FILES: CaseFile[] = [
   ...D4_CASES,
   ...D17_CASES,
   ...TIER_CASES,
+  ...TRACK_CASES,
 ];
