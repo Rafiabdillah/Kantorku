@@ -18,9 +18,16 @@ import {
   GraduationCap,
 } from 'lucide-react';
 
+const MODULE_NAME: Record<ModuleType, string> = {
+  excel: 'Excel',
+  web: 'Web',
+  coding: 'JavaScript',
+  word: 'Word & Akademik',
+};
+
 export const CareerMapView: React.FC = () => {
   const { profile, startMission, openLessonView, startCaseFile } = useGameStore();
-  const [activeModule, setActiveModule] = useState<ModuleType>('excel');
+  const [activeModule, setActiveModule] = useState<ModuleType>(profile.focusModule ?? 'excel');
   const [selectedTier, setSelectedTier] = useState<TierLevel>(profile.currentTier);
 
   const filteredLevels = LEVELS.filter((l) => l.module === activeModule && l.tier === selectedTier);
@@ -46,7 +53,7 @@ export const CareerMapView: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">
-              Peta Karier & Skill Tree v2.0
+              Peta Karier &amp; Skill Tree
             </span>
             <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${masteryStatus.color}`}>
               {masteryStatus.label} ({masteryPercent}%)
@@ -55,6 +62,9 @@ export const CareerMapView: React.FC = () => {
           <h1 className="text-2xl font-extrabold text-slate-900 mt-1">Jalur Pembelajaran Profesional</h1>
           <p className="text-xs text-slate-500 mt-1">
             Empat pilar keahlian: Excel, Web (HTML/CSS), JavaScript, dan Word Bisnis & Akademik.
+            {profile.focusModule && (
+              <> Jalur {MODULE_NAME[profile.focusModule]} disarankan untukmu berdasarkan pilihan saat mendaftar.</>
+            )}
           </p>
         </div>
 
@@ -262,7 +272,7 @@ export const CareerMapView: React.FC = () => {
                       className="flex items-center gap-2 px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer"
                     >
                       <Play className="w-3.5 h-3.5 fill-current" />
-                      <span>{isCompleted ? 'Main Ulang' : 'Mulai Tugas'}</span>
+                      <span>{isCompleted ? 'Main Ulang' : 'Mulai Misi'}</span>
                     </button>
                   </div>
                 ) : (

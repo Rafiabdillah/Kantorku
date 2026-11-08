@@ -111,7 +111,7 @@ export const DuelView: React.FC = () => {
           </button>
           <div>
             <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 uppercase">
-              Duel Asinkron
+              Duel Kilat
             </span>
             <h1 className="text-xl font-extrabold text-slate-900 mt-1">Adu Kecepatan dengan Rekan Kantor</h1>
           </div>

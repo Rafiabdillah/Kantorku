@@ -29,7 +29,6 @@ import {
   Timer,
   ShieldCheck,
   Swords,
-  Wrench,
 } from 'lucide-react';
 import { PWAInstallButton } from '../pwa/PWAInstallButton';
 import { MobileTabBar } from './MobileTabBar';
@@ -97,8 +96,7 @@ export const HeaderNav: React.FC = () => {
     { view: 'mentor', label: 'Mentor', icon: <Users className="w-4 h-4" /> },
     { view: 'speed', label: 'Kilat', icon: <Timer className="w-4 h-4" /> },
     { view: 'exam', label: 'Ujian & Sertif', icon: <ShieldCheck className="w-4 h-4" /> },
-    { view: 'duel', label: 'Duel Asinkron', icon: <Swords className="w-4 h-4" /> },
-    { view: 'creator', label: 'Kreator Level', icon: <Wrench className="w-4 h-4" /> },
+    { view: 'duel', label: 'Duel Kilat', icon: <Swords className="w-4 h-4" /> },
   ];
 
   const handleNavClick = (view: AppView) => {

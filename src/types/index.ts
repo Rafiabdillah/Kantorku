@@ -373,4 +373,6 @@ export interface PlayerProfile {
   targetRoleId?: string;
   /** Hadiah sekali-klaim: kunci -> tanggal klaim (YYYY-MM-DD, zona waktu lokal). Mencegah XP bisa diulang. */
   xpClaims?: Record<string, string>;
+  /** Jalur yang dipilih pemain saat onboarding. Kosong berarti "semua jalur", tidak ada rekomendasi khusus. */
+  focusModule?: ModuleType;
 }

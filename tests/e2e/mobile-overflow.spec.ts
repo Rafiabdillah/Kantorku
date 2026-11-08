@@ -18,7 +18,6 @@ const VIEWS = [
   'mentor',
   'zen',
   'exam',
-  'creator',
   'errors',
   'daily',
   'about',

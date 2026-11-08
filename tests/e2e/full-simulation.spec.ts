@@ -65,11 +65,11 @@ test.describe('KantorKu full feature simulation', () => {
     await expect(page.locator('td[data-cell="B4"]')).toContainText('35.000');
 
     await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
-    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Misi Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
     await expect(page.getByText('Skor 5 Dimensi')).toBeVisible();
 
-    await page.getByRole('button', { name: 'Lanjut ke Peta Karier' }).click();
-    await expect(page.getByRole('heading', { name: 'Jalur Pembelajaran Profesional' })).toBeVisible();
+    await page.getByRole('button', { name: 'Lanjut ke Kantor' }).click();
+    await expect(page.getByRole('heading', { name: /Selamat Datang, Budi Pratama/ })).toBeVisible();
     expect(errors).toEqual([]);
   });
 
@@ -90,7 +90,7 @@ test.describe('KantorKu full feature simulation', () => {
     await expect(page.getByRole('heading', { name: 'Serah Terima Kasus Disetujui!' })).toBeVisible();
     await expect(page.getByText('Debrief: Catatan Mentor Portofolio')).toBeVisible();
     await page.getByRole('button', { name: 'Kembali ke Daftar Kasus', exact: true }).click();
-    await expect(page.getByRole('heading', { name: 'Kasus Nyata', level: 1 })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Selamat Datang, Budi Pratama/ })).toBeVisible();
 
     expect(errors).toEqual([]);
   });
@@ -332,7 +332,7 @@ test.describe('KantorKu full feature simulation', () => {
     await fillCell(page, 'B3', '12000');
     await fillCell(page, 'B4', '35000');
     await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
-    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Misi Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
 
     // Spend the earned coins on a streak freeze.
     await openView(page, 'shop');
@@ -362,7 +362,7 @@ test.describe('KantorKu full feature simulation', () => {
     await expect(page.getByRole('heading', { name: 'Jalur Pembelajaran Profesional' })).toBeVisible();
     await page.getByRole('button', { name: 'Track Web', exact: true }).click();
     await expect(page.getByText('Struktur Dasar HTML5 & Profil Usaha')).toBeVisible();
-    await page.getByRole('button', { name: /Mulai Tugas/ }).first().click();
+    await page.getByRole('button', { name: /Mulai Misi/ }).first().click();
     await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
 
     await openView(page, 'about');
@@ -390,7 +390,7 @@ test.describe('KantorKu full feature simulation', () => {
     await fillCell(page, 'B4', '35000');
     await page.getByRole('button', { name: 'Cek', exact: true }).click();
     await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
-    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Misi Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
 
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth <= document.documentElement.clientWidth
@@ -468,24 +468,24 @@ test.describe('KantorKu full feature simulation', () => {
 
     // Default view: player tier 1, Excel track: tier-1 levels visible and startable
     await expect(page.getByText('Menghitung Jumlah Transaksi dengan COUNT & COUNTA')).toBeVisible({ timeout: 15000 });
-    await expect(page.getByRole('button', { name: /Mulai Tugas/ }).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Mulai Misi/ }).first()).toBeVisible();
 
     // Switch to Tier 2 via the ribbon: list filters and everything is locked with an XP hint
     await page.getByRole('button', { name: /Tier 2: Staf Junior/ }).click();
     await expect(page.getByText('Referensi Mutlak').first()).toBeVisible();
-    await expect(page.getByRole('button', { name: /Mulai Tugas/ })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /Mulai Misi/ })).toHaveCount(0);
     await expect(page.getByText('Terkunci').first()).toBeVisible();
     await expect(page.getByText(/kurang/).first()).toContainText('500 XP');
 
     // Back to Tier 1: levels are startable again
     await page.getByRole('button', { name: /Tier 1: Magang/ }).click();
     await expect(page.getByText('Menghitung Jumlah Transaksi dengan COUNT & COUNTA')).toBeVisible();
-    await expect(page.getByRole('button', { name: /Mulai Tugas/ }).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Mulai Misi/ }).first()).toBeVisible();
 
     // Other modules respect the same rule: Web tier 1 first level is startable
     await page.getByRole('button', { name: 'Track Web', exact: true }).click();
     await expect(page.getByText('Struktur Dasar HTML5 & Profil Usaha')).toBeVisible();
-    await expect(page.getByRole('button', { name: /Mulai Tugas/ }).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Mulai Misi/ }).first()).toBeVisible();
 
     expect(errors).toEqual([]);
   });
@@ -500,7 +500,7 @@ test.describe('KantorKu full feature simulation', () => {
     await fillCell(page, 'B3', '12000');
     await fillCell(page, 'B4', '35000');
     await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
-    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Misi Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
 
     await openView(page, 'office');
     await expect(page.getByText('(100 XP)').first()).toBeVisible();
@@ -534,7 +534,7 @@ test.describe('KantorKu full feature simulation', () => {
       await expect(page.getByText('Kamu belum mengubah apa pun')).toBeVisible();
       // Nothing was measured, so no rubric grid is shown at all.
       await expect(page.getByText('Skor 5 Dimensi')).toHaveCount(0);
-      await expect(page.getByRole('heading', { name: 'Tugas Berhasil Diselesaikan!' })).toHaveCount(0);
+      await expect(page.getByRole('heading', { name: 'Misi Berhasil Diselesaikan!' })).toHaveCount(0);
 
       await page.getByRole('button', { name: 'Coba Perbaiki Lagi' }).click();
       await expect(page.getByRole('heading', { name: 'Belum Ada Perubahan' })).toHaveCount(0);
@@ -559,7 +559,7 @@ test.describe('KantorKu full feature simulation', () => {
       '<header><h1>PT Maju Sejahtera</h1></header><main><p>Pusat solusi digital, operasional kantor, dan kemitraan UMKM terpercaya sejak 2020.</p></main><footer><p>Hak cipta 2026 PT Maju Sejahtera</p></footer>'
     );
     await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
-    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Misi Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
 
     await page.goto('/?autostart=1&level=code-t1-01');
     await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
@@ -568,7 +568,7 @@ test.describe('KantorKu full feature simulation', () => {
     await page.keyboard.press('Backspace');
     await page.keyboard.insertText('function sapaKaryawan(nama) { return "Halo, " + nama + "! Selamat datang."; }');
     await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
-    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Misi Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
 
     await page.goto('/?autostart=1&level=word-t1-01');
     await expect(page.getByText('Target Pekerjaan')).toBeVisible({ timeout: 15000 });
@@ -590,7 +590,7 @@ test.describe('KantorKu full feature simulation', () => {
     );
     await expect(doc).toContainText('UNDANGAN RAPAT KOORDINASI PT MAJU SEJAHTERA');
     await page.getByRole('button', { name: /Kirim & Periksa Jawaban/ }).click();
-    await expect(page.getByText('Tugas Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Misi Berhasil Diselesaikan!')).toBeVisible({ timeout: 15000 });
 
     // All three missions paid out: 150 XP each
     await openView(page, 'office');

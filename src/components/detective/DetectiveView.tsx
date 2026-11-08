@@ -92,12 +92,12 @@ export const DetectiveView: React.FC = () => {
       </div>
 
       {/* Case Brief Banner */}
-      <div className="p-4 bg-purple-50/70 border border-purple-200/80 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+      <div className="p-4 bg-purple-50 border border-purple-200/80 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
         <div className="flex items-start gap-2.5">
           <Search className="w-4 h-4 text-purple-700 shrink-0 mt-0.5" />
           <div>
             <span className="font-bold text-purple-900">Brief Kasus: </span>
-            <span className="text-purple-800">{currentCase.story}</span>
+            <span className="text-purple-900">{currentCase.story}</span>
           </div>
         </div>
         <button
@@ -161,7 +161,9 @@ export const DetectiveView: React.FC = () => {
                         key={addr}
                         onClick={() => handleCellClick(addr)}
                         className={`p-2 border border-slate-200 cursor-pointer font-mono transition ${
-                          cell.isHeader ? 'bg-slate-100 font-bold text-slate-800' : 'bg-white hover:bg-purple-50'
+                          cell.isHeader
+                            ? 'bg-slate-100 font-bold text-slate-800'
+                            : 'bg-white text-slate-800 hover:bg-purple-50'
                         } ${
                           isTarget && isCulprit
                             ? 'ring-2 ring-emerald-500 bg-emerald-50 font-bold'

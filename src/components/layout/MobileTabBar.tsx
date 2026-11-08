@@ -11,7 +11,6 @@ const IMMERSIVE_VIEWS: AppView[] = [
   'duel',
   'detective',
   'exam',
-  'creator',
   'daily',
   'errors',
 ];

@@ -464,7 +464,7 @@ export const SkillsMapView: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari domain atau keahlian..."
-                className="pl-9 pr-4 py-2.5 text-xs rounded-2xl border border-slate-200 bg-white focus:outline-none focus:border-emerald-500 w-full sm:w-64 min-h-[44px]"
+                className="pl-9 pr-4 py-2.5 text-xs rounded-2xl border border-slate-200 bg-white text-slate-900 focus:outline-none focus:border-emerald-500 w-full sm:w-64 min-h-[44px]"
               />
             </div>
           </div>

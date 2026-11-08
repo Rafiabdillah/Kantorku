@@ -44,6 +44,7 @@ import {
   UNMEASURED_RUBRIC,
   correctnessFromObjectives,
 } from '../../engine/evaluation';
+import { VIEW_LABELS } from '../../store/useGameStore';
 
 export const MissionPlayView: React.FC = () => {
   const {
@@ -59,6 +60,7 @@ export const MissionPlayView: React.FC = () => {
     setHtml,
     setCss,
     setView,
+    returnView,
     unlockedHintLevel,
     unlockHint,
     missionFailCount,
@@ -67,6 +69,7 @@ export const MissionPlayView: React.FC = () => {
     updateReputation,
     openLessonView,
   } = useGameStore();
+  const backLabel = VIEW_LABELS[returnView] ?? 'Peta Karier';
 
   const [activeMobileTab, setActiveMobileTab] = useState<'brief' | 'editor' | 'checklist'>('editor');
   const [editorExpanded, setEditorExpanded] = useState<boolean>(false);
@@ -680,10 +683,10 @@ export const MissionPlayView: React.FC = () => {
             type="button"
             onClick={() => {
               sound.playClick();
-              setView('career-map');
+              setView(returnView);
             }}
             className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 cursor-pointer transition min-h-[44px] min-w-[44px]"
-            title="Kembali ke Peta Karier"
+            title={`Kembali ke ${backLabel}`}
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
@@ -1077,7 +1080,7 @@ export const MissionPlayView: React.FC = () => {
               )}
               <h3 className="text-xl font-extrabold text-slate-900">
                 {validationOutput.passed
-                  ? 'Tugas Berhasil Diselesaikan!'
+                  ? 'Misi Berhasil Diselesaikan!'
                   : validationOutput.blank
                     ? 'Belum Ada Perubahan'
                     : 'Masih Ada Kesalahan'}
@@ -1098,7 +1101,7 @@ export const MissionPlayView: React.FC = () => {
               >
                 {reward.xp > 0
                   ? `+${reward.xp.toLocaleString('id-ID')} XP, +${reward.coins.toLocaleString('id-ID')} koin${reward.firstClear ? '' : ' (bonus bintang baru)'}`
-                  : 'Tugas ini sudah pernah diselesaikan. Raih bintang lebih banyak untuk bonus XP.'}
+                  : 'Misi ini sudah pernah diselesaikan. Raih bintang lebih banyak untuk bonus XP.'}
                 {reward.tierUp ? ` Naik jabatan: ${TIERS[reward.tierUp].title}!` : ''}
               </p>
             )}
@@ -1167,11 +1170,11 @@ export const MissionPlayView: React.FC = () => {
                   type="button"
                   onClick={() => {
                     setShowResultModal(false);
-                    setView('career-map');
+                    setView(returnView);
                   }}
                   className="flex-1 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs transition cursor-pointer min-h-[44px]"
                 >
-                  Lanjut ke Peta Karier
+                  Lanjut ke {backLabel}
                 </button>
               ) : (
                 <>

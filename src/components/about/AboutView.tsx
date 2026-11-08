@@ -1,9 +1,12 @@
 import React from 'react';
-import { Info, Scale, HeartPulse, Landmark, ExternalLink } from 'lucide-react';
+import { Info, Scale, HeartPulse, Landmark, ExternalLink, ArrowLeft } from 'lucide-react';
 import { ALL_SKILLS } from '../../content/skills';
 import { DOMAIN_CATALOG, DomainId } from '../../types/skills';
+import { useGameStore } from '../../store/useGameStore';
+import { sound } from '../../services/sound';
 
 export const AboutView: React.FC = () => {
+  const setView = useGameStore((s) => s.setView);
   const domains = (Object.keys(DOMAIN_CATALOG) as DomainId[])
     .filter((domainId) => DOMAIN_CATALOG[domainId].status === 'aktif');
 
@@ -11,9 +14,20 @@ export const AboutView: React.FC = () => {
     <div className="max-w-6xl mx-auto space-y-6 pb-12">
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex items-start gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              sound.playClick();
+              setView('office');
+            }}
+            aria-label="Kembali ke kantor"
+            className="inline-flex items-center justify-center min-w-11 min-h-11 p-2 hover:bg-slate-100 rounded-xl text-slate-500 cursor-pointer transition shrink-0"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
           <div className="rounded-2xl bg-emerald-100 p-3 text-emerald-700"><Info className="h-5 w-5" /></div>
           <div>
-            <h1 className="text-xl font-black text-slate-900">Tentang & Sumber</h1>
+            <h1 className="text-xl font-black text-slate-900">Tentang &amp; Sumber</h1>
             <p className="mt-2 text-sm leading-6 text-slate-600">
               KantorKu adalah simulasi edukasi untuk berlatih keterampilan kantor. Materi tidak menjamin hasil,
               sertifikasi, atau penerapan hukum di situasi nyata.

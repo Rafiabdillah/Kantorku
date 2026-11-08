@@ -295,7 +295,7 @@ export const OfficeHubView: React.FC = () => {
                   Pantry & Zona Santai
                 </h3>
                 <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
-                  Ngopi bareng Dimas, latihan Zen tanpa timer, atau duel asinkron!
+                  Ngopi bareng Dimas, latihan Zen tanpa timer, atau duel kilat!
                 </p>
               </div>
             </div>
@@ -400,15 +400,7 @@ export const OfficeHubView: React.FC = () => {
                 className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-left border border-slate-200/60 flex items-center gap-2 cursor-pointer transition min-h-[44px]"
               >
                 <Trophy className="w-4 h-4 text-rose-500" />
-                <span className="font-semibold text-slate-800">Duel Asinkron</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setView('creator')}
-                className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-left border border-slate-200/60 flex items-center gap-2 cursor-pointer transition min-h-[44px]"
-              >
-                <Sparkles className="w-4 h-4 text-indigo-600" />
-                <span className="font-semibold text-slate-800">Kreator Level</span>
+                <span className="font-semibold text-slate-800">Duel Kilat</span>
               </button>
             </div>
           </div>

@@ -58,7 +58,7 @@ export const OnboardingView: React.FC = () => {
 
   const handleSkipToIntern = () => {
     sound.playSuccess();
-    completeOnboarding(name.trim() || 'Karyawan Baru', avatar, 1);
+    completeOnboarding(name.trim() || 'Karyawan Baru', avatar, 1, goal === 'all' ? undefined : goal);
   };
 
   const handleAnswerQuestion = (isCorrect: boolean) => {
@@ -94,7 +94,7 @@ export const OnboardingView: React.FC = () => {
 
   const handleFinishOnboarding = (chosenTier: TierLevel) => {
     sound.playSuccess();
-    completeOnboarding(name.trim() || 'Karyawan Baru', avatar, chosenTier);
+    completeOnboarding(name.trim() || 'Karyawan Baru', avatar, chosenTier, goal === 'all' ? undefined : goal);
   };
 
   const totalCorrect = Object.values(moduleScores).reduce((acc, s) => acc + s.correct, 0);

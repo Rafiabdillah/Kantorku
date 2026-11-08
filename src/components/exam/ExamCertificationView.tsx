@@ -124,7 +124,7 @@ export const ExamCertificationView: React.FC = () => {
               <div
                 key={t}
                 className={`p-5 rounded-3xl border transition flex flex-col justify-between min-h-[170px] ${
-                  isEligible ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-50 border-slate-200/60 opacity-60'
+                  isEligible ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-50 border-slate-200/60'
                 }`}
               >
                 <div>

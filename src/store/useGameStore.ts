@@ -15,14 +15,12 @@ export type AppView =
   | 'skills-map'
   | 'mission'
   | 'case-file'
-  | 'sandbox'
   | 'zen'
   | 'daily'
   | 'speed'
   | 'detective'
   | 'mentor'
   | 'exam'
-  | 'creator'
   | 'shop'
   | 'achievements'
   | 'dictionary'
@@ -31,6 +29,16 @@ export type AppView =
   | 'duel'
   | 'settings'
   | 'about';
+
+/** Label tampilan untuk tombol "kembali ke X" saat meninggalkan misi atau kasus. */
+export const VIEW_LABELS: Partial<Record<AppView, string>> = {
+  office: 'Kantor',
+  'career-map': 'Peta Karier',
+  'case-file': 'Kasus Nyata',
+  learning: 'Akademi Belajar',
+  errors: 'Catatan Refleksi',
+  'skills-map': 'Semesta Keterampilan',
+};
 
 /** Misi terbuka bila tier-nya sudah tercapai, sudah pernah selesai, atau misi pertama modul tersebut. */
 export function isLevelUnlocked(
@@ -60,6 +68,8 @@ interface GameState {
   // Navigation
   currentView: AppView;
   setView: (view: AppView) => void;
+  /** Tempat kembali saat misi atau kasus ditutup: tier Peta Karier, ruang Kantor, atau katalog Kasus Nyata, tergantung dari mana ia dibuka. */
+  returnView: AppView;
 
   // Active Lesson Context (Deep linking from mission or career map)
   activeLearningLessonId: string | null;
@@ -86,7 +96,12 @@ interface GameState {
   clearReward: () => void;
   addCoins: (amount: number) => void;
   spendCoins: (amount: number) => boolean;
-  completeOnboarding: (name: string, avatar: string, startTier: TierLevel) => void;
+  completeOnboarding: (
+    name: string,
+    avatar: string,
+    startTier: TierLevel,
+    focusModule?: ModuleType
+  ) => void;
   updateReputation: (char: CharacterId, delta: number) => void;
   checkStreak: () => void;
   recordLessonStreak: () => void;
@@ -285,6 +300,7 @@ export const useGameStore = create<GameState>()(
   persist(
     (set, get) => ({
       currentView: 'office',
+      returnView: 'office',
       setView: (view) => {
         sound.playClick();
         set({ currentView: view });
@@ -429,7 +445,7 @@ export const useGameStore = create<GameState>()(
         return true;
       },
 
-      completeOnboarding: (name, avatar, startTier) => {
+      completeOnboarding: (name, avatar, startTier, focusModule) => {
         set((state) => ({
           currentView: 'office',
           profile: {
@@ -439,6 +455,7 @@ export const useGameStore = create<GameState>()(
             currentTier: startTier,
             hasCompletedOnboarding: true,
             xp: TIERS[startTier].minXp,
+            focusModule,
           },
         }));
       },
@@ -462,7 +479,17 @@ export const useGameStore = create<GameState>()(
       checkStreak: () => {
         const today = localDateKey();
         const last = get().profile.lastActiveDate;
+        // Profil baru atau tersimpan tanpa tanggal (data lama, impor, atau penyimpanan yang rusak):
+        // catat hari ini sebagai titik awal, tanpa menghitung streak atau menjatuhkan seluruh aplikasi.
+        if (!last) {
+          set((state) => ({ profile: { ...state.profile, lastActiveDate: today } }));
+          return;
+        }
         const diffDays = dayDiff(last, today);
+        if (!Number.isFinite(diffDays)) {
+          set((state) => ({ profile: { ...state.profile, lastActiveDate: today } }));
+          return;
+        }
         // Hari yang sama, atau jam perangkat mundur: jangan ubah apa pun.
         if (diffDays <= 0) return;
 
@@ -537,6 +564,7 @@ export const useGameStore = create<GameState>()(
           return false;
         }
         sound.playClick();
+        const fromView = get().currentView;
         set({
           activeLevelId: levelId,
           activeSheet: lvl.initialData.excel ? JSON.parse(JSON.stringify(lvl.initialData.excel)) : {},
@@ -547,6 +575,7 @@ export const useGameStore = create<GameState>()(
           missionFailCount: 0,
           unlockedHintLevel: 0,
           currentView: 'mission',
+          returnView: fromView,
           lockNotice: null,
         });
         return true;
@@ -712,9 +741,11 @@ export const useGameStore = create<GameState>()(
           return false;
         }
         sound.playClick();
+        const fromView = get().currentView;
         set({
           activeCaseId: caseId,
           currentView: 'case-file',
+          returnView: fromView,
           lockNotice: null,
         });
         return true;
@@ -722,7 +753,7 @@ export const useGameStore = create<GameState>()(
 
       closeCaseFile: () => {
         sound.playClick();
-        set({ activeCaseId: null });
+        set((state) => ({ activeCaseId: null, currentView: state.returnView }));
       },
 
       // Error Notebook

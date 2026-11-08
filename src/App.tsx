@@ -67,9 +67,6 @@ const ExamCertificationView = lazy(() =>
     default: m.ExamCertificationView,
   }))
 );
-const LevelCreatorView = lazy(() =>
-  import('./components/creator/LevelCreatorView').then((m) => ({ default: m.LevelCreatorView }))
-);
 const RefleksiNotebookView = lazy(() =>
   import('./components/notebook/RefleksiNotebookView').then((m) => ({
     default: m.RefleksiNotebookView,
@@ -201,8 +198,6 @@ export default function App() {
         return <ZenModeView />;
       case 'exam':
         return <ExamCertificationView />;
-      case 'creator':
-        return <LevelCreatorView />;
       case 'errors':
         return <RefleksiNotebookView />;
       case 'daily':
